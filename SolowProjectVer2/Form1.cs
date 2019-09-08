@@ -91,6 +91,11 @@ namespace SolowProjectVer2
             IsFractionOkay();
         }
 
+        private void DrawLines()
+        {
+
+        }
+
 
         private bool IsFractionOkay()
         {

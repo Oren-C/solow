@@ -62,6 +62,11 @@ namespace SolowProjectVer2
                 {
                     gdblMaxK = Math.Sqrt(gdblKStar) + gdblKStar;
                 }
+                chrtLines.ChartAreas[0].AxisX.Minimum = 0;
+                chrtLines.ChartAreas[0].AxisX.Maximum = gdblMaxK;
+                chrtLines.ChartAreas[0].AxisY.Minimum = 0;
+                chrtLines.ChartAreas[0].AxisY.Maximum = Calcy(gdblMaxK);
+                DrawLines();
                 
             }
         }
@@ -78,22 +83,32 @@ namespace SolowProjectVer2
 
         private void txtKNumerator_Leave(object sender, EventArgs e)
         {
-           
-            IsFractionOkay();
-                
+            if (!txtKDenominator.Focused)
+            {
+                IsFractionOkay();
+            }
                 
             
         }
 
         private void txtKDenominator_Leave(object sender, EventArgs e)
         {
+            if (!txtKNumerator.Focused)
+            {
+                IsFractionOkay();
+            }
             
-            IsFractionOkay();
         }
 
         private void DrawLines()
         {
-
+            while (gdblK < gdblMaxK)
+            {
+                chrtLines.Series[0].Points.AddXY(gdblK, Calcy(gdblK));
+                chrtLines.Series[1].Points.AddXY(gdblK, CalcInvest(Calcy(gdblK), gdblS));
+                chrtLines.Series[2].Points.AddXY(gdblK, CalcDecay(gdblN, gdblDelta, gdblK));
+                gdblK += gdblXRate;
+            }
         }
 
 
@@ -113,6 +128,9 @@ namespace SolowProjectVer2
                     }
                     else
                     {
+                        GreatestCommonD(ref gintNumerator, ref gintDenom);
+                        txtKNumerator.Text = gintNumerator.ToString();
+                        txtKDenominator.Text = gintDenom.ToString();
                         txtSmlKNumerator.Text = gintNumerator.ToString();
                         txtSmlKDenominator.Text = gintDenom.ToString();
                         txtLDenominator.Text = gintDenom.ToString();
@@ -184,10 +202,24 @@ namespace SolowProjectVer2
         }
 
 
-
-
-
-
+        public static void GreatestCommonD(ref int Numerator, ref int Denominator)
+        {
+            int greatestCommonD = 0;
+            for (int x = 1; x <= Denominator; x++)
+            {
+                if ((Numerator % x == 0) && (Denominator % x == 0))
+                    greatestCommonD = x;
+            }
+            if (greatestCommonD == 0)
+            {
+                return;
+            }
+            else
+            {
+                Numerator = Numerator / greatestCommonD;
+                Denominator = Denominator / greatestCommonD;
+            }
+        }
 
     }
 }

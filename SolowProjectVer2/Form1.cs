@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Timers;
 
 namespace SolowProjectVer2
 {
@@ -44,6 +45,76 @@ namespace SolowProjectVer2
             
         }
 
+        private void BtnTestAnimation_Click(object sender, EventArgs e)
+        {
+            gdblK = (double)nudTestAnimation.Value;
+            gdblY = Calcy(gdblK);
+            gdblConsum = CalcConsum();
+            gdblInvest = CalcInvest(gdblY, gdblS);
+            gdblDK = CalcDeltaTimesK();
+            gdblChangeK = CalcChangeOfK();
+            gdblDecay = CalcDecay(gdblN, gdblDelta, gdblK);
+
+
+            SetTimer(this);
+        }
+
+        private static void SetTimer(Form1 daFrm)
+        {
+            aTimer = new System.Timers.Timer(TIMERATEINMILIS);
+            aTimer.Elapsed += daFrm.Animation;
+            aTimer.AutoReset = true;
+            aTimer.Enabled = true;
+        }
+        delegate void ArgReturningVoidDelegate(object source, ElapsedEventArgs e);
+        private void Animation(object source, ElapsedEventArgs e)
+        {
+            if (this.chrtLines.InvokeRequired)
+            {
+                ArgReturningVoidDelegate d = new ArgReturningVoidDelegate(Animation);
+                try
+                {
+                    this.Invoke(d, new object[] { source, e });
+                }
+                catch (System.ObjectDisposedException)
+                {
+
+                }
+            }
+            else
+            {
+                if((gdblChangeK > 0.001) || (gdblChangeK < -0.001))
+                {
+                    /*
+                    chrtLines.Series[0].Points.AddXY(gdblK, gdblY);
+                    chrtLines.Series[1].Points.AddXY(gdblK, gdblInvest);
+                    chrtLines.Series[2].Points.AddXY(gdblK, gdblDecay);
+                    */
+                    chrtLines.Series[3].Points.Clear();
+                    chrtLines.Series[4].Points.Clear();
+
+                    chrtLines.Series[3].Points.AddXY(chrtLines.ChartAreas[0].AxisX.Minimum, gdblY);
+                    chrtLines.Series[3].Points.AddXY(chrtLines.ChartAreas[0].AxisX.Maximum, gdblY);
+                    chrtLines.Series[4].Points.AddXY(gdblK, chrtLines.ChartAreas[0].AxisY.Minimum);
+                    chrtLines.Series[4].Points.AddXY(gdblK, chrtLines.ChartAreas[0].AxisY.Maximum);
+
+                    chrtC.Series[0].Points.AddXY(gdblMiniGraphXVal, gdblConsum);
+                    chrtI.Series[0].Points.AddXY(gdblMiniGraphXVal, gdblInvest);
+                    chrtY.Series[0].Points.AddXY(gdblMiniGraphXVal, (gdblConsum + gdblInvest));
+
+                    gdblK += gdblChangeK;
+                    
+                    gdblMiniGraphXVal += Math.Abs(gdblChangeK);
+                    gdblY = Calcy(gdblK);
+                    gdblConsum = CalcConsum();
+                    gdblInvest = CalcInvest(gdblY, gdblS);
+                    gdblDK = CalcDeltaTimesK();
+                    gdblChangeK = CalcChangeOfK();
+                    gdblDecay = CalcDecay(gdblN, gdblDelta, gdblK);
+                }
+            }
+        }
+
         private void BtnStart_Click(object sender, EventArgs e)
         {
             if (IsFractionOkay()){
@@ -60,8 +131,13 @@ namespace SolowProjectVer2
                 }
                 else
                 {
-                    gdblMaxK = Math.Sqrt(gdblKStar) + gdblKStar;
+                    gdblMaxK = 2* Math.Sqrt(gdblKStar) + gdblKStar;
                 }
+                chrtLines.ChartAreas[0].AxisX.Minimum = 0;
+                chrtLines.ChartAreas[0].AxisX.Maximum = gdblMaxK;
+                chrtLines.ChartAreas[0].AxisY.Minimum = 0;
+                chrtLines.ChartAreas[0].AxisY.Maximum = Calcy(gdblMaxK);
+                DrawLines();
                 
             }
         }
@@ -78,17 +154,32 @@ namespace SolowProjectVer2
 
         private void txtKNumerator_Leave(object sender, EventArgs e)
         {
-           
-            IsFractionOkay();
-                
+            if (!txtKDenominator.Focused)
+            {
+                IsFractionOkay();
+            }
                 
             
         }
 
         private void txtKDenominator_Leave(object sender, EventArgs e)
         {
+            if (!txtKNumerator.Focused)
+            {
+                IsFractionOkay();
+            }
             
-            IsFractionOkay();
+        }
+
+        private void DrawLines()
+        {
+            while (gdblK < gdblMaxK)
+            {
+                chrtLines.Series[0].Points.AddXY(gdblK, Calcy(gdblK));
+                chrtLines.Series[1].Points.AddXY(gdblK, CalcInvest(Calcy(gdblK), gdblS));
+                chrtLines.Series[2].Points.AddXY(gdblK, CalcDecay(gdblN, gdblDelta, gdblK));
+                gdblK += gdblXRate;
+            }
         }
 
 
@@ -108,6 +199,9 @@ namespace SolowProjectVer2
                     }
                     else
                     {
+                        GreatestCommonD(ref gintNumerator, ref gintDenom);
+                        txtKNumerator.Text = gintNumerator.ToString();
+                        txtKDenominator.Text = gintDenom.ToString();
                         txtSmlKNumerator.Text = gintNumerator.ToString();
                         txtSmlKDenominator.Text = gintDenom.ToString();
                         txtLDenominator.Text = gintDenom.ToString();
@@ -179,10 +273,24 @@ namespace SolowProjectVer2
         }
 
 
-
-
-
-
+        public static void GreatestCommonD(ref int Numerator, ref int Denominator)
+        {
+            int greatestCommonD = 0;
+            for (int x = 1; x <= Denominator; x++)
+            {
+                if ((Numerator % x == 0) && (Denominator % x == 0))
+                    greatestCommonD = x;
+            }
+            if (greatestCommonD == 0)
+            {
+                return;
+            }
+            else
+            {
+                Numerator = Numerator / greatestCommonD;
+                Denominator = Denominator / greatestCommonD;
+            }
+        }
 
     }
 }

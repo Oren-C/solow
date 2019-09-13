@@ -26,6 +26,7 @@ namespace SolowProjectVer2
         //int[] gintArrLines = new int[] { 0, 1, 2, -1, -1 };
         
         bool gboolGoLeft = false;
+        bool gboolInitialAnimationComplete = false;
         bool gboolInvestChanged = false;
         bool gboolDecayChanged = false;
 
@@ -112,7 +113,44 @@ namespace SolowProjectVer2
                     gdblChangeK = CalcChangeOfK();
                     gdblDecay = CalcDecay(gdblN, gdblDelta, gdblK);
                 }
+                else
+                {
+                    aTimer.Enabled = false;
+                    gboolInitialAnimationComplete = true;
+                }
             }
+        }
+
+        private void btnApplyChanges_Click(object sender, EventArgs e)
+        {
+            gboolInitialAnimatio
+        }
+
+        private void nudS_ValueChanged(object sender, EventArgs e)
+        {
+            if (gboolInitialAnimationComplete)
+            {
+                gboolInvestChanged = true;
+            }
+            
+        }
+
+        private void nudN_ValueChanged(object sender, EventArgs e)
+        {
+            if (gboolInitialAnimationComplete)
+            {
+                gboolDecayChanged = true;
+            }
+            
+        }
+
+        private void nudDelta_ValueChanged(object sender, EventArgs e)
+        {
+            if (gboolInitialAnimationComplete)
+            {
+                gboolDecayChanged = true;
+            }
+           
         }
 
         private void BtnStart_Click(object sender, EventArgs e)

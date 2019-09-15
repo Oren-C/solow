@@ -39,98 +39,43 @@ namespace SolowProjectVer2
         bool gboolInterrupt = false;
 
         double gdblXRate = .05;
-        const int TIMERATEINMILIS = 50;
+        const int TIMERATEINMILIS = 100;
         public Form1()
         {
             InitializeComponent();
             
         }
 
-        private void BtnTestAnimation_Click(object sender, EventArgs e)
+        private void BtnStart_Click(object sender, EventArgs e)
         {
-            gdblK = (double)nudTestAnimation.Value;
-            gdblY = Calcy(gdblK);
-            gdblConsum = CalcConsum();
-            gdblInvest = CalcInvest(gdblY, gdblS);
-            gdblDK = CalcDeltaTimesK();
-            gdblChangeK = CalcChangeOfK();
-            gdblDecay = CalcDecay(gdblN, gdblDelta, gdblK);
-
-
-            SetTimer(this);
-        }
-
-        private static void SetTimer(Form1 daFrm)
-        {
-            aTimer = new System.Timers.Timer(TIMERATEINMILIS);
-            aTimer.Elapsed += daFrm.Animation;
-            aTimer.AutoReset = true;
-            aTimer.Enabled = true;
-        }
-        delegate void ArgReturningVoidDelegate(object source, ElapsedEventArgs e);
-        private void Animation(object source, ElapsedEventArgs e)
-        {
-            if (this.chrtLines.InvokeRequired)
+            if (IsFractionOkay())
             {
-                ArgReturningVoidDelegate d = new ArgReturningVoidDelegate(Animation);
-                try
-                {
-                    this.Invoke(d, new object[] { source, e });
-                }
-                catch (System.ObjectDisposedException)
-                {
+                DrawAllLines();
 
-                }
-            }
-            else
-            {
-                if((gdblChangeK > 0.001) || (gdblChangeK < -0.001))
-                {
-                    /*
-                    chrtLines.Series[0].Points.AddXY(gdblK, gdblY);
-                    chrtLines.Series[1].Points.AddXY(gdblK, gdblInvest);
-                    chrtLines.Series[2].Points.AddXY(gdblK, gdblDecay);
-                    */
-                    chrtLines.Series[3].Points.Clear();
-                    chrtLines.Series[4].Points.Clear();
-
-                    chrtLines.Series[3].Points.AddXY(chrtLines.ChartAreas[0].AxisX.Minimum, gdblY);
-                    chrtLines.Series[3].Points.AddXY(chrtLines.ChartAreas[0].AxisX.Maximum, gdblY);
-                    chrtLines.Series[4].Points.AddXY(gdblK, chrtLines.ChartAreas[0].AxisY.Minimum);
-                    chrtLines.Series[4].Points.AddXY(gdblK, chrtLines.ChartAreas[0].AxisY.Maximum);
-
-                    chrtC.Series[0].Points.AddXY(gdblMiniGraphXVal, gdblConsum);
-                    chrtI.Series[0].Points.AddXY(gdblMiniGraphXVal, gdblInvest);
-                    chrtY.Series[0].Points.AddXY(gdblMiniGraphXVal, (gdblConsum + gdblInvest));
-
-                    gdblK += gdblChangeK;
-                    
-                    gdblMiniGraphXVal += Math.Abs(gdblChangeK);
-                    gdblY = Calcy(gdblK);
-                    gdblConsum = CalcConsum();
-                    gdblInvest = CalcInvest(gdblY, gdblS);
-                    gdblDK = CalcDeltaTimesK();
-                    gdblChangeK = CalcChangeOfK();
-                    gdblDecay = CalcDecay(gdblN, gdblDelta, gdblK);
-                }
-                else
-                {
-                    aTimer.Enabled = false;
-                    gboolInitialAnimationComplete = true;
-                }
             }
         }
+
 
         private void btnApplyChanges_Click(object sender, EventArgs e)
         {
-            gboolInitialAnimatio
+            double oldKStar = gdblKStar;
+            ClearAllLines();
+            gdblK = 0;
+            DrawAllLines();
+            StartAnimation(oldKStar);
         }
+
+
 
         private void nudS_ValueChanged(object sender, EventArgs e)
         {
+            //Console.WriteLine("its trying" + gboolInitialAnimationComplete);
             if (gboolInitialAnimationComplete)
             {
+                //Console.WriteLine("Hellow it went thrugh");
                 gboolInvestChanged = true;
+                gdblS = (double)nudS.Value;
+                DrawNewLine(5);
             }
             
         }
@@ -140,6 +85,8 @@ namespace SolowProjectVer2
             if (gboolInitialAnimationComplete)
             {
                 gboolDecayChanged = true;
+                gdblN = (double)nudN.Value;
+                DrawNewLine(6);
             }
             
         }
@@ -149,34 +96,75 @@ namespace SolowProjectVer2
             if (gboolInitialAnimationComplete)
             {
                 gboolDecayChanged = true;
+                gdblDelta = (double)nudDelta.Value;
+                DrawNewLine(6);
             }
            
         }
 
-        private void BtnStart_Click(object sender, EventArgs e)
+        private void DrawAllLines()
         {
-            if (IsFractionOkay()){
-                gdblS = (double)nudS.Value;
-                gdblN = (double)nudN.Value;
-                gdblDelta = (double)nudDelta.Value;
+            gdblS = (double)nudS.Value;
+            gdblN = (double)nudN.Value;
+            gdblDelta = (double)nudDelta.Value;
 
-                CalcKsandYs(gdblS, gdblN, gdblDelta);
+            CalcKsandYs(gdblS, gdblN, gdblDelta);
 
-                // Calculate the initial window size
-                if(gdblKStar < 1)
+            // Calculate the initial window size
+            if (gdblKStar < 1)
+            {
+                gdblMaxK = Math.Pow(gdblKStar, 2) + gdblKStar;
+            }
+            else
+            {
+                gdblMaxK = 2 * Math.Sqrt(gdblKStar) + gdblKStar;
+            }
+            chrtLines.ChartAreas[0].AxisX.Minimum = 0;
+            chrtLines.ChartAreas[0].AxisX.Maximum = gdblMaxK;
+            chrtLines.ChartAreas[0].AxisY.Minimum = 0;
+            chrtLines.ChartAreas[0].AxisY.Maximum = Calcy(gdblMaxK);
+            DrawLines();
+        }
+
+        private void DrawLines()
+        {
+            while (gdblK < gdblMaxK)
+            {
+                chrtLines.Series[0].Points.AddXY(gdblK, Calcy(gdblK));
+                chrtLines.Series[1].Points.AddXY(gdblK, CalcInvest(Calcy(gdblK), gdblS));
+                chrtLines.Series[2].Points.AddXY(gdblK, CalcDecay(gdblN, gdblDelta, gdblK));
+                gdblK += gdblXRate;
+            }
+            gboolInitialAnimationComplete = true;
+        }
+
+        private void DrawNewLine(int seriesNumber)
+        {
+            chrtLines.Series[seriesNumber].Points.Clear();
+            gdblTempX = 0;
+            if(seriesNumber == 5)
+            {
+                while (gdblTempX < gdblMaxK)
                 {
-                    gdblMaxK = Math.Pow(gdblKStar, 2) + gdblKStar;
+                    chrtLines.Series[5].Points.AddXY(gdblTempX, CalcInvest(Calcy(gdblTempX), gdblS));
+                    gdblTempX += gdblXRate;
                 }
-                else
+            }else if( seriesNumber == 6)
+            {
+                while (gdblTempX < gdblMaxK)
                 {
-                    gdblMaxK = 2* Math.Sqrt(gdblKStar) + gdblKStar;
+                    chrtLines.Series[6].Points.AddXY(gdblTempX, CalcDecay(gdblN, gdblDelta, gdblTempX));
+                    gdblTempX += gdblXRate;
                 }
-                chrtLines.ChartAreas[0].AxisX.Minimum = 0;
-                chrtLines.ChartAreas[0].AxisX.Maximum = gdblMaxK;
-                chrtLines.ChartAreas[0].AxisY.Minimum = 0;
-                chrtLines.ChartAreas[0].AxisY.Maximum = Calcy(gdblMaxK);
-                DrawLines();
-                
+            }
+            
+        }
+       
+        private void ClearAllLines()
+        {
+            for(int i = 0; i < 6; i++)
+            {
+                chrtLines.Series[i].Points.Clear();
             }
         }
 
@@ -209,17 +197,86 @@ namespace SolowProjectVer2
             
         }
 
-        private void DrawLines()
+        
+
+        private void BtnTestAnimation_Click(object sender, EventArgs e)
         {
-            while (gdblK < gdblMaxK)
-            {
-                chrtLines.Series[0].Points.AddXY(gdblK, Calcy(gdblK));
-                chrtLines.Series[1].Points.AddXY(gdblK, CalcInvest(Calcy(gdblK), gdblS));
-                chrtLines.Series[2].Points.AddXY(gdblK, CalcDecay(gdblN, gdblDelta, gdblK));
-                gdblK += gdblXRate;
-            }
+            StartAnimation((double)nudTestAnimation.Value);
         }
 
+        private void StartAnimation(double startK)
+        {
+            gdblK = startK;
+            gdblY = Calcy(gdblK);
+            gdblConsum = CalcConsum();
+            gdblInvest = CalcInvest(gdblY, gdblS);
+            gdblDK = CalcDeltaTimesK();
+            gdblChangeK = CalcChangeOfK();
+            gdblDecay = CalcDecay(gdblN, gdblDelta, gdblK);
+
+
+            SetTimer(this);
+        }
+        private static void SetTimer(Form1 daFrm)
+        {
+            aTimer = new System.Timers.Timer(TIMERATEINMILIS);
+            aTimer.Elapsed += daFrm.Animation;
+            aTimer.AutoReset = true;
+            aTimer.Enabled = true;
+        }
+        delegate void ArgReturningVoidDelegate(object source, ElapsedEventArgs e);
+        private void Animation(object source, ElapsedEventArgs e)
+        {
+            if (this.chrtLines.InvokeRequired)
+            {
+                ArgReturningVoidDelegate d = new ArgReturningVoidDelegate(Animation);
+                try
+                {
+                    this.Invoke(d, new object[] { source, e });
+                }
+                catch (System.ObjectDisposedException)
+                {
+
+                }
+            }
+            else
+            {
+                if ((gdblChangeK > 0.001) || (gdblChangeK < -0.001))
+                {
+                    /*
+                    chrtLines.Series[0].Points.AddXY(gdblK, gdblY);
+                    chrtLines.Series[1].Points.AddXY(gdblK, gdblInvest);
+                    chrtLines.Series[2].Points.AddXY(gdblK, gdblDecay);
+                    */
+                    chrtLines.Series[3].Points.Clear();
+                    chrtLines.Series[4].Points.Clear();
+
+                    chrtLines.Series[3].Points.AddXY(chrtLines.ChartAreas[0].AxisX.Minimum, gdblY);
+                    chrtLines.Series[3].Points.AddXY(chrtLines.ChartAreas[0].AxisX.Maximum, gdblY);
+                    chrtLines.Series[4].Points.AddXY(gdblK, chrtLines.ChartAreas[0].AxisY.Minimum);
+                    chrtLines.Series[4].Points.AddXY(gdblK, chrtLines.ChartAreas[0].AxisY.Maximum);
+
+                    chrtC.Series[0].Points.AddXY(gdblMiniGraphXVal, gdblConsum);
+                    chrtI.Series[0].Points.AddXY(gdblMiniGraphXVal, gdblInvest);
+                    chrtY.Series[0].Points.AddXY(gdblMiniGraphXVal, (gdblConsum + gdblInvest));
+
+                    gdblK += gdblChangeK;
+
+                    gdblMiniGraphXVal += Math.Abs(gdblChangeK);
+                    gdblY = Calcy(gdblK);
+                    gdblConsum = CalcConsum();
+                    gdblInvest = CalcInvest(gdblY, gdblS);
+                    gdblDK = CalcDeltaTimesK();
+                    gdblChangeK = CalcChangeOfK();
+                    gdblDecay = CalcDecay(gdblN, gdblDelta, gdblK);
+                }
+                else
+                {
+                    aTimer.Enabled = false;
+
+                }
+            }
+        }
 
         private bool IsFractionOkay()
         {

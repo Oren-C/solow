@@ -20,6 +20,8 @@ namespace SolowProjectVer2
         double gdblS, gdblN, gdblDelta;
         double gdblConsum, gdblInvest, gdblDK, gdblChangeK, gdblDecay;
 
+        Random rnd = new Random();
+
         double gdblMiniGraphXVal = 0;
         int gintNumerator, gintDenom;
 
@@ -51,6 +53,8 @@ namespace SolowProjectVer2
             if (IsFractionOkay())
             {
                 DrawAllLines();
+                MakeGuessButtonsVisible();
+                GenerateGuessButtons();
 
             }
         }
@@ -160,6 +164,13 @@ namespace SolowProjectVer2
             
         }
        
+        private void MakeGuessButtonsVisible()
+        {
+            btnOption1.Visible = true;
+            btnOption2.Visible = true;
+            btnOption3.Visible = true;
+            btnOption4.Visible = true;
+        }
         private void ClearAllLines()
         {
             for(int i = 0; i < 6; i++)
@@ -175,7 +186,24 @@ namespace SolowProjectVer2
 
         private void BtnReset_Click(object sender, EventArgs e)
         {
+            
+        }
 
+        private void GenerateGuessButtons()
+        {
+            btnOption1.Text = RandomDoubleBetween(0, gdblKStar).ToString();
+            btnOption2.Text = RandomDoubleBetween(0, gdblKStar).ToString();
+
+            btnOption3.Text = RandomDoubleBetween(gdblKStar + 0.01, gdblMaxK).ToString();
+            btnOption4.Text = RandomDoubleBetween(gdblKStar + 0.01, gdblMaxK).ToString();
+
+        }
+
+
+        //https://stackoverflow.com/questions/1064901/random-number-between-2-double-numbers
+        private double RandomDoubleBetween(double min, double max)
+        {
+            return rnd.NextDouble() * (max - min) + min;
         }
 
         private void txtKNumerator_Leave(object sender, EventArgs e)
@@ -188,6 +216,8 @@ namespace SolowProjectVer2
             
         }
 
+       
+
         private void txtKDenominator_Leave(object sender, EventArgs e)
         {
             if (!txtKNumerator.Focused)
@@ -197,7 +227,25 @@ namespace SolowProjectVer2
             
         }
 
-        
+        private void btnOption1_Click(object sender, EventArgs e)
+        {
+            StartAnimation(double.Parse(btnOption1.Text));
+        }
+
+        private void btnOption2_Click(object sender, EventArgs e)
+        {
+            StartAnimation(double.Parse(btnOption2.Text));
+        }
+
+        private void btnOption3_Click(object sender, EventArgs e)
+        {
+            StartAnimation(double.Parse(btnOption3.Text));
+        }
+
+        private void btnOption4_Click(object sender, EventArgs e)
+        {
+            StartAnimation(double.Parse(btnOption4.Text));
+        }
 
         private void BtnTestAnimation_Click(object sender, EventArgs e)
         {

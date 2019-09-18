@@ -24,6 +24,7 @@ namespace SolowProjectVer2
 
         double gdblMiniGraphXVal = 0;
         int gintNumerator, gintDenom;
+        int gintButtonsPushed = 0;
 
         //int[] gintArrLines = new int[] { 0, 1, 2, -1, -1 };
         
@@ -41,7 +42,7 @@ namespace SolowProjectVer2
         bool gboolInterrupt = false;
 
         double gdblXRate = .05;
-        const int TIMERATEINMILIS = 100;
+        const int TIMERATEINMILIS = 90;
         public Form1()
         {
             InitializeComponent();
@@ -52,18 +53,34 @@ namespace SolowProjectVer2
         {
             if (IsFractionOkay())
             {
+                btnStart.Enabled = false;
+                DisableFields();
                 DrawAllLines();
-                MakeGuessButtonsVisible();
+                ShowGuessButtons();
                 GenerateGuessButtons();
 
             }
         }
 
+        private void DisableFields()
+        {
+            nudS.Enabled = false;
+            nudN.Enabled = false;
+            nudDelta.Enabled = false;
+        }
+
+        private void EnableFields()
+        {
+            nudS.Enabled = true;
+            nudN.Enabled = true;
+            nudDelta.Enabled = true;
+        }
 
         private void btnApplyChanges_Click(object sender, EventArgs e)
         {
+            btnApplyChanges.Visible = false;
             double oldKStar = gdblKStar;
-            ClearAllLines();
+            ClearAllUpperLines();
             gdblK = 0;
             DrawAllLines();
             StartAnimation(oldKStar);
@@ -77,6 +94,7 @@ namespace SolowProjectVer2
             if (gboolInitialAnimationComplete)
             {
                 //Console.WriteLine("Hellow it went thrugh");
+                btnApplyChanges.Visible = true;
                 gboolInvestChanged = true;
                 gdblS = (double)nudS.Value;
                 DrawNewLine(5);
@@ -88,6 +106,7 @@ namespace SolowProjectVer2
         {
             if (gboolInitialAnimationComplete)
             {
+                btnApplyChanges.Visible = true;
                 gboolDecayChanged = true;
                 gdblN = (double)nudN.Value;
                 DrawNewLine(6);
@@ -99,6 +118,7 @@ namespace SolowProjectVer2
         {
             if (gboolInitialAnimationComplete)
             {
+                btnApplyChanges.Visible = true;
                 gboolDecayChanged = true;
                 gdblDelta = (double)nudDelta.Value;
                 DrawNewLine(6);
@@ -113,6 +133,8 @@ namespace SolowProjectVer2
             gdblDelta = (double)nudDelta.Value;
 
             CalcKsandYs(gdblS, gdblN, gdblDelta);
+            btnAnswer.Text = "K* = " + RoundTo3Decimals(gdblKStar)+"\n Y* = "+RoundTo3Decimals(gdblYStar);
+            Console.WriteLine("K* = " + gdblKStar + "\n Y* = " + gdblYStar);
 
             // Calculate the initial window size
             if (gdblKStar < 1)
@@ -139,7 +161,7 @@ namespace SolowProjectVer2
                 chrtLines.Series[2].Points.AddXY(gdblK, CalcDecay(gdblN, gdblDelta, gdblK));
                 gdblK += gdblXRate;
             }
-            gboolInitialAnimationComplete = true;
+            
         }
 
         private void DrawNewLine(int seriesNumber)
@@ -164,29 +186,56 @@ namespace SolowProjectVer2
             
         }
        
-        private void MakeGuessButtonsVisible()
+        private void ShowGuessButtons()
         {
             btnOption1.Visible = true;
             btnOption2.Visible = true;
             btnOption3.Visible = true;
             btnOption4.Visible = true;
         }
-        private void ClearAllLines()
+        private void HideGuessButtons()
         {
-            for(int i = 0; i < 6; i++)
+            btnOption1.Visible = false;
+            btnOption2.Visible = false;
+            btnOption3.Visible = false;
+            btnOption4.Visible = false;
+        }
+        private void ClearAllUpperLines()
+        {
+            for(int i = 0; i < 7; i++)
             {
                 chrtLines.Series[i].Points.Clear();
             }
         }
 
+        private void ClearLowerLines()
+        {
+            chrtC.Series[0].Points.Clear();
+            chrtI.Series[0].Points.Clear();
+            chrtY.Series[0].Points.Clear();
+        }
+
+
+        private static double RoundTo3Decimals(double num)
+        {
+            return Math.Round(num * 1000) / 1000d;
+        }
         private void BtnSkip_Click(object sender, EventArgs e)
         {
-
+            btnSkip.Enabled = false;
+            gboolInterrupt = true;
         }
 
         private void BtnReset_Click(object sender, EventArgs e)
         {
-            
+            /*
+            btnReset.Enabled = false;
+            ClearAllUpperLines();
+            ClearLowerLines();
+            aTimer.Dispose();
+            nudS.Enabled = true;
+            */
+            Application.Restart();
         }
 
         private void GenerateGuessButtons()
@@ -229,24 +278,99 @@ namespace SolowProjectVer2
 
         private void btnOption1_Click(object sender, EventArgs e)
         {
-            StartAnimation(double.Parse(btnOption1.Text));
+            if(btnOption1.BackColor != Color.Aqua)
+            {
+                gintButtonsPushed += 1;
+                btnSkip.Enabled = true;
+                btnOption1.BackColor = Color.Aqua;
+                StartAnimation(double.Parse(btnOption1.Text));
+                if(gintButtonsPushed == 4)
+                {
+                    ShowAnswerButton();
+                }
+            }
+            else
+            {
+                btnSkip.Enabled = true;
+                StartAnimation(double.Parse(btnOption1.Text));
+            }
+            
         }
 
         private void btnOption2_Click(object sender, EventArgs e)
         {
-            StartAnimation(double.Parse(btnOption2.Text));
+
+            if (btnOption2.BackColor != Color.Aqua)
+            {
+                gintButtonsPushed += 1;
+                btnSkip.Enabled = true;
+                btnOption2.BackColor = Color.Aqua;
+                StartAnimation(double.Parse(btnOption2.Text));
+                if (gintButtonsPushed == 4)
+                {
+                    ShowAnswerButton();
+                }
+            }
+            else
+            {
+                btnSkip.Enabled = true;
+                StartAnimation(double.Parse(btnOption2.Text));
+            }
         }
 
         private void btnOption3_Click(object sender, EventArgs e)
         {
-            StartAnimation(double.Parse(btnOption3.Text));
+            if (btnOption3.BackColor != Color.Aqua)
+            {
+                gintButtonsPushed += 1;
+                btnSkip.Enabled = true;
+                btnOption3.BackColor = Color.Aqua;
+                StartAnimation(double.Parse(btnOption3.Text));
+                if (gintButtonsPushed == 4)
+                {
+                    ShowAnswerButton();
+                }
+            }
+            else
+            {
+                btnSkip.Enabled = true;
+                StartAnimation(double.Parse(btnOption3.Text));
+            }
         }
 
         private void btnOption4_Click(object sender, EventArgs e)
         {
-            StartAnimation(double.Parse(btnOption4.Text));
+            if (btnOption4.BackColor != Color.Aqua)
+            {
+                gintButtonsPushed += 1;
+                btnSkip.Enabled = true;
+                btnOption4.BackColor = Color.Aqua;
+                StartAnimation(double.Parse(btnOption4.Text));
+                if (gintButtonsPushed == 4)
+                {
+                    ShowAnswerButton();
+                }
+            }
+            else
+            {
+                btnSkip.Enabled = true;
+                StartAnimation(double.Parse(btnOption4.Text));
+            }
         }
 
+        private void btnAnswer_Click(object sender, EventArgs e)
+        {
+            gboolInitialAnimationComplete = true;
+            HideGuessButtons();
+            btnAnswer.Enabled = false;
+            EnableFields();
+            
+        }
+
+        private void ShowAnswerButton()
+        {
+            btnAnswer.Visible = true;
+        }
         private void BtnTestAnimation_Click(object sender, EventArgs e)
         {
             StartAnimation((double)nudTestAnimation.Value);
@@ -289,13 +413,26 @@ namespace SolowProjectVer2
             }
             else
             {
-                if ((gdblChangeK > 0.001) || (gdblChangeK < -0.001))
+                if (gboolInterrupt)
                 {
-                    /*
-                    chrtLines.Series[0].Points.AddXY(gdblK, gdblY);
-                    chrtLines.Series[1].Points.AddXY(gdblK, gdblInvest);
-                    chrtLines.Series[2].Points.AddXY(gdblK, gdblDecay);
-                    */
+                    aTimer.Enabled = false;
+                    gboolInterrupt = false;
+                    while ((gdblChangeK > 0.001) || (gdblChangeK < -0.001))
+                    {
+                        chrtC.Series[0].Points.AddXY(gdblMiniGraphXVal, gdblConsum);
+                        chrtI.Series[0].Points.AddXY(gdblMiniGraphXVal, gdblInvest);
+                        chrtY.Series[0].Points.AddXY(gdblMiniGraphXVal, (gdblConsum + gdblInvest));
+
+                        gdblK += gdblChangeK;
+
+                        gdblMiniGraphXVal += Math.Abs(gdblChangeK);
+                        gdblY = Calcy(gdblK);
+                        gdblConsum = CalcConsum();
+                        gdblInvest = CalcInvest(gdblY, gdblS);
+                        gdblDK = CalcDeltaTimesK();
+                        gdblChangeK = CalcChangeOfK();
+                        gdblDecay = CalcDecay(gdblN, gdblDelta, gdblK);
+                    }
                     chrtLines.Series[3].Points.Clear();
                     chrtLines.Series[4].Points.Clear();
 
@@ -303,26 +440,47 @@ namespace SolowProjectVer2
                     chrtLines.Series[3].Points.AddXY(chrtLines.ChartAreas[0].AxisX.Maximum, gdblY);
                     chrtLines.Series[4].Points.AddXY(gdblK, chrtLines.ChartAreas[0].AxisY.Minimum);
                     chrtLines.Series[4].Points.AddXY(gdblK, chrtLines.ChartAreas[0].AxisY.Maximum);
-
-                    chrtC.Series[0].Points.AddXY(gdblMiniGraphXVal, gdblConsum);
-                    chrtI.Series[0].Points.AddXY(gdblMiniGraphXVal, gdblInvest);
-                    chrtY.Series[0].Points.AddXY(gdblMiniGraphXVal, (gdblConsum + gdblInvest));
-
-                    gdblK += gdblChangeK;
-
-                    gdblMiniGraphXVal += Math.Abs(gdblChangeK);
-                    gdblY = Calcy(gdblK);
-                    gdblConsum = CalcConsum();
-                    gdblInvest = CalcInvest(gdblY, gdblS);
-                    gdblDK = CalcDeltaTimesK();
-                    gdblChangeK = CalcChangeOfK();
-                    gdblDecay = CalcDecay(gdblN, gdblDelta, gdblK);
+                    
                 }
                 else
                 {
-                    aTimer.Enabled = false;
+                    if ((gdblChangeK > 0.001) || (gdblChangeK < -0.001))
+                    {
+                        /*
+                        chrtLines.Series[0].Points.AddXY(gdblK, gdblY);
+                        chrtLines.Series[1].Points.AddXY(gdblK, gdblInvest);
+                        chrtLines.Series[2].Points.AddXY(gdblK, gdblDecay);
+                        */
+                        chrtLines.Series[3].Points.Clear();
+                        chrtLines.Series[4].Points.Clear();
 
+                        chrtLines.Series[3].Points.AddXY(chrtLines.ChartAreas[0].AxisX.Minimum, gdblY);
+                        chrtLines.Series[3].Points.AddXY(chrtLines.ChartAreas[0].AxisX.Maximum, gdblY);
+                        chrtLines.Series[4].Points.AddXY(gdblK, chrtLines.ChartAreas[0].AxisY.Minimum);
+                        chrtLines.Series[4].Points.AddXY(gdblK, chrtLines.ChartAreas[0].AxisY.Maximum);
+
+                        chrtC.Series[0].Points.AddXY(gdblMiniGraphXVal, gdblConsum);
+                        chrtI.Series[0].Points.AddXY(gdblMiniGraphXVal, gdblInvest);
+                        chrtY.Series[0].Points.AddXY(gdblMiniGraphXVal, (gdblConsum + gdblInvest));
+
+                        gdblK += gdblChangeK;
+
+                        gdblMiniGraphXVal += Math.Abs(gdblChangeK);
+                        gdblY = Calcy(gdblK);
+                        gdblConsum = CalcConsum();
+                        gdblInvest = CalcInvest(gdblY, gdblS);
+                        gdblDK = CalcDeltaTimesK();
+                        gdblChangeK = CalcChangeOfK();
+                        gdblDecay = CalcDecay(gdblN, gdblDelta, gdblK);
+                    }
+                    else
+                    {
+                        btnSkip.Enabled = false;
+                        aTimer.Enabled = false;
+
+                    }
                 }
+                
             }
         }
 

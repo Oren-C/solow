@@ -75,6 +75,7 @@
             this.nudTestAnimation = new System.Windows.Forms.NumericUpDown();
             this.btnTestAnimation = new System.Windows.Forms.Button();
             this.btnApplyChanges = new System.Windows.Forms.Button();
+            this.btnAnswer = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chrtLines)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chrtC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chrtI)).BeginInit();
@@ -137,6 +138,7 @@
             this.chrtLines.Series.Add(series47);
             this.chrtLines.Size = new System.Drawing.Size(856, 363);
             this.chrtLines.TabIndex = 0;
+            this.chrtLines.TabStop = false;
             this.chrtLines.Text = "chart1";
             // 
             // label1
@@ -154,7 +156,7 @@
             this.txtKNumerator.Location = new System.Drawing.Point(82, 43);
             this.txtKNumerator.Name = "txtKNumerator";
             this.txtKNumerator.Size = new System.Drawing.Size(30, 20);
-            this.txtKNumerator.TabIndex = 2;
+            this.txtKNumerator.TabIndex = 0;
             this.txtKNumerator.Leave += new System.EventHandler(this.txtKNumerator_Leave);
             // 
             // label2
@@ -172,7 +174,7 @@
             this.txtKDenominator.Location = new System.Drawing.Point(142, 43);
             this.txtKDenominator.Name = "txtKDenominator";
             this.txtKDenominator.Size = new System.Drawing.Size(30, 20);
-            this.txtKDenominator.TabIndex = 4;
+            this.txtKDenominator.TabIndex = 1;
             this.txtKDenominator.Leave += new System.EventHandler(this.txtKDenominator_Leave);
             // 
             // label3
@@ -192,6 +194,7 @@
             this.txtLDenominator.Name = "txtLDenominator";
             this.txtLDenominator.Size = new System.Drawing.Size(30, 20);
             this.txtLDenominator.TabIndex = 8;
+            this.txtLDenominator.TabStop = false;
             // 
             // label4
             // 
@@ -210,6 +213,7 @@
             this.txtLNumerator.Name = "txtLNumerator";
             this.txtLNumerator.Size = new System.Drawing.Size(30, 20);
             this.txtLNumerator.TabIndex = 6;
+            this.txtLNumerator.TabStop = false;
             // 
             // txtSmlKDenominator
             // 
@@ -218,6 +222,7 @@
             this.txtSmlKDenominator.Name = "txtSmlKDenominator";
             this.txtSmlKDenominator.Size = new System.Drawing.Size(30, 20);
             this.txtSmlKDenominator.TabIndex = 12;
+            this.txtSmlKDenominator.TabStop = false;
             // 
             // label5
             // 
@@ -236,6 +241,7 @@
             this.txtSmlKNumerator.Name = "txtSmlKNumerator";
             this.txtSmlKNumerator.Size = new System.Drawing.Size(30, 20);
             this.txtSmlKNumerator.TabIndex = 10;
+            this.txtSmlKNumerator.TabStop = false;
             // 
             // label6
             // 
@@ -252,7 +258,7 @@
             this.btnStart.Location = new System.Drawing.Point(76, 470);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(106, 66);
-            this.btnStart.TabIndex = 16;
+            this.btnStart.TabIndex = 5;
             this.btnStart.Text = "Start";
             this.btnStart.UseVisualStyleBackColor = true;
             this.btnStart.Click += new System.EventHandler(this.BtnStart_Click);
@@ -263,7 +269,7 @@
             this.btnSkip.Location = new System.Drawing.Point(76, 542);
             this.btnSkip.Name = "btnSkip";
             this.btnSkip.Size = new System.Drawing.Size(106, 66);
-            this.btnSkip.TabIndex = 17;
+            this.btnSkip.TabIndex = 6;
             this.btnSkip.Text = "Skip";
             this.btnSkip.UseVisualStyleBackColor = true;
             this.btnSkip.Click += new System.EventHandler(this.BtnSkip_Click);
@@ -273,7 +279,7 @@
             this.btnReset.Location = new System.Drawing.Point(76, 614);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(106, 66);
-            this.btnReset.TabIndex = 18;
+            this.btnReset.TabIndex = 7;
             this.btnReset.Text = "Reset";
             this.btnReset.UseVisualStyleBackColor = true;
             this.btnReset.Click += new System.EventHandler(this.BtnReset_Click);
@@ -293,6 +299,7 @@
             this.chrtC.Series.Add(series48);
             this.chrtC.Size = new System.Drawing.Size(855, 69);
             this.chrtC.TabIndex = 19;
+            this.chrtC.TabStop = false;
             this.chrtC.Text = "chart2";
             // 
             // chrtI
@@ -310,6 +317,7 @@
             this.chrtI.Series.Add(series49);
             this.chrtI.Size = new System.Drawing.Size(855, 69);
             this.chrtI.TabIndex = 20;
+            this.chrtI.TabStop = false;
             this.chrtI.Text = "chart3";
             // 
             // chrtY
@@ -327,6 +335,7 @@
             this.chrtY.Series.Add(series50);
             this.chrtY.Size = new System.Drawing.Size(855, 69);
             this.chrtY.TabIndex = 21;
+            this.chrtY.TabStop = false;
             this.chrtY.Text = "chart4";
             // 
             // nudS
@@ -350,7 +359,7 @@
             196608});
             this.nudS.Name = "nudS";
             this.nudS.Size = new System.Drawing.Size(120, 20);
-            this.nudS.TabIndex = 22;
+            this.nudS.TabIndex = 2;
             this.nudS.Value = new decimal(new int[] {
             1,
             0,
@@ -374,7 +383,7 @@
             131072});
             this.nudN.Name = "nudN";
             this.nudN.Size = new System.Drawing.Size(120, 20);
-            this.nudN.TabIndex = 23;
+            this.nudN.TabIndex = 3;
             this.nudN.ValueChanged += new System.EventHandler(this.nudN_ValueChanged);
             // 
             // nudDelta
@@ -398,7 +407,7 @@
             196608});
             this.nudDelta.Name = "nudDelta";
             this.nudDelta.Size = new System.Drawing.Size(120, 20);
-            this.nudDelta.TabIndex = 24;
+            this.nudDelta.TabIndex = 4;
             this.nudDelta.Value = new decimal(new int[] {
             1,
             0,
@@ -411,7 +420,7 @@
             this.btnOption1.Location = new System.Drawing.Point(639, 381);
             this.btnOption1.Name = "btnOption1";
             this.btnOption1.Size = new System.Drawing.Size(95, 51);
-            this.btnOption1.TabIndex = 25;
+            this.btnOption1.TabIndex = 8;
             this.btnOption1.Text = "Option1";
             this.btnOption1.UseVisualStyleBackColor = true;
             this.btnOption1.Visible = false;
@@ -419,10 +428,10 @@
             // 
             // btnOption2
             // 
-            this.btnOption2.Location = new System.Drawing.Point(873, 381);
+            this.btnOption2.Location = new System.Drawing.Point(816, 381);
             this.btnOption2.Name = "btnOption2";
             this.btnOption2.Size = new System.Drawing.Size(95, 51);
-            this.btnOption2.TabIndex = 26;
+            this.btnOption2.TabIndex = 9;
             this.btnOption2.Text = "Option2";
             this.btnOption2.UseVisualStyleBackColor = true;
             this.btnOption2.Visible = false;
@@ -430,10 +439,10 @@
             // 
             // btnOption3
             // 
-            this.btnOption3.Location = new System.Drawing.Point(1107, 381);
+            this.btnOption3.Location = new System.Drawing.Point(1174, 381);
             this.btnOption3.Name = "btnOption3";
             this.btnOption3.Size = new System.Drawing.Size(95, 51);
-            this.btnOption3.TabIndex = 27;
+            this.btnOption3.TabIndex = 10;
             this.btnOption3.Text = "Option3";
             this.btnOption3.UseVisualStyleBackColor = true;
             this.btnOption3.Visible = false;
@@ -444,7 +453,7 @@
             this.btnOption4.Location = new System.Drawing.Point(1341, 381);
             this.btnOption4.Name = "btnOption4";
             this.btnOption4.Size = new System.Drawing.Size(95, 51);
-            this.btnOption4.TabIndex = 28;
+            this.btnOption4.TabIndex = 11;
             this.btnOption4.Text = "Option4";
             this.btnOption4.UseVisualStyleBackColor = true;
             this.btnOption4.Visible = false;
@@ -457,6 +466,7 @@
             this.nudTestAnimation.Name = "nudTestAnimation";
             this.nudTestAnimation.Size = new System.Drawing.Size(168, 20);
             this.nudTestAnimation.TabIndex = 29;
+            this.nudTestAnimation.TabStop = false;
             // 
             // btnTestAnimation
             // 
@@ -464,6 +474,7 @@
             this.btnTestAnimation.Name = "btnTestAnimation";
             this.btnTestAnimation.Size = new System.Drawing.Size(75, 67);
             this.btnTestAnimation.TabIndex = 30;
+            this.btnTestAnimation.TabStop = false;
             this.btnTestAnimation.Text = "Test Animation";
             this.btnTestAnimation.UseVisualStyleBackColor = true;
             this.btnTestAnimation.Click += new System.EventHandler(this.BtnTestAnimation_Click);
@@ -473,17 +484,31 @@
             this.btnApplyChanges.Location = new System.Drawing.Point(76, 351);
             this.btnApplyChanges.Name = "btnApplyChanges";
             this.btnApplyChanges.Size = new System.Drawing.Size(126, 81);
-            this.btnApplyChanges.TabIndex = 31;
+            this.btnApplyChanges.TabIndex = 12;
             this.btnApplyChanges.Text = "Apply Changes";
             this.btnApplyChanges.UseVisualStyleBackColor = true;
+            this.btnApplyChanges.Visible = false;
             this.btnApplyChanges.Click += new System.EventHandler(this.btnApplyChanges_Click);
+            // 
+            // btnAnswer
+            // 
+            this.btnAnswer.Location = new System.Drawing.Point(968, 382);
+            this.btnAnswer.Name = "btnAnswer";
+            this.btnAnswer.Size = new System.Drawing.Size(136, 50);
+            this.btnAnswer.TabIndex = 31;
+            this.btnAnswer.Text = "button1";
+            this.btnAnswer.UseVisualStyleBackColor = true;
+            this.btnAnswer.Visible = false;
+            this.btnAnswer.Click += new System.EventHandler(this.btnAnswer_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
+            this.CancelButton = this.btnSkip;
             this.ClientSize = new System.Drawing.Size(1472, 690);
+            this.Controls.Add(this.btnAnswer);
             this.Controls.Add(this.btnApplyChanges);
             this.Controls.Add(this.btnTestAnimation);
             this.Controls.Add(this.nudTestAnimation);
@@ -559,6 +584,7 @@
         private System.Windows.Forms.NumericUpDown nudTestAnimation;
         private System.Windows.Forms.Button btnTestAnimation;
         private System.Windows.Forms.Button btnApplyChanges;
+        private System.Windows.Forms.Button btnAnswer;
     }
 }
 

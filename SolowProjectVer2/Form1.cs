@@ -19,10 +19,11 @@ namespace SolowProjectVer2
         double gdblTempX, gdblMaxK, gdblMinK, gdblTempY, gdblTempInvest, gdblTempDecay;
         double gdblS, gdblN, gdblDelta;
         double gdblConsum, gdblInvest, gdblDK, gdblChangeK, gdblDecay;
+        //double gdblMedianMiniGrph = 5;
 
         Random rnd = new Random();
 
-        double gdblMiniGraphXVal = 0;
+        double gdblMiniGraphXVal = 5;
         int gintNumerator, gintDenom;
         int gintButtonsPushed = 0;
 
@@ -58,27 +59,42 @@ namespace SolowProjectVer2
                 DrawAllLines();
                 ShowGuessButtons();
                 GenerateGuessButtons();
-
+                chrtC.ChartAreas[0].AxisX.Minimum = 0;
+                chrtC.ChartAreas[0].AxisX.Maximum = 10;
+                chrtI.ChartAreas[0].AxisX.Minimum = 0;
+                chrtI.ChartAreas[0].AxisX.Maximum = 10;
+                chrtY.ChartAreas[0].AxisX.Minimum = 0;
+                chrtY.ChartAreas[0].AxisX.Maximum = 10;
             }
         }
 
-        private void DisableFields()
+       
+
+        private void Zoom(double kvalue)
         {
-            nudS.Enabled = false;
-            nudN.Enabled = false;
-            nudDelta.Enabled = false;
+            double oldXMax = chrtLines.ChartAreas[0].AxisX.Maximum;
+            double oldYMax = chrtLines.ChartAreas[0].AxisY.Maximum;
+
+            chrtLines.ChartAreas[0].AxisX.Maximum = kvalue + 0.25;
+            chrtLines.ChartAreas[0].AxisX.Minimum = kvalue - 0.25;
+            chrtLines.ChartAreas[0].AxisY.Maximum = CalcInvest(Calcy(kvalue), gdblS) + 0.25;
+            chrtLines.ChartAreas[0].AxisY.Minimum = CalcInvest(Calcy(kvalue), gdblS) - 0.25;
+
+            MessageBox.Show("Here's a message box");
+
+            chrtLines.ChartAreas[0].AxisX.Maximum = oldXMax;
+            chrtLines.ChartAreas[0].AxisX.Minimum = 0;
+            chrtLines.ChartAreas[0].AxisY.Maximum = oldYMax;
+            chrtLines.ChartAreas[0].AxisY.Minimum = 0;
+
+
         }
 
-        private void EnableFields()
-        {
-            nudS.Enabled = true;
-            nudN.Enabled = true;
-            nudDelta.Enabled = true;
-        }
 
         private void btnApplyChanges_Click(object sender, EventArgs e)
         {
             btnApplyChanges.Visible = false;
+            DisableFields();
             double oldKStar = gdblKStar;
             ClearAllUpperLines();
             gdblK = 0;
@@ -185,7 +201,19 @@ namespace SolowProjectVer2
             }
             
         }
-       
+
+        private void DisableFields()
+        {
+            nudS.Enabled = false;
+            nudN.Enabled = false;
+            nudDelta.Enabled = false;
+        }
+        private void EnableFields()
+        {
+            nudS.Enabled = true;
+            nudN.Enabled = true;
+            nudDelta.Enabled = true;
+        }
         private void ShowGuessButtons()
         {
             btnOption1.Visible = true;
@@ -224,6 +252,7 @@ namespace SolowProjectVer2
         {
             btnSkip.Enabled = false;
             gboolInterrupt = true;
+            //EnableFields();
         }
 
         private void BtnReset_Click(object sender, EventArgs e)
@@ -378,6 +407,8 @@ namespace SolowProjectVer2
 
         private void StartAnimation(double startK)
         {
+
+            Zoom(startK);
             gdblK = startK;
             gdblY = Calcy(gdblK);
             gdblConsum = CalcConsum();
@@ -426,6 +457,8 @@ namespace SolowProjectVer2
                         gdblK += gdblChangeK;
 
                         gdblMiniGraphXVal += Math.Abs(gdblChangeK);
+                        IncreaseSubgraphs(Math.Abs(gdblChangeK));
+                        //gdblMedianMiniGrph = (chrtC.ChartAreas[0].AxisX.Minimum + chrtC.ChartAreas[0].AxisX.Maximum) / 2d;
                         gdblY = Calcy(gdblK);
                         gdblConsum = CalcConsum();
                         gdblInvest = CalcInvest(gdblY, gdblS);
@@ -440,6 +473,7 @@ namespace SolowProjectVer2
                     chrtLines.Series[3].Points.AddXY(chrtLines.ChartAreas[0].AxisX.Maximum, gdblY);
                     chrtLines.Series[4].Points.AddXY(gdblK, chrtLines.ChartAreas[0].AxisY.Minimum);
                     chrtLines.Series[4].Points.AddXY(gdblK, chrtLines.ChartAreas[0].AxisY.Maximum);
+                    
                     
                 }
                 else
@@ -460,12 +494,18 @@ namespace SolowProjectVer2
                         chrtLines.Series[4].Points.AddXY(gdblK, chrtLines.ChartAreas[0].AxisY.Maximum);
 
                         chrtC.Series[0].Points.AddXY(gdblMiniGraphXVal, gdblConsum);
+                        Console.WriteLine("C: " + gdblConsum);
                         chrtI.Series[0].Points.AddXY(gdblMiniGraphXVal, gdblInvest);
+                        Console.WriteLine("I: " + gdblInvest);
                         chrtY.Series[0].Points.AddXY(gdblMiniGraphXVal, (gdblConsum + gdblInvest));
+                        Console.WriteLine("Y: " + (gdblConsum + gdblInvest));
 
                         gdblK += gdblChangeK;
 
                         gdblMiniGraphXVal += Math.Abs(gdblChangeK);
+                        //Console.WriteLine("The value of gdblminigraphXval is " + gdblMiniGraphXVal);
+                        IncreaseSubgraphs(Math.Abs(gdblChangeK));
+                        //gdblMedianMiniGrph = (chrtC.ChartAreas[0].AxisX.Minimum + chrtC.ChartAreas[0].AxisX.Maximum) / 2d;
                         gdblY = Calcy(gdblK);
                         gdblConsum = CalcConsum();
                         gdblInvest = CalcInvest(gdblY, gdblS);
@@ -475,13 +515,30 @@ namespace SolowProjectVer2
                     }
                     else
                     {
+                        
                         btnSkip.Enabled = false;
                         aTimer.Enabled = false;
+                        if (gboolInitialAnimationComplete)
+                        {
+                            EnableFields();
+                        }
 
                     }
                 }
                 
             }
+        }
+
+        private void IncreaseSubgraphs(double increment)
+        {
+            chrtC.ChartAreas[0].AxisX.Minimum += increment;
+            chrtC.ChartAreas[0].AxisX.Maximum += increment;
+
+            chrtI.ChartAreas[0].AxisX.Minimum += increment;
+            chrtI.ChartAreas[0].AxisX.Maximum += increment;
+
+            chrtY.ChartAreas[0].AxisX.Minimum += increment;
+            chrtY.ChartAreas[0].AxisX.Maximum += increment;
         }
 
         private bool IsFractionOkay()

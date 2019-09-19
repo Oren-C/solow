@@ -222,7 +222,15 @@ namespace SolowProjectVer2
                 else
                 {
                     bTimer.Enabled = false;
-                    MessageBox.Show("Here's a message box");
+                    if(gdblK > gdblKStar)
+                    {
+                        MessageBox.Show("Notice at the k selected, new investment in the economy falls below that which is required to break even.  Therefore, capital per worker will decrease as the economy transitions to steady-state.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Notice at the k selected, new investment in the economy exceeds that which is required to break even.  Therefore, capital per worker will increase as the economy transitions to steady-state.");
+                    }
+                    
 
                     chrtLines.ChartAreas[0].AxisX.Maximum = gdblOldMaxX;
                     chrtLines.ChartAreas[0].AxisX.Minimum = 0;
@@ -235,7 +243,7 @@ namespace SolowProjectVer2
 
             }
         }
-                private void btnApplyChanges_Click(object sender, EventArgs e)
+        private void btnApplyChanges_Click(object sender, EventArgs e)
         {
             btnApplyChanges.Visible = false;
             DisableFields();
@@ -372,6 +380,25 @@ namespace SolowProjectVer2
             btnOption3.Visible = false;
             btnOption4.Visible = false;
         }
+
+        private void DisableButtons()
+        {
+            btnOption1.Enabled = false;
+            btnOption2.Enabled = false;
+            btnOption3.Enabled = false;
+            btnOption4.Enabled = false;
+
+            btnAnswer.Enabled = false;
+        }
+        private void EnableButtons()
+        {
+            btnOption1.Enabled = true;
+            btnOption2.Enabled = true;
+            btnOption3.Enabled = true;
+            btnOption4.Enabled = true;
+
+            btnAnswer.Enabled = true;
+        }
         private void ClearAllUpperLines()
         {
             for(int i = 0; i < 7; i++)
@@ -454,6 +481,7 @@ namespace SolowProjectVer2
             if(btnOption1.BackColor != Color.Aqua)
             {
                 gintButtonsPushed += 1;
+                DisableButtons();
                 btnSkip.Enabled = true;
                 btnOption1.BackColor = Color.Aqua;
                 StartAnimation(double.Parse(btnOption1.Text));
@@ -476,6 +504,7 @@ namespace SolowProjectVer2
             if (btnOption2.BackColor != Color.Aqua)
             {
                 gintButtonsPushed += 1;
+                DisableButtons();
                 btnSkip.Enabled = true;
                 btnOption2.BackColor = Color.Aqua;
                 StartAnimation(double.Parse(btnOption2.Text));
@@ -496,6 +525,7 @@ namespace SolowProjectVer2
             if (btnOption3.BackColor != Color.Aqua)
             {
                 gintButtonsPushed += 1;
+                DisableButtons();
                 btnSkip.Enabled = true;
                 btnOption3.BackColor = Color.Aqua;
                 StartAnimation(double.Parse(btnOption3.Text));
@@ -516,6 +546,7 @@ namespace SolowProjectVer2
             if (btnOption4.BackColor != Color.Aqua)
             {
                 gintButtonsPushed += 1;
+                DisableButtons();
                 btnSkip.Enabled = true;
                 btnOption4.BackColor = Color.Aqua;
                 StartAnimation(double.Parse(btnOption4.Text));
@@ -673,6 +704,11 @@ namespace SolowProjectVer2
                         if (gboolInitialAnimationComplete)
                         {
                             EnableFields();
+
+                        }
+                        else
+                        {
+                            EnableButtons();
                         }
 
                     }

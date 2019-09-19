@@ -20,10 +20,15 @@ namespace SolowProjectVer2
         double gdblS, gdblN, gdblDelta;
         double gdblConsum, gdblInvest, gdblDK, gdblChangeK, gdblDecay;
         //double gdblMedianMiniGrph = 5;
+        double gdblZmMaxX, gdblZmMinX, gdblZmMaxY, gdblZmMinY;
+        double gdblCurMaxX, gdblCurMinX, gdblCurMaxY, gdblCurMinY;
+        double gdblOldMaxX, gdblOldMaxY;
+
+
 
         Random rnd = new Random();
 
-        double gdblMiniGraphXVal = 5;
+        double gdblMiniGraphXVal = 22.5;
         int gintNumerator, gintDenom;
         int gintButtonsPushed = 0;
 
@@ -31,6 +36,7 @@ namespace SolowProjectVer2
         
         bool gboolGoLeft = false;
         bool gboolInitialAnimationComplete = false;
+        bool gboolZoomAnimationComplete = false;
         bool gboolInvestChanged = false;
         bool gboolDecayChanged = false;
 
@@ -60,11 +66,11 @@ namespace SolowProjectVer2
                 ShowGuessButtons();
                 GenerateGuessButtons();
                 chrtC.ChartAreas[0].AxisX.Minimum = 0;
-                chrtC.ChartAreas[0].AxisX.Maximum = 10;
+                chrtC.ChartAreas[0].AxisX.Maximum = 30;
                 chrtI.ChartAreas[0].AxisX.Minimum = 0;
-                chrtI.ChartAreas[0].AxisX.Maximum = 10;
+                chrtI.ChartAreas[0].AxisX.Maximum = 30;
                 chrtY.ChartAreas[0].AxisX.Minimum = 0;
-                chrtY.ChartAreas[0].AxisX.Maximum = 10;
+                chrtY.ChartAreas[0].AxisX.Maximum = 30;
             }
         }
 
@@ -72,26 +78,164 @@ namespace SolowProjectVer2
 
         private void Zoom(double kvalue)
         {
-            double oldXMax = chrtLines.ChartAreas[0].AxisX.Maximum;
-            double oldYMax = chrtLines.ChartAreas[0].AxisY.Maximum;
+            gdblOldMaxX = chrtLines.ChartAreas[0].AxisX.Maximum;
+            gdblOldMaxY = chrtLines.ChartAreas[0].AxisY.Maximum;
 
-            chrtLines.ChartAreas[0].AxisX.Maximum = kvalue + 0.25;
-            chrtLines.ChartAreas[0].AxisX.Minimum = kvalue - 0.25;
+            double incValue;
+            if (kvalue < 1)
+            {
+                incValue = (Math.Pow(kvalue, 3)/4d) + kvalue;
+            }
+            else
+            {
+                incValue = (Math.Sqrt(kvalue)/4d) + kvalue;
+            }
+            //chrtLines.ChartAreas[0].AxisX.Maximum = incValue;
+            gdblZmMaxX = incValue;
+
+            if (kvalue < 1)
+            {
+                incValue = kvalue - (Math.Pow(kvalue, 3) / 4d);
+            }
+            else
+            {
+                incValue = kvalue - (Math.Sqrt(kvalue) / 4d);
+            }
+            //chrtLines.ChartAreas[0].AxisX.Minimum = incValue;
+            gdblZmMinX = incValue;
+            double locInvest = CalcInvest(Calcy(kvalue), gdblS);
+            double locDecay = CalcDecay(gdblN, gdblDelta, kvalue);
+
+            if (locInvest > locDecay)
+            {
+                if (locInvest < 1)
+                {
+                    incValue = locInvest + (Math.Pow(locInvest, 3) / 4d);
+                }
+                else
+                {
+                    incValue = locInvest + (Math.Sqrt(locInvest) / 4d);
+                }
+                //chrtLines.ChartAreas[0].AxisY.Maximum = incValue;
+                gdblZmMaxY = incValue;
+                if (locDecay < 1)
+                {
+                    incValue = locDecay - (Math.Pow(locDecay, 3) / 4d);
+                }
+                else
+                {
+                    incValue = locDecay - (Math.Sqrt(locDecay) / 4d);
+                }
+                //chrtLines.ChartAreas[0].AxisY.Minimum = incValue;
+                gdblZmMinY = incValue;
+            }
+            else
+            {
+                if (locDecay < 1)
+                {
+                    incValue = locDecay + (Math.Pow(locDecay, 3) / 4d);
+                }
+                else
+                {
+                    incValue = locDecay + (Math.Sqrt(locDecay) / 4d);
+                }
+                //chrtLines.ChartAreas[0].AxisY.Maximum = incValue;
+                gdblZmMaxY = incValue;
+                if (locInvest < 1)
+                {
+                    incValue = locInvest - (Math.Pow(locInvest, 3) / 4d);
+                }
+                else
+                {
+                    incValue = locInvest - (Math.Sqrt(locInvest) / 4d);
+                }
+                //chrtLines.ChartAreas[0].AxisY.Minimum = incValue;
+                gdblZmMinY = incValue;
+                
+            }
+            Console.WriteLine("this goes throguh");
+            SetTimerB(this);
+            /*
             chrtLines.ChartAreas[0].AxisY.Maximum = CalcInvest(Calcy(kvalue), gdblS) + 0.25;
             chrtLines.ChartAreas[0].AxisY.Minimum = CalcInvest(Calcy(kvalue), gdblS) - 0.25;
+            */
 
-            MessageBox.Show("Here's a message box");
-
-            chrtLines.ChartAreas[0].AxisX.Maximum = oldXMax;
-            chrtLines.ChartAreas[0].AxisX.Minimum = 0;
-            chrtLines.ChartAreas[0].AxisY.Maximum = oldYMax;
-            chrtLines.ChartAreas[0].AxisY.Minimum = 0;
 
 
         }
 
+        private static void SetTimerB(Form1 daFrm)
+        {
+            bTimer = new System.Timers.Timer(40);
+            bTimer.Elapsed += daFrm.AnimateZoom;
+            bTimer.AutoReset = true;
+            bTimer.Enabled = true;
+        }
 
-        private void btnApplyChanges_Click(object sender, EventArgs e)
+        delegate void ArgReturningVoidDelegateB(object source, ElapsedEventArgs e);
+        private void AnimateZoom(object source, ElapsedEventArgs e)
+        {
+            if (this.chrtLines.InvokeRequired)
+            {
+                //Console.WriteLine("Invoke required");
+                ArgReturningVoidDelegateB p = new ArgReturningVoidDelegateB(AnimateZoom);
+                try
+                {
+                    this.Invoke(p, new object[] { source, e });
+                }
+                catch (System.ObjectDisposedException)
+                {
+
+                }
+            }
+            else
+            {
+                //Console.WriteLine("Invoke not required");
+                gdblCurMaxX = chrtLines.ChartAreas[0].AxisX.Maximum;
+                gdblCurMinX = chrtLines.ChartAreas[0].AxisX.Minimum;
+                gdblCurMaxY = chrtLines.ChartAreas[0].AxisY.Maximum;
+                gdblCurMinY = chrtLines.ChartAreas[0].AxisY.Minimum;
+                Console.WriteLine("MaxX: " + gdblCurMaxX);
+                Console.WriteLine("MaxY: " + gdblCurMaxY);
+                Console.WriteLine("MinX: " + gdblCurMinX);
+                Console.WriteLine("MinY: " + gdblCurMinY);
+                //Console.WriteLine("the timer works");
+                if (gdblCurMaxX > gdblZmMaxX + 0.05 || gdblCurMaxY > gdblZmMaxY + 0.05 || gdblCurMinX < gdblZmMinX - 0.05 || gdblCurMinY < gdblZmMinY - 0.05)
+                {
+                    if(gdblCurMaxX > gdblZmMaxX + 0.05)
+                    {
+                        chrtLines.ChartAreas[0].AxisX.Maximum -= gdblXRate;
+                    }
+                    if(gdblCurMaxY > gdblZmMaxY + 0.05)
+                    {
+                        chrtLines.ChartAreas[0].AxisY.Maximum -= gdblXRate;
+                    }
+                    if(gdblCurMinX < gdblZmMinX - 0.05)
+                    {
+                        chrtLines.ChartAreas[0].AxisX.Minimum += gdblXRate;
+                    }
+                    if(gdblCurMinY < gdblZmMinY - 0.05)
+                    {
+                        chrtLines.ChartAreas[0].AxisY.Minimum += gdblXRate;
+                    }
+                }
+                else
+                {
+                    bTimer.Enabled = false;
+                    MessageBox.Show("Here's a message box");
+
+                    chrtLines.ChartAreas[0].AxisX.Maximum = gdblOldMaxX;
+                    chrtLines.ChartAreas[0].AxisX.Minimum = 0;
+                    chrtLines.ChartAreas[0].AxisY.Maximum = gdblOldMaxY;
+                    chrtLines.ChartAreas[0].AxisY.Minimum = 0;
+                    gboolZoomAnimationComplete = true;
+                    aTimer.Enabled = true;
+                }
+
+
+            }
+        }
+                private void btnApplyChanges_Click(object sender, EventArgs e)
         {
             btnApplyChanges.Visible = false;
             DisableFields();
@@ -407,8 +551,9 @@ namespace SolowProjectVer2
 
         private void StartAnimation(double startK)
         {
-
-            Zoom(startK);
+            //Console.WriteLine("Before Zoom");
+            //Zoom(startK);
+            //Console.WriteLine("After Zoom");
             gdblK = startK;
             gdblY = Calcy(gdblK);
             gdblConsum = CalcConsum();
@@ -444,6 +589,7 @@ namespace SolowProjectVer2
             }
             else
             {
+                
                 if (gboolInterrupt)
                 {
                     aTimer.Enabled = false;
@@ -473,8 +619,8 @@ namespace SolowProjectVer2
                     chrtLines.Series[3].Points.AddXY(chrtLines.ChartAreas[0].AxisX.Maximum, gdblY);
                     chrtLines.Series[4].Points.AddXY(gdblK, chrtLines.ChartAreas[0].AxisY.Minimum);
                     chrtLines.Series[4].Points.AddXY(gdblK, chrtLines.ChartAreas[0].AxisY.Maximum);
-                    
-                    
+
+
                 }
                 else
                 {
@@ -494,12 +640,16 @@ namespace SolowProjectVer2
                         chrtLines.Series[4].Points.AddXY(gdblK, chrtLines.ChartAreas[0].AxisY.Maximum);
 
                         chrtC.Series[0].Points.AddXY(gdblMiniGraphXVal, gdblConsum);
-                        Console.WriteLine("C: " + gdblConsum);
+                        //Console.WriteLine("C: " + gdblConsum);
                         chrtI.Series[0].Points.AddXY(gdblMiniGraphXVal, gdblInvest);
-                        Console.WriteLine("I: " + gdblInvest);
+                        //Console.WriteLine("I: " + gdblInvest);
                         chrtY.Series[0].Points.AddXY(gdblMiniGraphXVal, (gdblConsum + gdblInvest));
-                        Console.WriteLine("Y: " + (gdblConsum + gdblInvest));
-
+                        //Console.WriteLine("Y: " + (gdblConsum + gdblInvest));
+                        if (!gboolZoomAnimationComplete)
+                        {
+                            aTimer.Enabled = false;
+                            Zoom(gdblK);
+                        }
                         gdblK += gdblChangeK;
 
                         gdblMiniGraphXVal += Math.Abs(gdblChangeK);
@@ -512,12 +662,14 @@ namespace SolowProjectVer2
                         gdblDK = CalcDeltaTimesK();
                         gdblChangeK = CalcChangeOfK();
                         gdblDecay = CalcDecay(gdblN, gdblDelta, gdblK);
+                            
                     }
                     else
                     {
-                        
+
                         btnSkip.Enabled = false;
                         aTimer.Enabled = false;
+                        gboolZoomAnimationComplete = false;
                         if (gboolInitialAnimationComplete)
                         {
                             EnableFields();

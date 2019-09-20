@@ -191,47 +191,60 @@ namespace SolowProjectVer2
             else
             {
                 //Console.WriteLine("Invoke not required");
-                gdblCurMaxX = chrtLines.ChartAreas[0].AxisX.Maximum;
-                gdblCurMinX = chrtLines.ChartAreas[0].AxisX.Minimum;
-                gdblCurMaxY = chrtLines.ChartAreas[0].AxisY.Maximum;
-                gdblCurMinY = chrtLines.ChartAreas[0].AxisY.Minimum;
-                Console.WriteLine("MaxX: " + gdblCurMaxX);
-                Console.WriteLine("MaxY: " + gdblCurMaxY);
-                Console.WriteLine("MinX: " + gdblCurMinX);
-                Console.WriteLine("MinY: " + gdblCurMinY);
-                //Console.WriteLine("the timer works");
-                if (gdblCurMaxX > gdblZmMaxX + 0.05 || gdblCurMaxY > gdblZmMaxY + 0.05 || gdblCurMinX < gdblZmMinX - 0.05 || gdblCurMinY < gdblZmMinY - 0.05)
+                if (!gboolInterrupt)
                 {
-                    if(gdblCurMaxX > gdblZmMaxX + 0.05)
+                    gdblCurMaxX = chrtLines.ChartAreas[0].AxisX.Maximum;
+                    gdblCurMinX = chrtLines.ChartAreas[0].AxisX.Minimum;
+                    gdblCurMaxY = chrtLines.ChartAreas[0].AxisY.Maximum;
+                    gdblCurMinY = chrtLines.ChartAreas[0].AxisY.Minimum;
+                    Console.WriteLine("MaxX: " + gdblCurMaxX);
+                    Console.WriteLine("MaxY: " + gdblCurMaxY);
+                    Console.WriteLine("MinX: " + gdblCurMinX);
+                    Console.WriteLine("MinY: " + gdblCurMinY);
+                    //Console.WriteLine("the timer works");
+                    if (gdblCurMaxX > gdblZmMaxX + 0.05 || gdblCurMaxY > gdblZmMaxY + 0.05 || gdblCurMinX < gdblZmMinX - 0.05 || gdblCurMinY < gdblZmMinY - 0.05)
                     {
-                        chrtLines.ChartAreas[0].AxisX.Maximum -= gdblXRate;
+                        if (gdblCurMaxX > gdblZmMaxX + 0.05)
+                        {
+                            chrtLines.ChartAreas[0].AxisX.Maximum -= gdblXRate;
+                        }
+                        if (gdblCurMaxY > gdblZmMaxY + 0.05)
+                        {
+                            chrtLines.ChartAreas[0].AxisY.Maximum -= gdblXRate;
+                        }
+                        if (gdblCurMinX < gdblZmMinX - 0.05)
+                        {
+                            chrtLines.ChartAreas[0].AxisX.Minimum += gdblXRate;
+                        }
+                        if (gdblCurMinY < gdblZmMinY - 0.05)
+                        {
+                            chrtLines.ChartAreas[0].AxisY.Minimum += gdblXRate;
+                        }
                     }
-                    if(gdblCurMaxY > gdblZmMaxY + 0.05)
+                    else
                     {
-                        chrtLines.ChartAreas[0].AxisY.Maximum -= gdblXRate;
-                    }
-                    if(gdblCurMinX < gdblZmMinX - 0.05)
-                    {
-                        chrtLines.ChartAreas[0].AxisX.Minimum += gdblXRate;
-                    }
-                    if(gdblCurMinY < gdblZmMinY - 0.05)
-                    {
-                        chrtLines.ChartAreas[0].AxisY.Minimum += gdblXRate;
+                        bTimer.Enabled = false;
+                        if (gdblK > gdblKStar)
+                        {
+                            MessageBox.Show("Notice at the k selected, new investment in the economy falls below that which is required to break even.  Therefore, capital per worker will decrease as the economy transitions to steady-state.");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Notice at the k selected, new investment in the economy exceeds that which is required to break even.  Therefore, capital per worker will increase as the economy transitions to steady-state.");
+                        }
+
+
+                        chrtLines.ChartAreas[0].AxisX.Maximum = gdblOldMaxX;
+                        chrtLines.ChartAreas[0].AxisX.Minimum = 0;
+                        chrtLines.ChartAreas[0].AxisY.Maximum = gdblOldMaxY;
+                        chrtLines.ChartAreas[0].AxisY.Minimum = 0;
+                        gboolZoomAnimationComplete = true;
+                        aTimer.Enabled = true;
                     }
                 }
                 else
                 {
                     bTimer.Enabled = false;
-                    if(gdblK > gdblKStar)
-                    {
-                        MessageBox.Show("Notice at the k selected, new investment in the economy falls below that which is required to break even.  Therefore, capital per worker will decrease as the economy transitions to steady-state.");
-                    }
-                    else
-                    {
-                        MessageBox.Show("Notice at the k selected, new investment in the economy exceeds that which is required to break even.  Therefore, capital per worker will increase as the economy transitions to steady-state.");
-                    }
-                    
-
                     chrtLines.ChartAreas[0].AxisX.Maximum = gdblOldMaxX;
                     chrtLines.ChartAreas[0].AxisX.Minimum = 0;
                     chrtLines.ChartAreas[0].AxisY.Maximum = gdblOldMaxY;
@@ -239,6 +252,7 @@ namespace SolowProjectVer2
                     gboolZoomAnimationComplete = true;
                     aTimer.Enabled = true;
                 }
+                
 
 
             }
@@ -650,6 +664,15 @@ namespace SolowProjectVer2
                     chrtLines.Series[3].Points.AddXY(chrtLines.ChartAreas[0].AxisX.Maximum, gdblY);
                     chrtLines.Series[4].Points.AddXY(gdblK, chrtLines.ChartAreas[0].AxisY.Minimum);
                     chrtLines.Series[4].Points.AddXY(gdblK, chrtLines.ChartAreas[0].AxisY.Maximum);
+                    if (gboolInitialAnimationComplete)
+                    {
+                        EnableFields();
+
+                    }
+                    else
+                    {
+                        EnableButtons();
+                    }
 
 
                 }

@@ -28,7 +28,7 @@ namespace SolowProjectVer2
 
         Random rnd = new Random();
 
-        double gdblMiniGraphXVal = 22.5;
+        double gdblMiniGraphXVal = 11.5;
         int gintNumerator, gintDenom;
         int gintButtonsPushed = 0;
 
@@ -49,6 +49,7 @@ namespace SolowProjectVer2
         bool gboolInterrupt = false;
 
         double gdblXRate = .05;
+        double gdblMinXRate = .05, gdblMaxXRate = 0.5, gdblMinYRate = 0.5, gdblMaxYRate = 0.5;
         const int TIMERATEINMILIS = 90;
         public Form1()
         {
@@ -66,11 +67,11 @@ namespace SolowProjectVer2
                 ShowGuessButtons();
                 GenerateGuessButtons();
                 chrtC.ChartAreas[0].AxisX.Minimum = 0;
-                chrtC.ChartAreas[0].AxisX.Maximum = 30;
+                chrtC.ChartAreas[0].AxisX.Maximum = 15;
                 chrtI.ChartAreas[0].AxisX.Minimum = 0;
-                chrtI.ChartAreas[0].AxisX.Maximum = 30;
+                chrtI.ChartAreas[0].AxisX.Maximum = 15;
                 chrtY.ChartAreas[0].AxisX.Minimum = 0;
-                chrtY.ChartAreas[0].AxisX.Maximum = 30;
+                chrtY.ChartAreas[0].AxisX.Maximum = 15;
             }
         }
 
@@ -106,6 +107,35 @@ namespace SolowProjectVer2
             double locInvest = CalcInvest(Calcy(kvalue), gdblS);
             double locDecay = CalcDecay(gdblN, gdblDelta, kvalue);
 
+            Console.WriteLine("The locInvest value is " + locInvest);
+            Console.WriteLine("the locDecay value is " + locDecay);
+
+            double avg = (locInvest + locDecay) / 2;
+            Console.WriteLine("The avg " + avg);
+            double dist = Math.Abs(locInvest - avg);
+            Console.WriteLine("the dist is " + dist);
+            if(avg < 1)
+            {
+                incValue = avg + locInvest + (Math.Pow(avg + dist, 3) / 4d);
+            }
+            else
+            {
+                incValue = avg + locInvest + (Math.Sqrt(avg + dist) / 4d);
+            }
+            gdblZmMaxY = incValue;
+            Console.WriteLine("The max y" + gdblZmMaxY);
+            if(avg < 1)
+            {
+                incValue = avg - (locInvest + (Math.Pow(avg + dist, 3) / 4d));
+            }
+            else
+            {
+                incValue = avg - (locInvest + (Math.Sqrt(avg + dist) / 4d));
+            }
+            gdblZmMinY = incValue;
+            Console.WriteLine("the min y " + gdblZmMinY);
+            // I need to get the average of the two points and set the min and max by that instead of them themselves.
+            /*
             if (locInvest > locDecay)
             {
                 if (locInvest < 1)
@@ -153,7 +183,8 @@ namespace SolowProjectVer2
                 gdblZmMinY = incValue;
                 
             }
-            Console.WriteLine("this goes throguh");
+            */
+            //Console.WriteLine("this goes throguh");
             SetTimerB(this);
             /*
             chrtLines.ChartAreas[0].AxisY.Maximum = CalcInvest(Calcy(kvalue), gdblS) + 0.25;
@@ -197,29 +228,81 @@ namespace SolowProjectVer2
                     gdblCurMinX = chrtLines.ChartAreas[0].AxisX.Minimum;
                     gdblCurMaxY = chrtLines.ChartAreas[0].AxisY.Maximum;
                     gdblCurMinY = chrtLines.ChartAreas[0].AxisY.Minimum;
-                    Console.WriteLine("MaxX: " + gdblCurMaxX);
-                    Console.WriteLine("MaxY: " + gdblCurMaxY);
-                    Console.WriteLine("MinX: " + gdblCurMinX);
-                    Console.WriteLine("MinY: " + gdblCurMinY);
-                    //Console.WriteLine("the timer works");
-                    if (gdblCurMaxX > gdblZmMaxX + 0.05 || gdblCurMaxY > gdblZmMaxY + 0.05 || gdblCurMinX < gdblZmMinX - 0.05 || gdblCurMinY < gdblZmMinY - 0.05)
+                    //Console.WriteLine("MaxX: " + gdblCurMaxX);
+                    //Console.WriteLine("MaxY: " + gdblCurMaxY);
+                    //Console.WriteLine("MinX: " + gdblCurMinX);
+                    //Console.WriteLine("MinY: " + gdblCurMinY);
+                    //Console.WriteLine((gdblCurMaxX - gdblZmMaxX) > (gdblZmMinX - gdblCurMinX));
+                    //Console.WriteLine("Is the problem here maybe");
+                    if(Math.Abs((gdblCurMaxX - gdblZmMaxX) - (gdblZmMinX - gdblCurMinX))< 0.05)
                     {
-                        if (gdblCurMaxX > gdblZmMaxX + 0.05)
-                        {
-                            chrtLines.ChartAreas[0].AxisX.Maximum -= gdblXRate;
+                        //Console.WriteLine("Both Similar");
+                        gdblMaxXRate = 0.05;
+                        gdblMinXRate = 0.05;
+                    }
+                    else if((gdblCurMaxX - gdblZmMaxX) > (gdblZmMinX - gdblCurMinX))
+                    {
+                        //Console.WriteLine("the second option");
+                        gdblMaxXRate = 0.1;
+                        gdblMinXRate = 0.0008;
+                        
+                    }
+                    else
+                    {
+                        //Console.WriteLine("the thrid option");
+                        gdblMaxXRate = 0.0008;
+                        gdblMinXRate = 0.1;
+                    }
+
+                    if(Math.Abs((gdblCurMaxY - gdblZmMaxX) - (gdblZmMinX - gdblCurMinX))< 0.05)
+                    {
+                        gdblMaxYRate = 0.05;
+                        gdblMinYRate = 0.05;
+                    }else if((gdblCurMaxY - gdblZmMaxY) > (gdblZmMinY - gdblCurMinY))
+                    {
+                        gdblMaxYRate = 0.1;
+                        gdblMinYRate = 0.0008;
+                    }
+                    else
+                    {
+                        gdblMaxYRate = 0.0008;
+                        gdblMinYRate = 0.1;
+                    }
+
+                    //Console.WriteLine("the timer works");
+                    if (gdblCurMaxX > gdblZmMaxX + gdblMaxXRate || gdblCurMaxY > gdblZmMaxY + gdblMaxYRate || gdblCurMinX < gdblZmMinX - gdblMinXRate || gdblCurMinY < gdblZmMinY - gdblMinYRate)
+                    {
+                        try {
+                            if (gdblCurMaxX > gdblZmMaxX + gdblMaxXRate)
+                            {
+                                //Console.WriteLine("changing max x");
+                                chrtLines.ChartAreas[0].AxisX.Maximum -= gdblMaxXRate;
+                                //Console.WriteLine("changing max x after" + chrtLines.ChartAreas[0].AxisX.Maximum + "here is the zm max x" + gdblZmMaxX);
+                            }
+                            if (gdblCurMaxY > gdblZmMaxY + gdblMaxYRate)
+                            {
+                                //Console.WriteLine("Changing max y");
+                                chrtLines.ChartAreas[0].AxisY.Maximum -= gdblMaxYRate;
+                                //Console.WriteLine("Changing max y after"+ chrtLines.ChartAreas[0].AxisY.Maximum + "here is the zm max y" + gdblZmMaxY);
+                            }
+                            if (gdblCurMinX < gdblZmMinX - gdblMinXRate)
+                            {
+                                //Console.WriteLine("Changing min x ");
+                                chrtLines.ChartAreas[0].AxisX.Minimum += gdblMinXRate;
+                                //Console.WriteLine("Changing min x after"+ chrtLines.ChartAreas[0].AxisX.Minimum + "here is the zm min x" + gdblZmMinX);
+                            }
+                            if (gdblCurMinY < gdblZmMinY - gdblMinYRate)
+                            {
+                                //Console.WriteLine("Changing min y");
+                                chrtLines.ChartAreas[0].AxisY.Minimum += gdblMinYRate;
+                                //Console.WriteLine("Changing min y after"+ chrtLines.ChartAreas[0].AxisY.Minimum + "here is the zm min y" + gdblZmMinY);
+                            }
                         }
-                        if (gdblCurMaxY > gdblZmMaxY + 0.05)
+                        catch (Exception)
                         {
-                            chrtLines.ChartAreas[0].AxisY.Maximum -= gdblXRate;
+                            Console.WriteLine(gdblCurMaxX+" "+gdblCurMaxY + " " + gdblCurMinX + " " + gdblCurMinY);
                         }
-                        if (gdblCurMinX < gdblZmMinX - 0.05)
-                        {
-                            chrtLines.ChartAreas[0].AxisX.Minimum += gdblXRate;
-                        }
-                        if (gdblCurMinY < gdblZmMinY - 0.05)
-                        {
-                            chrtLines.ChartAreas[0].AxisY.Minimum += gdblXRate;
-                        }
+                        
                     }
                     else
                     {

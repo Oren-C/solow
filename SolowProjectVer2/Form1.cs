@@ -23,6 +23,7 @@ namespace SolowProjectVer2
         double gdblZmMaxX, gdblZmMinX, gdblZmMaxY, gdblZmMinY;
         double gdblCurMaxX, gdblCurMinX, gdblCurMaxY, gdblCurMinY;
         double gdblOldMaxX, gdblOldMaxY;
+        double gdblOldKStar;
 
 
 
@@ -39,6 +40,8 @@ namespace SolowProjectVer2
         bool gboolZoomAnimationComplete = false;
         bool gboolInvestChanged = false;
         bool gboolDecayChanged = false;
+        //bool gboolAnimationNeeded = false;
+        bool gboolLessThanAnimation = false;
 
       
 
@@ -82,6 +85,7 @@ namespace SolowProjectVer2
             gdblOldMaxX = chrtLines.ChartAreas[0].AxisX.Maximum;
             gdblOldMaxY = chrtLines.ChartAreas[0].AxisY.Maximum;
 
+
             double incValue;
             if (kvalue < 1)
             {
@@ -92,7 +96,9 @@ namespace SolowProjectVer2
                 incValue = (Math.Sqrt(kvalue)/4d) + kvalue;
             }
             //chrtLines.ChartAreas[0].AxisX.Maximum = incValue;
+            Console.WriteLine("the k value is " + kvalue);
             gdblZmMaxX = incValue;
+            Console.WriteLine("the Max x is " + gdblZmMaxX);
 
             if (kvalue < 1)
             {
@@ -104,6 +110,7 @@ namespace SolowProjectVer2
             }
             //chrtLines.ChartAreas[0].AxisX.Minimum = incValue;
             gdblZmMinX = incValue;
+            Console.WriteLine("'The min x is " + gdblZmMinX);
             double locInvest = CalcInvest(Calcy(kvalue), gdblS);
             double locDecay = CalcDecay(gdblN, gdblDelta, kvalue);
 
@@ -243,7 +250,7 @@ namespace SolowProjectVer2
                     else if((gdblCurMaxX - gdblZmMaxX) > (gdblZmMinX - gdblCurMinX))
                     {
                         //Console.WriteLine("the second option");
-                        gdblMaxXRate = 0.1;
+                        gdblMaxXRate = 0.06;
                         gdblMinXRate = 0.0008;
                         
                     }
@@ -251,7 +258,7 @@ namespace SolowProjectVer2
                     {
                         //Console.WriteLine("the thrid option");
                         gdblMaxXRate = 0.0008;
-                        gdblMinXRate = 0.1;
+                        gdblMinXRate = 0.06;
                     }
 
                     if(Math.Abs((gdblCurMaxY - gdblZmMaxX) - (gdblZmMinX - gdblCurMinX))< 0.05)
@@ -260,13 +267,13 @@ namespace SolowProjectVer2
                         gdblMinYRate = 0.05;
                     }else if((gdblCurMaxY - gdblZmMaxY) > (gdblZmMinY - gdblCurMinY))
                     {
-                        gdblMaxYRate = 0.1;
+                        gdblMaxYRate = 0.06;
                         gdblMinYRate = 0.0008;
                     }
                     else
                     {
                         gdblMaxYRate = 0.0008;
-                        gdblMinYRate = 0.1;
+                        gdblMinYRate = 0.06;
                     }
 
                     //Console.WriteLine("the timer works");
@@ -275,27 +282,27 @@ namespace SolowProjectVer2
                         try {
                             if (gdblCurMaxX > gdblZmMaxX + gdblMaxXRate)
                             {
-                                //Console.WriteLine("changing max x");
+                                Console.WriteLine("changing max x");
                                 chrtLines.ChartAreas[0].AxisX.Maximum -= gdblMaxXRate;
-                                //Console.WriteLine("changing max x after" + chrtLines.ChartAreas[0].AxisX.Maximum + "here is the zm max x" + gdblZmMaxX);
+                                Console.WriteLine("changing max x after" + chrtLines.ChartAreas[0].AxisX.Maximum + "here is the zm max x" + gdblZmMaxX);
                             }
                             if (gdblCurMaxY > gdblZmMaxY + gdblMaxYRate)
                             {
-                                //Console.WriteLine("Changing max y");
+                                Console.WriteLine("Changing max y");
                                 chrtLines.ChartAreas[0].AxisY.Maximum -= gdblMaxYRate;
-                                //Console.WriteLine("Changing max y after"+ chrtLines.ChartAreas[0].AxisY.Maximum + "here is the zm max y" + gdblZmMaxY);
+                                Console.WriteLine("Changing max y after"+ chrtLines.ChartAreas[0].AxisY.Maximum + "here is the zm max y" + gdblZmMaxY);
                             }
                             if (gdblCurMinX < gdblZmMinX - gdblMinXRate)
                             {
-                                //Console.WriteLine("Changing min x ");
+                                Console.WriteLine("Changing min x ");
                                 chrtLines.ChartAreas[0].AxisX.Minimum += gdblMinXRate;
-                                //Console.WriteLine("Changing min x after"+ chrtLines.ChartAreas[0].AxisX.Minimum + "here is the zm min x" + gdblZmMinX);
+                                Console.WriteLine("Changing min x after"+ chrtLines.ChartAreas[0].AxisX.Minimum + "here is the zm min x" + gdblZmMinX);
                             }
                             if (gdblCurMinY < gdblZmMinY - gdblMinYRate)
                             {
-                                //Console.WriteLine("Changing min y");
+                                Console.WriteLine("Changing min y");
                                 chrtLines.ChartAreas[0].AxisY.Minimum += gdblMinYRate;
-                                //Console.WriteLine("Changing min y after"+ chrtLines.ChartAreas[0].AxisY.Minimum + "here is the zm min y" + gdblZmMinY);
+                                Console.WriteLine("Changing min y after"+ chrtLines.ChartAreas[0].AxisY.Minimum + "here is the zm min y" + gdblZmMinY);
                             }
                         }
                         catch (Exception)
@@ -321,17 +328,26 @@ namespace SolowProjectVer2
                         chrtLines.ChartAreas[0].AxisX.Minimum = 0;
                         chrtLines.ChartAreas[0].AxisY.Maximum = gdblOldMaxY;
                         chrtLines.ChartAreas[0].AxisY.Minimum = 0;
+
+                        // Edits need to happen here
+                        // Set gdblk to 0
+                        // Call draw all lines
+                        // The b timer is stopped and then the a timer should be formally started
                         gboolZoomAnimationComplete = true;
                         aTimer.Enabled = true;
                     }
                 }
-                else
+                else // Skip has been pressed
                 {
                     bTimer.Enabled = false;
                     chrtLines.ChartAreas[0].AxisX.Maximum = gdblOldMaxX;
                     chrtLines.ChartAreas[0].AxisX.Minimum = 0;
                     chrtLines.ChartAreas[0].AxisY.Maximum = gdblOldMaxY;
                     chrtLines.ChartAreas[0].AxisY.Minimum = 0;
+                    // Here is where edits need to happen
+                    // Set gdblk to 0
+                    // Call draw all lines
+                    // The b timer should stop and then the a timer should be formally started
                     gboolZoomAnimationComplete = true;
                     aTimer.Enabled = true;
                 }
@@ -342,55 +358,43 @@ namespace SolowProjectVer2
         }
         private void btnApplyChanges_Click(object sender, EventArgs e)
         {
+            //gboolAnimationNeeded = true;
             btnApplyChanges.Visible = false;
             DisableFields();
             double oldKStar = gdblKStar;
+            //gdblOldKStar = gdblKStar;
+
+            // this will delete all the lines this is where the problem lies as we are adding multiple new lines and
+            // by deleting them and redrawing them we are changing the max I could keep the current setup and add some checks in DrawAllLines possibly
             ClearAllUpperLines();
             gdblK = 0;
-            DrawAllLines();
-            StartAnimation(oldKStar);
-        }
+            //I need to zoom before I draw all !Wait maybe not
 
+            gdblS = (double)nudS.Value;
+            gdblN = (double)nudN.Value;
+            gdblDelta = (double)nudDelta.Value;
 
-
-        private void nudS_ValueChanged(object sender, EventArgs e)
-        {
-            //Console.WriteLine("its trying" + gboolInitialAnimationComplete);
-            if (gboolInitialAnimationComplete)
+            CalcKsandYs(gdblS, gdblN, gdblDelta);
+            if (oldKStar < gdblKStar)
             {
-                //Console.WriteLine("Hellow it went thrugh");
-                btnApplyChanges.Visible = true;
-                gboolInvestChanged = true;
-                gdblS = (double)nudS.Value;
-                DrawNewLine(5);
+                DrawAllLines();
+                StartAnimation(oldKStar);
             }
+            else
+            {
+                DrawLines();
+                gboolLessThanAnimation = true;
+                StartAnimation(oldKStar);
+            }
+
             
         }
 
-        private void nudN_ValueChanged(object sender, EventArgs e)
-        {
-            if (gboolInitialAnimationComplete)
-            {
-                btnApplyChanges.Visible = true;
-                gboolDecayChanged = true;
-                gdblN = (double)nudN.Value;
-                DrawNewLine(6);
-            }
-            
-        }
 
-        private void nudDelta_ValueChanged(object sender, EventArgs e)
-        {
-            if (gboolInitialAnimationComplete)
-            {
-                btnApplyChanges.Visible = true;
-                gboolDecayChanged = true;
-                gdblDelta = (double)nudDelta.Value;
-                DrawNewLine(6);
-            }
-           
-        }
 
+        
+
+        //All this does is calculates the min and max of the axis and then calls the draw lines function
         private void DrawAllLines()
         {
             gdblS = (double)nudS.Value;
@@ -402,19 +406,41 @@ namespace SolowProjectVer2
             Console.WriteLine("K* = " + gdblKStar + "\n Y* = " + gdblYStar);
 
             // Calculate the initial window size
+            //If zoom needed do something 
+            // Else do this 
+
             if (gdblKStar < 1)
             {
+                // maybe the problem is here
                 gdblMaxK = Math.Pow(gdblKStar, 2) + gdblKStar;
             }
             else
             {
                 gdblMaxK = 2 * Math.Sqrt(gdblKStar) + gdblKStar;
             }
+
+            // I need to put some kind of check here but then I would also need to know to go back to these values later
+            // I could change the zoom somehow
             chrtLines.ChartAreas[0].AxisX.Minimum = 0;
             chrtLines.ChartAreas[0].AxisX.Maximum = gdblMaxK;
             chrtLines.ChartAreas[0].AxisY.Minimum = 0;
             chrtLines.ChartAreas[0].AxisY.Maximum = Calcy(gdblMaxK);
+
+            
             DrawLines();
+        }
+
+        private void CalcMaxK()
+        {
+            if (gdblKStar < 1)
+            {
+                // maybe the problem is here
+                gdblMaxK = Math.Pow(gdblKStar, 2) + gdblKStar;
+            }
+            else
+            {
+                gdblMaxK = 2 * Math.Sqrt(gdblKStar) + gdblKStar;
+            }
         }
 
         private void DrawLines()
@@ -504,6 +530,18 @@ namespace SolowProjectVer2
             }
         }
 
+        private void ClearCertainLines()
+        {
+            for (int i = 0; i < 7; i++)
+            {
+                if(i != 3 && i != 4)
+                {
+                    chrtLines.Series[i].Points.Clear();
+                }
+                
+            }
+        }
+
         private void ClearLowerLines()
         {
             chrtC.Series[0].Points.Clear();
@@ -573,8 +611,47 @@ namespace SolowProjectVer2
             
         }
 
+        private void nudS_ValueChanged(object sender, EventArgs e)
+        {
+            //Console.WriteLine("its trying" + gboolInitialAnimationComplete);
+            if (gboolInitialAnimationComplete)
+            {
+                //Console.WriteLine("Hellow it went thrugh");
+                btnApplyChanges.Visible = true;
+                gboolInvestChanged = true;
+                gdblS = (double)nudS.Value;
+                DrawNewLine(5);
+            }
+
+        }
+
+        private void nudN_ValueChanged(object sender, EventArgs e)
+        {
+            if (gboolInitialAnimationComplete)
+            {
+                btnApplyChanges.Visible = true;
+                gboolDecayChanged = true;
+                gdblN = (double)nudN.Value;
+                DrawNewLine(6);
+            }
+
+        }
+
+        private void nudDelta_ValueChanged(object sender, EventArgs e)
+        {
+            if (gboolInitialAnimationComplete)
+            {
+                btnApplyChanges.Visible = true;
+                gboolDecayChanged = true;
+                gdblDelta = (double)nudDelta.Value;
+                DrawNewLine(6);
+            }
+
+        }
+
         private void btnOption1_Click(object sender, EventArgs e)
         {
+            //gboolAnimationNeeded = true;
             if(btnOption1.BackColor != Color.Aqua)
             {
                 gintButtonsPushed += 1;
@@ -597,7 +674,7 @@ namespace SolowProjectVer2
 
         private void btnOption2_Click(object sender, EventArgs e)
         {
-
+            //gboolAnimationNeeded = true;
             if (btnOption2.BackColor != Color.Aqua)
             {
                 gintButtonsPushed += 1;
@@ -619,6 +696,7 @@ namespace SolowProjectVer2
 
         private void btnOption3_Click(object sender, EventArgs e)
         {
+            //gboolAnimationNeeded = true;
             if (btnOption3.BackColor != Color.Aqua)
             {
                 gintButtonsPushed += 1;
@@ -640,6 +718,7 @@ namespace SolowProjectVer2
 
         private void btnOption4_Click(object sender, EventArgs e)
         {
+            //gboolAnimationNeeded = true;
             if (btnOption4.BackColor != Color.Aqua)
             {
                 gintButtonsPushed += 1;
@@ -672,10 +751,7 @@ namespace SolowProjectVer2
         {
             btnAnswer.Visible = true;
         }
-        private void BtnTestAnimation_Click(object sender, EventArgs e)
-        {
-            StartAnimation((double)nudTestAnimation.Value);
-        }
+        
 
         private void StartAnimation(double startK)
         {
@@ -717,7 +793,7 @@ namespace SolowProjectVer2
             }
             else
             {
-                
+                //Checks if the skip button has been pressed
                 if (gboolInterrupt)
                 {
                     aTimer.Enabled = false;
@@ -747,6 +823,14 @@ namespace SolowProjectVer2
                     chrtLines.Series[3].Points.AddXY(chrtLines.ChartAreas[0].AxisX.Maximum, gdblY);
                     chrtLines.Series[4].Points.AddXY(gdblK, chrtLines.ChartAreas[0].AxisY.Minimum);
                     chrtLines.Series[4].Points.AddXY(gdblK, chrtLines.ChartAreas[0].AxisY.Maximum);
+                    if (gboolLessThanAnimation)
+                    {
+                        ClearCertainLines();
+                        gdblK = 0;
+                        DrawAllLines();
+                        gboolLessThanAnimation = false;
+                    }
+
                     if (gboolInitialAnimationComplete)
                     {
                         EnableFields();
@@ -758,7 +842,7 @@ namespace SolowProjectVer2
                     }
 
 
-                }
+                }// Else the skip button has not been pressed
                 else
                 {
                     if ((gdblChangeK > 0.001) || (gdblChangeK < -0.001))
@@ -807,6 +891,13 @@ namespace SolowProjectVer2
                         btnSkip.Enabled = false;
                         aTimer.Enabled = false;
                         gboolZoomAnimationComplete = false;
+                        if (gboolLessThanAnimation)
+                        {
+                            ClearCertainLines();
+                            gdblK = 0;
+                            DrawAllLines();
+                            gboolLessThanAnimation = false;
+                        }
                         if (gboolInitialAnimationComplete)
                         {
                             EnableFields();

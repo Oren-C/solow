@@ -282,27 +282,27 @@ namespace SolowProjectVer2
                         try {
                             if (gdblCurMaxX > gdblZmMaxX + gdblMaxXRate)
                             {
-                                Console.WriteLine("changing max x");
+                                //Console.WriteLine("changing max x");
                                 chrtLines.ChartAreas[0].AxisX.Maximum -= gdblMaxXRate;
-                                Console.WriteLine("changing max x after" + chrtLines.ChartAreas[0].AxisX.Maximum + "here is the zm max x" + gdblZmMaxX);
+                                //Console.WriteLine("changing max x after" + chrtLines.ChartAreas[0].AxisX.Maximum + "here is the zm max x" + gdblZmMaxX);
                             }
                             if (gdblCurMaxY > gdblZmMaxY + gdblMaxYRate)
                             {
-                                Console.WriteLine("Changing max y");
+                                //Console.WriteLine("Changing max y");
                                 chrtLines.ChartAreas[0].AxisY.Maximum -= gdblMaxYRate;
-                                Console.WriteLine("Changing max y after"+ chrtLines.ChartAreas[0].AxisY.Maximum + "here is the zm max y" + gdblZmMaxY);
+                                //Console.WriteLine("Changing max y after"+ chrtLines.ChartAreas[0].AxisY.Maximum + "here is the zm max y" + gdblZmMaxY);
                             }
                             if (gdblCurMinX < gdblZmMinX - gdblMinXRate)
                             {
-                                Console.WriteLine("Changing min x ");
+                               // Console.WriteLine("Changing min x ");
                                 chrtLines.ChartAreas[0].AxisX.Minimum += gdblMinXRate;
-                                Console.WriteLine("Changing min x after"+ chrtLines.ChartAreas[0].AxisX.Minimum + "here is the zm min x" + gdblZmMinX);
+                               // Console.WriteLine("Changing min x after"+ chrtLines.ChartAreas[0].AxisX.Minimum + "here is the zm min x" + gdblZmMinX);
                             }
                             if (gdblCurMinY < gdblZmMinY - gdblMinYRate)
                             {
-                                Console.WriteLine("Changing min y");
+                                //Console.WriteLine("Changing min y");
                                 chrtLines.ChartAreas[0].AxisY.Minimum += gdblMinYRate;
-                                Console.WriteLine("Changing min y after"+ chrtLines.ChartAreas[0].AxisY.Minimum + "here is the zm min y" + gdblZmMinY);
+                                //Console.WriteLine("Changing min y after"+ chrtLines.ChartAreas[0].AxisY.Minimum + "here is the zm min y" + gdblZmMinY);
                             }
                         }
                         catch (Exception)
@@ -314,6 +314,7 @@ namespace SolowProjectVer2
                     else
                     {
                         bTimer.Enabled = false;
+                        int mid = AddLabels(gdblZmMinX, gdblZmMaxX);
                         if (gdblK > gdblKStar)
                         {
                             MessageBox.Show("Notice at the k selected, new investment in the economy falls below that which is required to break even.  Therefore, capital per worker will decrease as the economy transitions to steady-state.");
@@ -323,7 +324,7 @@ namespace SolowProjectVer2
                             MessageBox.Show("Notice at the k selected, new investment in the economy exceeds that which is required to break even.  Therefore, capital per worker will increase as the economy transitions to steady-state.");
                         }
 
-
+                        RemoveLabels(mid);
                         chrtLines.ChartAreas[0].AxisX.Maximum = gdblOldMaxX;
                         chrtLines.ChartAreas[0].AxisX.Minimum = 0;
                         chrtLines.ChartAreas[0].AxisY.Maximum = gdblOldMaxY;
@@ -445,6 +446,7 @@ namespace SolowProjectVer2
 
         private void DrawLines()
         {
+            //double orgK = gdblK;
             while (gdblK < gdblMaxK)
             {
                 chrtLines.Series[0].Points.AddXY(gdblK, Calcy(gdblK));
@@ -452,9 +454,63 @@ namespace SolowProjectVer2
                 chrtLines.Series[2].Points.AddXY(gdblK, CalcDecay(gdblN, gdblDelta, gdblK));
                 gdblK += gdblXRate;
             }
+            //AddLabels(orgK, gdblK);
+            
             
         }
 
+        private int AddLabels(double min, double max)
+        {
+            Console.WriteLine("hey it activates");
+            System.Windows.Forms.DataVisualization.Charting.DataPoint[] bigArr;
+            //double[] bigArr;
+            bigArr = chrtLines.Series[0].Points.ToArray();
+            int mid = SearchDataArray(bigArr, 0, bigArr.Length - 1, (min + max) / 2);
+            Console.WriteLine(mid);
+            if(mid == -1)
+            {
+                Console.WriteLine("Not found");
+            }
+            chrtLines.Series[0].Points[mid].Label = "PerCapita";
+            chrtLines.Series[1].Points[mid].Label = "Invest";
+            chrtLines.Series[2].Points[mid].Label = "Decay";
+            Console.WriteLine("The y value of capita is {0}", chrtLines.Series[0].Points[mid].YValues[0]);
+            Console.WriteLine("The y value of invest is {0}", chrtLines.Series[1].Points[mid].YValues[0]);
+            Console.WriteLine("The y value of decay is {0}", chrtLines.Series[2].Points[mid].YValues[0]);
+
+            return mid;
+        }
+
+        private void RemoveLabels(int mid)
+        {
+            chrtLines.Series[0].Points[mid].Label = "";
+            chrtLines.Series[1].Points[mid].Label = "";
+            chrtLines.Series[2].Points[mid].Label = "";
+        }
+
+
+        private int SearchDataArray(System.Windows.Forms.DataVisualization.Charting.DataPoint[] arr, int l, int r, double x)
+        {
+            if (r >= l)
+            {
+                int mid = l + (r - l) / 2;
+
+                if ((x - 0.05) <= arr[mid].XValue && arr[mid].XValue <= (x + 0.05))
+                {
+                    return mid;
+                }
+
+                if (arr[mid].XValue > x)
+                {
+                    return SearchDataArray(arr, l, mid - 1, x);
+                }
+
+                return SearchDataArray(arr, mid + 1, r, x);
+            }
+            
+
+            return -1;
+        }
         private void DrawNewLine(int seriesNumber)
         {
             chrtLines.Series[seriesNumber].Points.Clear();
@@ -588,6 +644,14 @@ namespace SolowProjectVer2
         private double RandomDoubleBetween(double min, double max)
         {
             return rnd.NextDouble() * (max - min) + min;
+        }
+
+        private void BtnClearLablels_Click(object sender, EventArgs e)
+        {
+            chrtLines.Series[0].Label = "";
+            chrtLines.Series[1].Label = "";
+            chrtLines.Series[2].Label = "";
+
         }
 
         private void txtKNumerator_Leave(object sender, EventArgs e)

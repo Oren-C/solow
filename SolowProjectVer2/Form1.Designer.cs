@@ -77,6 +77,7 @@
             this.lblDelta = new System.Windows.Forms.Label();
             this.lblN = new System.Windows.Forms.Label();
             this.lblS = new System.Windows.Forms.Label();
+            this.btnClearLablels = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chrtLines)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chrtC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chrtI)).BeginInit();
@@ -509,6 +510,16 @@
             this.lblS.TabIndex = 32;
             this.lblS.Text = "s:";
             // 
+            // btnClearLablels
+            // 
+            this.btnClearLablels.Location = new System.Drawing.Point(175, 767);
+            this.btnClearLablels.Name = "btnClearLablels";
+            this.btnClearLablels.Size = new System.Drawing.Size(75, 23);
+            this.btnClearLablels.TabIndex = 35;
+            this.btnClearLablels.Text = "button1";
+            this.btnClearLablels.UseVisualStyleBackColor = true;
+            this.btnClearLablels.Click += new System.EventHandler(this.BtnClearLablels_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -516,6 +527,7 @@
             this.AutoSize = true;
             this.CancelButton = this.btnSkip;
             this.ClientSize = new System.Drawing.Size(1189, 833);
+            this.Controls.Add(this.btnClearLablels);
             this.Controls.Add(this.lblDelta);
             this.Controls.Add(this.lblN);
             this.Controls.Add(this.lblS);
@@ -594,6 +606,7 @@
         private System.Windows.Forms.Label lblDelta;
         private System.Windows.Forms.Label lblN;
         private System.Windows.Forms.Label lblS;
+        private System.Windows.Forms.Button btnClearLablels;
     }
 }
 

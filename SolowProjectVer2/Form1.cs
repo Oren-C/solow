@@ -60,8 +60,8 @@ namespace SolowProjectVer2
         {
             InitializeComponent();
             //MessageBox.Show("Enter a value for the exponent on capital.Remember that our production function must exhibit constant returns to scale.Also, enter initial values for the saving rate, population growth rate, and rate of depreciation.");
-
-
+            chrtLines.ChartAreas[0].AxisY.LabelStyle.Format = "{#####.###}";
+            chrtLines.ChartAreas[0].AxisX.LabelStyle.Format = "{#####.###}";
         }
 
         private void BtnStart_Click(object sender, EventArgs e)
@@ -671,7 +671,8 @@ namespace SolowProjectVer2
 
         private void Form1_Shown(object sender, EventArgs e)
         {
-            MessageBox.Show("Enter a value for the exponent on capital.Remember that our production function must exhibit constant returns to scale.Also, enter initial values for the saving rate, population growth rate, and rate of depreciation.");
+            //MessageBox.Show("Enter a value for the exponent on capital.Remember that our production function must exhibit constant returns to scale.Also, enter initial values for the saving rate, population growth rate, and rate of depreciation.");
+            lblMsgbox.Text = "Enter a value for the exponent on capital.Remember that our production function must exhibit constant returns to scale.Also, enter initial values for the saving rate, population growth rate, and rate of depreciation.";
         }
 
 
@@ -855,7 +856,8 @@ namespace SolowProjectVer2
             HideGuessButtons();
             btnAnswer.Enabled = false;
             EnableFields();
-            MessageBox.Show("“Please make changes to the saving rate, population growth rate, and depreciation rate. Notice that the relevant functions will shift because of the changes you make. Think about how those changes will affect the steady state capital per worker and income per worker. Click “Apply Changes” and see if your intuition is correct. You may do this as many time as you would like.");
+            //MessageBox.Show("Please make changes to the saving rate, population growth rate, and depreciation rate. Notice that the relevant functions will shift because of the changes you make. Think about how those changes will affect the steady state capital per worker and income per worker. Click “Apply Changes” and see if your intuition is correct. You may do this as many time as you would like.");
+            lblMsgbox.Text = "Please make changes to the saving rate, population growth rate, and depreciation rate. Notice that the relevant functions will shift because of the changes you make. Think about how those changes will affect the steady state capital per worker and income per worker. Click “Apply Changes” and see if your intuition is correct. You may do this as many time as you would like.";
             DataPoint[] lastArr = new DataPoint[3];
             lastArr[0] = chrtC.Series[0].Points.Last();
             lastArr[1] = chrtI.Series[0].Points.Last();
@@ -897,6 +899,8 @@ namespace SolowProjectVer2
             gdblDK = CalcDeltaTimesK();
             gdblChangeK = CalcChangeOfK();
             gdblDecay = CalcDecay(gdblN, gdblDelta, gdblK);
+            //MessageForm messageForm = new MessageForm();
+            //messageForm.Show();
 
 
             SetTimer(this);

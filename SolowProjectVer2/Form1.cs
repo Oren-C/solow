@@ -26,6 +26,7 @@ namespace SolowProjectVer2
         double gdblOldMaxX, gdblOldMaxY;
         double gdblScalar;
         double gdblOldKStar;
+        int gintMid;
 
 
 
@@ -81,7 +82,8 @@ namespace SolowProjectVer2
                 chrtI.ChartAreas[0].AxisX.Maximum = 15;
                 chrtY.ChartAreas[0].AxisX.Minimum = 0;
                 chrtY.ChartAreas[0].AxisX.Maximum = 15;
-                MessageBox.Show("The four boxes you see represent potential choices for initial capital per worker. Click on a box and observe transition to steady state capital per worker. Repeat for each choice.");
+                //MessageBox.Show("The four boxes you see represent potential choices for initial capital per worker. Click on a box and observe transition to steady state capital per worker. Repeat for each choice.");
+                lblMsgbox.Text = "The four boxes you see represent potential choices for initial capital per worker. Click on a box and observe transition to steady state capital per worker. Repeat for each choice.";
             }
         }
 
@@ -281,22 +283,27 @@ namespace SolowProjectVer2
                     else
                     {
                         bTimer.Enabled = false;
-                        int mid = AddLabels(gdblZmMinX, gdblZmMaxX);
+                        gintMid = AddLabels(gdblZmMinX, gdblZmMaxX);
                         if (gdblK > gdblKStar)
                         {
-                            MessageBox.Show("Notice at the k selected, new investment in the economy falls below that which is required to break even.  Therefore, capital per worker will decrease as the economy transitions to steady-state.");
+                            //MessageBox.Show("Notice at the k selected, new investment in the economy falls below that which is required to break even.  Therefore, capital per worker will decrease as the economy transitions to steady-state.");
+                            lblMsgbox.Text = "Notice at the k selected, new investment in the economy falls below that which is required to break even.  Therefore, capital per worker will decrease as the economy transitions to steady-state.";
                         }
                         else
                         {
-                            MessageBox.Show("Notice at the k selected, new investment in the economy exceeds that which is required to break even.  Therefore, capital per worker will increase as the economy transitions to steady-state.");
+                            //MessageBox.Show("Notice at the k selected, new investment in the economy exceeds that which is required to break even.  Therefore, capital per worker will increase as the economy transitions to steady-state.");
+                            lblMsgbox.Text = "Notice at the k selected, new investment in the economy exceeds that which is required to break even.  Therefore, capital per worker will increase as the economy transitions to steady-state.";
                         }
+                        btnOk.Visible = true;
+                        btnOk.Select();
                         //Zooms out 
-                        RemoveLabels(mid);
+                        /*
+                        RemoveLabels(gintMid);
                         chrtLines.ChartAreas[0].AxisX.Maximum = gdblOldMaxX;
                         chrtLines.ChartAreas[0].AxisX.Minimum = 0;
                         chrtLines.ChartAreas[0].AxisY.Maximum = gdblOldMaxY;
                         chrtLines.ChartAreas[0].AxisY.Minimum = 0;
-                        Console.WriteLine("Hellppp mee pleeeassee");
+                        //Console.WriteLine("Hellppp mee pleeeassee");
                         //Should add a wait but it happens before the zoom out
                         //DoNothing(3000);
 
@@ -310,6 +317,7 @@ namespace SolowProjectVer2
                         //gboolZoomAnimationComplete = true;
                         //aTimer.Enabled = true;
                         SetDelay(this, 2000);
+                        */
                     }
                 }
                 else // Skip has been pressed
@@ -330,6 +338,28 @@ namespace SolowProjectVer2
 
 
             }
+        }
+        private void ContinueAfterMessage()
+        {
+            RemoveLabels(gintMid);
+            chrtLines.ChartAreas[0].AxisX.Maximum = gdblOldMaxX;
+            chrtLines.ChartAreas[0].AxisX.Minimum = 0;
+            chrtLines.ChartAreas[0].AxisY.Maximum = gdblOldMaxY;
+            chrtLines.ChartAreas[0].AxisY.Minimum = 0;
+            //Console.WriteLine("Hellppp mee pleeeassee");
+            //Should add a wait but it happens before the zoom out
+            //DoNothing(3000);
+
+
+
+            //System.Threading.Thread.Sleep(500);
+            // Edits need to happen here
+            // Set gdblk to 0
+            // Call draw all lines
+            // The b timer is stopped and then the a timer should be formally started
+            //gboolZoomAnimationComplete = true;
+            //aTimer.Enabled = true;
+            SetDelay(this, 2000);
         }
 
         private static void SetDelay(Form1 daFrm, int waitTime)
@@ -669,6 +699,12 @@ namespace SolowProjectVer2
 
         }
 
+        private void BtnOk_Click(object sender, EventArgs e)
+        {
+            btnOk.Visible = false;
+            ContinueAfterMessage();
+        }
+
         private void Form1_Shown(object sender, EventArgs e)
         {
             //MessageBox.Show("Enter a value for the exponent on capital.Remember that our production function must exhibit constant returns to scale.Also, enter initial values for the saving rate, population growth rate, and rate of depreciation.");
@@ -980,7 +1016,8 @@ namespace SolowProjectVer2
 
                     if (gintButtonsPushed == 4)
                     {
-                        MessageBox.Show("The middle box displays steady state capital per worker and income per worker for the production function you selected and the values for the saving rate, population growth rate, and depreciation rate you selected. Click on the box.");
+                        //MessageBox.Show("The middle box displays steady state capital per worker and income per worker for the production function you selected and the values for the saving rate, population growth rate, and depreciation rate you selected. Click on the box.");
+                        lblMsgbox.Text = "The middle box displays steady state capital per worker and income per worker for the production function you selected and the values for the saving rate, population growth rate, and depreciation rate you selected. Click on the box.";
                     }
                 }// Else the skip button has not been pressed
                 else
@@ -1050,7 +1087,8 @@ namespace SolowProjectVer2
                         Console.WriteLine($"Here the value of buttons pushed is {gintButtonsPushed}");
                         if (gintButtonsPushed == 4)
                         {
-                            MessageBox.Show("The middle box displays steady state capital per worker and income per worker for the production function you selected and the values for the saving rate, population growth rate, and depreciation rate you selected. Click on the box.");
+                            //MessageBox.Show("The middle box displays steady state capital per worker and income per worker for the production function you selected and the values for the saving rate, population growth rate, and depreciation rate you selected. Click on the box.");
+                            lblMsgbox.Text = "The middle box displays steady state capital per worker and income per worker for the production function you selected and the values for the saving rate, population growth rate, and depreciation rate you selected. Click on the box.";
                         }
                     }
                 }

@@ -91,6 +91,7 @@
             // 
             // chrtLines
             // 
+            this.chrtLines.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(241)))), ((int)(((byte)(222)))));
             chartArea1.AxisX.MajorGrid.Enabled = false;
             chartArea1.AxisY.MajorGrid.Enabled = false;
             chartArea1.Name = "ChartArea1";
@@ -205,6 +206,7 @@
             // 
             // txtLDenominator
             // 
+            this.txtLDenominator.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(241)))), ((int)(((byte)(222)))));
             this.txtLDenominator.Enabled = false;
             this.txtLDenominator.Location = new System.Drawing.Point(257, 43);
             this.txtLDenominator.Name = "txtLDenominator";
@@ -224,6 +226,7 @@
             // 
             // txtLNumerator
             // 
+            this.txtLNumerator.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(241)))), ((int)(((byte)(222)))));
             this.txtLNumerator.Enabled = false;
             this.txtLNumerator.Location = new System.Drawing.Point(197, 43);
             this.txtLNumerator.Name = "txtLNumerator";
@@ -233,6 +236,7 @@
             // 
             // txtSmlKDenominator
             // 
+            this.txtSmlKDenominator.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(241)))), ((int)(((byte)(222)))));
             this.txtSmlKDenominator.Enabled = false;
             this.txtSmlKDenominator.Location = new System.Drawing.Point(142, 101);
             this.txtSmlKDenominator.Name = "txtSmlKDenominator";
@@ -252,6 +256,7 @@
             // 
             // txtSmlKNumerator
             // 
+            this.txtSmlKNumerator.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(241)))), ((int)(((byte)(222)))));
             this.txtSmlKNumerator.Enabled = false;
             this.txtSmlKNumerator.Location = new System.Drawing.Point(82, 101);
             this.txtSmlKNumerator.Name = "txtSmlKNumerator";
@@ -271,7 +276,7 @@
             // 
             // btnStart
             // 
-            this.btnStart.BackColor = System.Drawing.Color.DarkOrange;
+            this.btnStart.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(122)))), ((int)(((byte)(95)))));
             this.btnStart.Location = new System.Drawing.Point(197, 157);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(106, 66);
@@ -282,7 +287,7 @@
             // 
             // btnSkip
             // 
-            this.btnSkip.BackColor = System.Drawing.Color.DarkOrange;
+            this.btnSkip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(122)))), ((int)(((byte)(95)))));
             this.btnSkip.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnSkip.Enabled = false;
             this.btnSkip.Location = new System.Drawing.Point(197, 229);
@@ -295,7 +300,7 @@
             // 
             // btnReset
             // 
-            this.btnReset.BackColor = System.Drawing.Color.DarkOrange;
+            this.btnReset.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(122)))), ((int)(((byte)(95)))));
             this.btnReset.Location = new System.Drawing.Point(197, 301);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(106, 66);
@@ -306,6 +311,7 @@
             // 
             // chrtC
             // 
+            this.chrtC.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(241)))), ((int)(((byte)(222)))));
             chartArea2.AxisX.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
             chartArea2.AxisX.MajorGrid.Enabled = false;
             chartArea2.AxisY.MajorGrid.Enabled = false;
@@ -329,6 +335,7 @@
             // 
             // chrtI
             // 
+            this.chrtI.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(241)))), ((int)(((byte)(222)))));
             chartArea3.AxisX.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
             chartArea3.AxisX2.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
             chartArea3.AxisY.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.True;
@@ -354,6 +361,7 @@
             // 
             // chrtY
             // 
+            this.chrtY.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(241)))), ((int)(((byte)(222)))));
             chartArea4.AxisX.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
             chartArea4.AxisY.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.True;
             chartArea4.AxisY.MajorGrid.Enabled = false;
@@ -454,51 +462,55 @@
             // 
             // btnOption1
             // 
+            this.btnOption1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(122)))), ((int)(((byte)(95)))));
             this.btnOption1.Location = new System.Drawing.Point(354, 379);
             this.btnOption1.Name = "btnOption1";
             this.btnOption1.Size = new System.Drawing.Size(95, 51);
             this.btnOption1.TabIndex = 7;
             this.btnOption1.Text = "Option1";
-            this.btnOption1.UseVisualStyleBackColor = true;
+            this.btnOption1.UseVisualStyleBackColor = false;
             this.btnOption1.Visible = false;
             this.btnOption1.Click += new System.EventHandler(this.btnOption1_Click);
             // 
             // btnOption2
             // 
+            this.btnOption2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(122)))), ((int)(((byte)(95)))));
             this.btnOption2.Location = new System.Drawing.Point(531, 379);
             this.btnOption2.Name = "btnOption2";
             this.btnOption2.Size = new System.Drawing.Size(95, 51);
             this.btnOption2.TabIndex = 8;
             this.btnOption2.Text = "Option2";
-            this.btnOption2.UseVisualStyleBackColor = true;
+            this.btnOption2.UseVisualStyleBackColor = false;
             this.btnOption2.Visible = false;
             this.btnOption2.Click += new System.EventHandler(this.btnOption2_Click);
             // 
             // btnOption3
             // 
+            this.btnOption3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(122)))), ((int)(((byte)(95)))));
             this.btnOption3.Location = new System.Drawing.Point(889, 379);
             this.btnOption3.Name = "btnOption3";
             this.btnOption3.Size = new System.Drawing.Size(95, 51);
             this.btnOption3.TabIndex = 10;
             this.btnOption3.Text = "Option3";
-            this.btnOption3.UseVisualStyleBackColor = true;
+            this.btnOption3.UseVisualStyleBackColor = false;
             this.btnOption3.Visible = false;
             this.btnOption3.Click += new System.EventHandler(this.btnOption3_Click);
             // 
             // btnOption4
             // 
+            this.btnOption4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(122)))), ((int)(((byte)(95)))));
             this.btnOption4.Location = new System.Drawing.Point(1056, 379);
             this.btnOption4.Name = "btnOption4";
             this.btnOption4.Size = new System.Drawing.Size(95, 51);
             this.btnOption4.TabIndex = 11;
             this.btnOption4.Text = "Option4";
-            this.btnOption4.UseVisualStyleBackColor = true;
+            this.btnOption4.UseVisualStyleBackColor = false;
             this.btnOption4.Visible = false;
             this.btnOption4.Click += new System.EventHandler(this.btnOption4_Click);
             // 
             // btnApplyChanges
             // 
-            this.btnApplyChanges.BackColor = System.Drawing.Color.DarkOrange;
+            this.btnApplyChanges.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(122)))), ((int)(((byte)(95)))));
             this.btnApplyChanges.Location = new System.Drawing.Point(46, 289);
             this.btnApplyChanges.Name = "btnApplyChanges";
             this.btnApplyChanges.Size = new System.Drawing.Size(126, 81);
@@ -510,12 +522,13 @@
             // 
             // btnAnswer
             // 
+            this.btnAnswer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(122)))), ((int)(((byte)(95)))));
             this.btnAnswer.Location = new System.Drawing.Point(683, 380);
             this.btnAnswer.Name = "btnAnswer";
             this.btnAnswer.Size = new System.Drawing.Size(136, 50);
             this.btnAnswer.TabIndex = 9;
             this.btnAnswer.Text = "button1";
-            this.btnAnswer.UseVisualStyleBackColor = true;
+            this.btnAnswer.UseVisualStyleBackColor = false;
             this.btnAnswer.Visible = false;
             this.btnAnswer.Click += new System.EventHandler(this.btnAnswer_Click);
             // 
@@ -560,12 +573,13 @@
             // 
             // btnOk
             // 
+            this.btnOk.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(122)))), ((int)(((byte)(95)))));
             this.btnOk.Location = new System.Drawing.Point(97, 696);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 36;
             this.btnOk.Text = "OK";
-            this.btnOk.UseVisualStyleBackColor = true;
+            this.btnOk.UseVisualStyleBackColor = false;
             this.btnOk.Visible = false;
             // 
             // Form1
@@ -573,7 +587,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.BackColor = System.Drawing.Color.Indigo;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(21)))), ((int)(((byte)(135)))));
             this.CancelButton = this.btnSkip;
             this.ClientSize = new System.Drawing.Size(1189, 833);
             this.Controls.Add(this.btnOk);

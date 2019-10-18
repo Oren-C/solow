@@ -581,6 +581,7 @@
             this.btnOk.Text = "OK";
             this.btnOk.UseVisualStyleBackColor = false;
             this.btnOk.Visible = false;
+            this.btnOk.Click += new System.EventHandler(this.BtnOk_Click);
             // 
             // Form1
             // 

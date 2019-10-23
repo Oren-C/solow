@@ -437,7 +437,8 @@ namespace SolowProjectVer2
 
             gdblS = (double)nudS.Value;
             gdblN = (double)nudN.Value;
-            gdblDelta = (double)nudDelta.Value;
+            //gdblDelta = (double)nudDelta.Value;
+            gdblDelta = 0.1;
 
             CalcKsandYs(gdblS, gdblN, gdblDelta);
             if (oldKStar < gdblKStar)
@@ -468,10 +469,15 @@ namespace SolowProjectVer2
         {
             gdblS = (double)nudS.Value;
             gdblN = (double)nudN.Value;
-            gdblDelta = (double)nudDelta.Value;
+            //gdblDelta = (double)nudDelta.Value;
+            gdblDelta = 0.1;
 
             CalcKsandYs(gdblS, gdblN, gdblDelta);
-            btnAnswer.Text = "k* = " + RoundTo3Decimals(gdblKStar)+"\n y* = "+RoundTo3Decimals(gdblYStar);
+            if (btnAnswer.Enabled)
+            {
+                btnAnswer.Text = "k* = " + RoundTo3Decimals(gdblKStar) + "\n y* = " + RoundTo3Decimals(gdblYStar);
+            }
+            //btnAnswer.Text = "k* = " + RoundTo3Decimals(gdblKStar)+"\n y* = "+RoundTo3Decimals(gdblYStar);
             Console.WriteLine("k* = " + gdblKStar + "\n y* = " + gdblYStar);
 
             // Calculate the initial window size
@@ -605,13 +611,13 @@ namespace SolowProjectVer2
         {
             nudS.Enabled = false;
             nudN.Enabled = false;
-            nudDelta.Enabled = false;
+            //nudDelta.Enabled = false;
         }
         private void EnableFields()
         {
             nudS.Enabled = true;
             nudN.Enabled = true;
-            nudDelta.Enabled = true;
+            //nudDelta.Enabled = true;
         }
         private void ShowGuessButtons()
         {
@@ -789,18 +795,21 @@ namespace SolowProjectVer2
 
         }
 
+
+        /*
         private void nudDelta_ValueChanged(object sender, EventArgs e)
         {
             if (gboolInitialAnimationComplete)
             {
                 btnApplyChanges.Visible = true;
                 gboolDecayChanged = true;
-                gdblDelta = (double)nudDelta.Value;
+                //gdblDelta = (double)nudDelta.Value;
+                gdblDelta = 0.1;
                 DrawNewLine(6);
             }
 
         }
-
+        */
         private void btnOption1_Click(object sender, EventArgs e)
         {
             DisableButtons();
@@ -1058,6 +1067,7 @@ namespace SolowProjectVer2
                         //MessageBox.Show("The middle box displays steady state capital per worker and income per worker for the production function you selected and the values for the saving rate, population growth rate, and depreciation rate you selected. Click on the box.");
                         lblMsgbox.Text = "The middle box displays steady state capital per worker and income per worker for the production function you selected and the values for the saving rate, population growth rate, and depreciation rate you selected. Click on the box.";
                     }
+                    btnAnswer.Text = "k* = " + RoundTo3Decimals(gdblKStar) + "\n y* = " + RoundTo3Decimals(gdblYStar);
                 }// Else the skip button has not been pressed
                 else
                 {
@@ -1130,6 +1140,7 @@ namespace SolowProjectVer2
                             //MessageBox.Show("The middle box displays steady state capital per worker and income per worker for the production function you selected and the values for the saving rate, population growth rate, and depreciation rate you selected. Click on the box.");
                             lblMsgbox.Text = "The middle box displays steady state capital per worker and income per worker for the production function you selected and the values for the saving rate, population growth rate, and depreciation rate you selected. Click on the box.";
                         }
+                        btnAnswer.Text = "k* = " + RoundTo3Decimals(gdblKStar) + "\n y* = " + RoundTo3Decimals(gdblYStar);
                     }
                 }
 

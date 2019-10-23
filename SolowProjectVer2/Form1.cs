@@ -65,11 +65,29 @@ namespace SolowProjectVer2
             chrtLines.ChartAreas[0].AxisX.LabelStyle.Format = "{#####.###}";
         }
 
+        protected override void WndProc(ref Message m)
+        {
+            if( m.Msg == 0x0112)
+            {
+                if(m.WParam == new IntPtr( 0xF030 ))
+                {
+                    //The Window is being maximized
+                    Console.WriteLine("the window is being maximized");
+                }
+                else
+                {
+                    Console.WriteLine("the window is changed");
+                }
+            }
+            base.WndProc(ref m);
+        }
+
         private void BtnStart_Click(object sender, EventArgs e)
         {
             if (IsFractionOkay())
             {
                 btnStart.Enabled = false;
+                btnStart.Visible = false;
                 txtKNumerator.Enabled = false;
                 txtKDenominator.Enabled = false;
                 DisableFields();
@@ -294,6 +312,8 @@ namespace SolowProjectVer2
                             //MessageBox.Show("Notice at the k selected, new investment in the economy exceeds that which is required to break even.  Therefore, capital per worker will increase as the economy transitions to steady-state.");
                             lblMsgbox.Text = "Notice at the k selected, new investment in the economy exceeds that which is required to break even.  Therefore, capital per worker will increase as the economy transitions to steady-state.";
                         }
+                        btnSkip.Enabled = false;
+                        btnSkip.Visible = false;
                         btnOk.Visible = true;
                         btnOk.Select();
                         //Zooms out 
@@ -389,6 +409,8 @@ namespace SolowProjectVer2
             {
                 Console.WriteLine("it executed afte timer");
                 gboolZoomAnimationComplete = true;
+                btnSkip.Enabled = true;
+                btnSkip.Visible = true;
                 aTimer.Enabled = true;
 
             }
@@ -422,6 +444,7 @@ namespace SolowProjectVer2
             {
                 DrawAllLines();
                 btnSkip.Enabled = true;
+                btnSkip.Visible = true;
                 StartAnimation(oldKStar);
             }
             else
@@ -429,6 +452,7 @@ namespace SolowProjectVer2
                 DrawLines();
                 gboolLessThanAnimation = true;
                 btnSkip.Enabled = true;
+                btnSkip.Visible = true;
                 StartAnimation(oldKStar);
             }
 
@@ -657,6 +681,7 @@ namespace SolowProjectVer2
         private void BtnSkip_Click(object sender, EventArgs e)
         {
             btnSkip.Enabled = false;
+            btnSkip.Visible = false;
             gboolInterrupt = true;
             //EnableFields();
         }
@@ -703,6 +728,11 @@ namespace SolowProjectVer2
         {
             btnOk.Visible = false;
             ContinueAfterMessage();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
 
         private void Form1_Shown(object sender, EventArgs e)
@@ -775,12 +805,14 @@ namespace SolowProjectVer2
         {
             DisableButtons();
             //gboolAnimationNeeded = true;
-            if(btnOption1.BackColor != Color.Aqua)
+            if(btnOption1.BackColor != Color.Green)
             {
                 gintButtonsPushed += 1;
                 //DisableButtons();
                 btnSkip.Enabled = true;
-                btnOption1.BackColor = Color.Aqua;
+                btnSkip.Visible = true;
+                btnOption1.BackColor = Color.Green;
+                
                 StartAnimation(double.Parse(btnOption1.Text));
                 if (gintButtonsPushed == 4)
                 {
@@ -795,6 +827,7 @@ namespace SolowProjectVer2
                     //ShowAnswerButton();
                 }
                 btnSkip.Enabled = true;
+                btnSkip.Visible = true;
                 StartAnimation(double.Parse(btnOption1.Text));
                 
             }
@@ -805,12 +838,13 @@ namespace SolowProjectVer2
         {
             DisableButtons();
             //gboolAnimationNeeded = true;
-            if (btnOption2.BackColor != Color.Aqua)
+            if (btnOption2.BackColor != Color.Green)
             {
                 gintButtonsPushed += 1;
                 //DisableButtons();
                 btnSkip.Enabled = true;
-                btnOption2.BackColor = Color.Aqua;
+                btnSkip.Visible = true;
+                btnOption2.BackColor = Color.Green;
                 StartAnimation(double.Parse(btnOption2.Text));
                 if (gintButtonsPushed == 4)
                 {
@@ -825,6 +859,7 @@ namespace SolowProjectVer2
                     //ShowAnswerButton();
                 }
                 btnSkip.Enabled = true;
+                btnSkip.Visible = true;
                 StartAnimation(double.Parse(btnOption2.Text));
             }
         }
@@ -832,13 +867,14 @@ namespace SolowProjectVer2
         private void btnOption3_Click(object sender, EventArgs e)
         {
             //gboolAnimationNeeded = true;
-            if (btnOption3.BackColor != Color.Aqua)
+            if (btnOption3.BackColor != Color.Green)
             {
                 DisableButtons();
                 gintButtonsPushed += 1;
                 //DisableButtons();
                 btnSkip.Enabled = true;
-                btnOption3.BackColor = Color.Aqua;
+                btnSkip.Visible = true;
+                btnOption3.BackColor = Color.Green;
                 StartAnimation(double.Parse(btnOption3.Text));
                 if (gintButtonsPushed == 4)
                 {
@@ -853,6 +889,7 @@ namespace SolowProjectVer2
                     //ShowAnswerButton();
                 }
                 btnSkip.Enabled = true;
+                btnSkip.Visible = true;
                 StartAnimation(double.Parse(btnOption3.Text));
             }
         }
@@ -861,12 +898,13 @@ namespace SolowProjectVer2
         {
             DisableButtons();
             //gboolAnimationNeeded = true;
-            if (btnOption4.BackColor != Color.Aqua)
+            if (btnOption4.BackColor != Color.Green)
             {
                 gintButtonsPushed += 1;
                 //DisableButtons();
                 btnSkip.Enabled = true;
-                btnOption4.BackColor = Color.Aqua;
+                btnSkip.Visible = true;
+                btnOption4.BackColor = Color.Green;
                 StartAnimation(double.Parse(btnOption4.Text));
                 if(gintButtonsPushed == 4)
                 {
@@ -881,6 +919,7 @@ namespace SolowProjectVer2
                     //ShowAnswerButton();
                 }
                 btnSkip.Enabled = true;
+                btnSkip.Visible = true;
                 StartAnimation(double.Parse(btnOption4.Text));
             }
         }
@@ -1066,6 +1105,7 @@ namespace SolowProjectVer2
                     {
 
                         btnSkip.Enabled = false;
+                        btnSkip.Visible = false;
                         aTimer.Enabled = false;
                         gboolZoomAnimationComplete = false;
                         if (gboolLessThanAnimation)

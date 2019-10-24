@@ -26,6 +26,7 @@ namespace SolowProjectVer2
         double gdblOldMaxX, gdblOldMaxY;
         double gdblScalar;
         double gdblOldKStar;
+        double gdblOldN, gdblOldS;
         int gintMid;
 
 
@@ -41,6 +42,7 @@ namespace SolowProjectVer2
         bool gboolGoLeft = false;
         bool gboolInitialAnimationComplete = false;
         bool gboolZoomAnimationComplete = false;
+        bool gboolApplyChanges = false;
         bool gboolInvestChanged = false;
         bool gboolDecayChanged = false;
         //bool gboolAnimationNeeded = false;
@@ -101,7 +103,7 @@ namespace SolowProjectVer2
                 chrtY.ChartAreas[0].AxisX.Minimum = 0;
                 chrtY.ChartAreas[0].AxisX.Maximum = 15;
                 //MessageBox.Show("The four boxes you see represent potential choices for initial capital per worker. Click on a box and observe transition to steady state capital per worker. Repeat for each choice.");
-                lblMsgbox.Text = "The four boxes you see represent potential choices for initial capital per worker. Click on a box and observe transition to steady state capital per worker. Repeat for each choice.";
+                lblMsgbox.Text = "The four boxes you see represent potential choices for initial capital per worker. Click on a box and observe transition to steady state capital per worker. Repeat for each choice. Notice that each choice is not steady state capital per worker.";
             }
         }
 
@@ -423,10 +425,14 @@ namespace SolowProjectVer2
         }
         private void btnApplyChanges_Click(object sender, EventArgs e)
         {
-            //gboolAnimationNeeded = true;
             btnApplyChanges.Visible = false;
             DisableFields();
-            double oldKStar = gdblKStar;
+            
+
+            //gboolAnimationNeeded = true;
+            //btnApplyChanges.Visible = false;
+            //DisableFields();
+            gdblOldKStar = gdblKStar;
             //gdblOldKStar = gdblKStar;
 
             // this will delete all the lines this is where the problem lies as we are adding multiple new lines and
@@ -434,33 +440,138 @@ namespace SolowProjectVer2
             ClearAllUpperLines();
             gdblK = 0;
             //I need to zoom before I draw all !Wait maybe not
-
-            gdblS = (double)nudS.Value;
-            gdblN = (double)nudN.Value;
+            
             //gdblDelta = (double)nudDelta.Value;
+            //Console.WriteLine($"here is the old s {gdblOldS} and here is the old n {gdblOldN}");
             gdblDelta = 0.1;
 
             CalcKsandYs(gdblS, gdblN, gdblDelta);
-            if (oldKStar < gdblKStar)
+
+            if (gdblOldKStar < gdblKStar)
             {
                 DrawAllLines();
-                btnSkip.Enabled = true;
-                btnSkip.Visible = true;
-                StartAnimation(oldKStar);
+
             }
             else
             {
                 DrawLines();
                 gboolLessThanAnimation = true;
-                btnSkip.Enabled = true;
-                btnSkip.Visible = true;
-                StartAnimation(oldKStar);
-            }
 
-            
+            }
+            //Words Section
+
+            string message = "";
+            if(gdblS > gdblOldS)
+            {
+                
+                if(gdblN > gdblOldN)
+                {
+                    //Option 7
+                    if(gdblKStar > gdblOldKStar)
+                    {
+                        message = "You have increased the saving rate and increased the population growth rate.  As a result, investment now exceeds its break-even point, and the economy will transition to a new steady state";
+
+                    }else if(gdblKStar < gdblOldKStar)
+                    {
+                        message = "You have increased the saving rate and increased the population growth rate.  As a result, investment is now less than its break-even point, and the economy will transition to a new steady state.";
+                    }
+                    else
+                    {
+                        message = "Error nothing changed";
+                    }
+
+
+                }else if(gdblN < gdblOldN)
+                {
+                    //Option 5
+                    message = "You have increased the saving rate and decreased the population growth rate.  As a result, investment now exceeds its break-even point, and the economy will transition to a new steady state.";
+
+
+                }
+                else
+                {
+                    //Option 1
+                    message = "You have increased the saving rate and left the population growth rate unchanged.  As a result, investment now exceeds its break-even point, and the economy will transition to a new steady state.";
+
+
+                }
+
+                
+                
+            }else if(gdblS < gdblOldS)
+            {
+                if (gdblN > gdblOldN)
+                {
+                    //Option 6
+                    message = "You have decreased the saving rate and increased the population growth rate.  As a result, investment is now less than its break-even point, and the economy will transition to a new steady state.";
+
+
+
+                }
+                else if (gdblN < gdblOldN)
+                {
+                    //Option 8
+
+                    if (gdblKStar > gdblOldKStar)
+                    {
+                        message = "You have decreased the saving rate and decreased the population growth rate.  As a result, investment now exceeds its break-even point, and the economy will transition to a new steady state";
+
+                    }
+                    else if (gdblKStar < gdblOldKStar)
+                    {
+                        message = "You have decreased the saving rate and decreased the population growth rate.  As a result, investment is now less than its break-even point, and the economy will transition to a new steady state.";
+                    }
+                    else
+                    {
+                        message = "Error nothing changed";
+                    }
+                }
+                else
+                {
+                    //Option 2
+                    message = "You have decreased the saving rate and left the population growth rate unchanged.  As a result, investment is now less than its break-even point, and the economy will transition to a new steady state.";
+
+
+                }
+            }else if(gdblN > gdblOldN)
+            {
+                // Option 3
+                message = "You have left the saving rate unchanged and increased the population growth rate.  As a result, investment is now less than its break-even point, and the economy will transition to a new steady state.";
+
+            }
+            else if(gdblN < gdblOldN)
+            {
+                //Option 4
+                message = "You have left the saving rate unchanged and increased the population growth rate.  As a result, investment now exceeds its break-even point, and the economy will transition to a new steady state.";
+
+            }
+            else
+            {
+                //No changes made
+                message = "You did not make a change";
+            }
+            lblMsgbox.Text = message;
+
+
+
+
+
+            gboolApplyChanges = true;
+            btnOk.Visible = true;
+            btnOk.Select();
+            //ApplyChanges();
+
         }
 
-
+        private void ApplyChanges()
+        {
+            
+            
+            
+            btnSkip.Enabled = true;
+            btnSkip.Visible = true;
+            StartAnimation(gdblOldKStar);
+        }
 
         
 
@@ -733,7 +844,18 @@ namespace SolowProjectVer2
         private void BtnOk_Click(object sender, EventArgs e)
         {
             btnOk.Visible = false;
-            ContinueAfterMessage();
+            
+            if (gboolApplyChanges)
+            {
+                gboolApplyChanges = false;
+                ApplyChanges();
+            }
+            else
+            {
+                ContinueAfterMessage();
+            }
+            
+            
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -941,7 +1063,7 @@ namespace SolowProjectVer2
             btnAnswer.Enabled = false;
             EnableFields();
             //MessageBox.Show("Please make changes to the saving rate, population growth rate, and depreciation rate. Notice that the relevant functions will shift because of the changes you make. Think about how those changes will affect the steady state capital per worker and income per worker. Click “Apply Changes” and see if your intuition is correct. You may do this as many time as you would like.");
-            lblMsgbox.Text = "Please make changes to the saving rate, population growth rate, and depreciation rate. Notice that the relevant functions will shift because of the changes you make. Think about how those changes will affect the steady state capital per worker and income per worker. Click “Apply Changes” and see if your intuition is correct. You may do this as many time as you would like.";
+            lblMsgbox.Text = "Please make changes to the saving rate and/or the population growth rate. Notice that the relevant functions will shift because of the changes you make. Think about how those changes will affect the steady state capital per worker and income per worker. Click “Apply Changes” and see if your intuition is correct. You may do this as many time as you would like.";
             DataPoint[] lastArr = new DataPoint[3];
             lastArr[0] = chrtC.Series[0].Points.Last();
             lastArr[1] = chrtI.Series[0].Points.Last();
@@ -986,6 +1108,8 @@ namespace SolowProjectVer2
             //MessageForm messageForm = new MessageForm();
             //messageForm.Show();
 
+            gdblOldN = gdblN;
+            gdblOldS = gdblS;
 
             SetTimer(this);
         }

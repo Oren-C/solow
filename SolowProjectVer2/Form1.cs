@@ -10,6 +10,79 @@ using System.Windows.Forms;
 using System.Timers;
 using System.Windows.Forms.DataVisualization.Charting;
 
+
+public struct locs
+{
+    public static Point YK = new Point(13,33);
+    public static Point Knum = new Point(61, 23);
+    static Point Kdev = new Point(97, 23);
+    static Point Kdenom = new Point(121, 23);
+    static Point L = new Point(157, 33);
+    static Point Lnum = new Point(176, 23);
+    static Point Ldev = new Point(212, 23);
+    static Point Ldenom = new Point(236, 23);
+    static Point yk = new Point(13, 91);
+    static Point knum = new Point(13, 91);
+    static Point kdev = new Point(97, 81);
+    static Point kdenom = new Point(121, 81);
+    static Point delta = new Point(12, 125);
+    static Point dnum = new Point(56, 124);
+    static Point s = new Point(12, 197);
+    static Point nuds = new Point(52, 199);
+    static Point n = new Point(12, 247);
+    static Point nudn = new Point(52, 249);
+    static Point bApply = new Point(46, 289);
+    static Point bStart = new Point(197, 157);
+    static Point bSkip = new Point(197, 229);
+    static Point bReset = new Point(197, 301);
+    static Point bOp1 = new Point(354, 379);
+    static Point bOp2 = new Point(531, 379);
+    static Point bOp3 = new Point(889, 379);
+    static Point bOp4 = new Point(1056, 379);
+    static Point bAns = new Point(683, 380);
+    static Point bOk = new Point(97, 696);
+    static Point msg = new Point(16, 436);
+    static Point cLines = new Point(319, 10);
+    static Point cC = new Point(319, 436);
+    static Point cI = new Point(319, 566);
+    static Point cY = new Point(319, 696);
+
+}
+
+public struct sizes
+{
+    static Size YK = new Size(53,25);
+    static Size Knum = new Size(30,20);
+    static Size Kdev = new Size(18,25);
+    static Size Kdenom = new Size(30,20);
+    static Size L = new Size(24,25);
+    static Size Lnum = new Size(30,20);
+    static Size Ldev = new Size(18,25);
+    static Size Ldenom = new Size(30,20);
+    static Size yk = new Size(46,25);
+    static Size knum = new Size(30,20);
+    static Size kdev = new Size(18,25);
+    static Size kdenom = new Size(30,20);
+    static Size delta = new Size(26,24);
+    static Size dnum = new Size(42,25);
+    static Size s = new Size(24,24);
+    static Size nuds = new Size(120,24);
+    static Size n = new Size(26,24);
+    static Size nudn = new Size(120,24);
+    static Size bApply = new Size(126,81);
+    static Size bStart = new Size(106,66);
+    static Size bSkip = new Size(106,66);
+    static Size bReset = new Size(106,66);
+    static Size bOp = new Size(95, 51);
+    static Size bAns = new Size(136,40);
+    static Size bOk = new Size(109,60);
+    static Size msg = new Size(271,244);
+    static Size subChart = new Size(855, 124);
+}
+
+
+
+
 namespace SolowProjectVer2
 {
     public partial class Form1 : Form
@@ -62,10 +135,13 @@ namespace SolowProjectVer2
         public Form1()
         {
             InitializeComponent();
-            //MessageBox.Show("Enter a value for the exponent on capital.Remember that our production function must exhibit constant returns to scale.Also, enter initial values for the saving rate, population growth rate, and rate of depreciation.");
+            //MessageBox.Show("Enter a value for the exponent on capital.Remember that our production function must exhibit constant returns to scale.Also, enter initial values for the saving rate and population growth rate.");
             chrtLines.ChartAreas[0].AxisY.LabelStyle.Format = "{#####.###}";
             chrtLines.ChartAreas[0].AxisX.LabelStyle.Format = "{#####.###}";
         }
+
+       
+        
 
         protected override void WndProc(ref Message m)
         {
@@ -75,10 +151,13 @@ namespace SolowProjectVer2
                 {
                     //The Window is being maximized
                     Console.WriteLine("the window is being maximized");
+                    System.Drawing.Size size = new Size(20, 10);
+                    chrtLines.Size += size;
                 }
                 else
                 {
                     Console.WriteLine("the window is changed");
+                    lblYK.Location = locs.YK;
                 }
             }
             base.WndProc(ref m);
@@ -866,7 +945,7 @@ namespace SolowProjectVer2
         private void Form1_Shown(object sender, EventArgs e)
         {
             //MessageBox.Show("Enter a value for the exponent on capital.Remember that our production function must exhibit constant returns to scale.Also, enter initial values for the saving rate, population growth rate, and rate of depreciation.");
-            lblMsgbox.Text = "Enter a value for the exponent on capital.Remember that our production function must exhibit constant returns to scale.Also, enter initial values for the saving rate, population growth rate, and rate of depreciation.";
+            lblMsgbox.Text = "Enter a value for the exponent on capital.Remember that our production function must exhibit constant returns to scale.Also, enter initial values for the saving rate and population growth rate.";
         }
 
 

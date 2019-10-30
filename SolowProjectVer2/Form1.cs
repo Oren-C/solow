@@ -11,73 +11,73 @@ using System.Timers;
 using System.Windows.Forms.DataVisualization.Charting;
 
 
-public struct locs
+public struct Locs
 {
     public static Point YK = new Point(13,33);
     public static Point Knum = new Point(61, 23);
-    static Point Kdev = new Point(97, 23);
-    static Point Kdenom = new Point(121, 23);
-    static Point L = new Point(157, 33);
-    static Point Lnum = new Point(176, 23);
-    static Point Ldev = new Point(212, 23);
-    static Point Ldenom = new Point(236, 23);
-    static Point yk = new Point(13, 91);
-    static Point knum = new Point(13, 91);
-    static Point kdev = new Point(97, 81);
-    static Point kdenom = new Point(121, 81);
-    static Point delta = new Point(12, 125);
-    static Point dnum = new Point(56, 124);
-    static Point s = new Point(12, 197);
-    static Point nuds = new Point(52, 199);
-    static Point n = new Point(12, 247);
-    static Point nudn = new Point(52, 249);
-    static Point bApply = new Point(46, 289);
-    static Point bStart = new Point(197, 157);
-    static Point bSkip = new Point(197, 229);
-    static Point bReset = new Point(197, 301);
-    static Point bOp1 = new Point(354, 379);
-    static Point bOp2 = new Point(531, 379);
-    static Point bOp3 = new Point(889, 379);
-    static Point bOp4 = new Point(1056, 379);
-    static Point bAns = new Point(683, 380);
-    static Point bOk = new Point(97, 696);
-    static Point msg = new Point(16, 436);
-    static Point cLines = new Point(319, 10);
-    static Point cC = new Point(319, 436);
-    static Point cI = new Point(319, 566);
-    static Point cY = new Point(319, 696);
+    public static Point Kdev = new Point(97, 23);
+    public static Point Kdenom = new Point(121, 23);
+    public static Point L = new Point(157, 33);
+    public static Point Lnum = new Point(176, 23);
+    public static Point Ldev = new Point(212, 23);
+    public static Point Ldenom = new Point(236, 23);
+    public static Point yk = new Point(13, 91);
+    public static Point knum = new Point(13, 91);
+    public static Point kdev = new Point(97, 81);
+    public static Point kdenom = new Point(121, 81);
+    public static Point delta = new Point(12, 125);
+    public static Point dnum = new Point(56, 124);
+    public static Point s = new Point(12, 197);
+    public static Point nuds = new Point(52, 199);
+    public static Point n = new Point(12, 247);
+    public static Point nudn = new Point(52, 249);
+    public static Point bApply = new Point(46, 289);
+    public static Point bStart = new Point(197, 157);
+    public static Point bSkip = new Point(197, 229);
+    public static Point bReset = new Point(197, 301);
+    public static Point bOp1 = new Point(354, 379);
+    public static Point bOp2 = new Point(531, 379);
+    public static Point bOp3 = new Point(889, 379);
+    public static Point bOp4 = new Point(1056, 379);
+    public static Point bAns = new Point(683, 380);
+    public static Point bOk = new Point(97, 696);
+    public static Point msg = new Point(16, 436);
+    public static Point cLines = new Point(319, 10);
+    public static Point cC = new Point(319, 436);
+    public static Point cI = new Point(319, 566);
+    public static Point cY = new Point(319, 696);
 
 }
 
-public struct sizes
+public struct Sizes
 {
-    static Size YK = new Size(53,25);
-    static Size Knum = new Size(30,20);
-    static Size Kdev = new Size(18,25);
-    static Size Kdenom = new Size(30,20);
-    static Size L = new Size(24,25);
-    static Size Lnum = new Size(30,20);
-    static Size Ldev = new Size(18,25);
-    static Size Ldenom = new Size(30,20);
-    static Size yk = new Size(46,25);
-    static Size knum = new Size(30,20);
-    static Size kdev = new Size(18,25);
-    static Size kdenom = new Size(30,20);
-    static Size delta = new Size(26,24);
-    static Size dnum = new Size(42,25);
-    static Size s = new Size(24,24);
-    static Size nuds = new Size(120,24);
-    static Size n = new Size(26,24);
-    static Size nudn = new Size(120,24);
-    static Size bApply = new Size(126,81);
-    static Size bStart = new Size(106,66);
-    static Size bSkip = new Size(106,66);
-    static Size bReset = new Size(106,66);
-    static Size bOp = new Size(95, 51);
-    static Size bAns = new Size(136,40);
-    static Size bOk = new Size(109,60);
-    static Size msg = new Size(271,244);
-    static Size subChart = new Size(855, 124);
+    public static Size YK = new Size(53,25);
+    public static Size Knum = new Size(30,20);
+    public static Size Kdev = new Size(18,25);
+    public static Size Kdenom = new Size(30,20);
+    public static Size L = new Size(24,25);
+    public static Size Lnum = new Size(30,20);
+    public static Size Ldev = new Size(18,25);
+    public static Size Ldenom = new Size(30,20);
+    public static Size yk = new Size(46,25);
+    public static Size knum = new Size(30,20);
+    public static Size kdev = new Size(18,25);
+    public static Size kdenom = new Size(30,20);
+    public static Size delta = new Size(26,24);
+    public static Size dnum = new Size(42,25);
+    public static Size s = new Size(24,24);
+    public static Size nuds = new Size(120,24);
+    public static Size n = new Size(26,24);
+    public static Size nudn = new Size(120,24);
+    public static Size bApply = new Size(126,81);
+    public static Size bStart = new Size(106,66);
+    public static Size bSkip = new Size(106,66);
+    public static Size bReset = new Size(106,66);
+    public static Size bOp = new Size(95, 51);
+    public static Size bAns = new Size(136,40);
+    public static Size bOk = new Size(109,60);
+    public static Size msg = new Size(271,244);
+    public static Size subChart = new Size(855, 124);
 }
 
 
@@ -157,7 +157,7 @@ namespace SolowProjectVer2
                 else
                 {
                     Console.WriteLine("the window is changed");
-                    lblYK.Location = locs.YK;
+                    
                 }
             }
             base.WndProc(ref m);
@@ -1265,10 +1265,16 @@ namespace SolowProjectVer2
                         EnableButtons();
                     }
 
+                    
+
+
                     if (gintButtonsPushed == 4)
                     {
                         //MessageBox.Show("The middle box displays steady state capital per worker and income per worker for the production function you selected and the values for the saving rate, population growth rate, and depreciation rate you selected. Click on the box.");
                         lblMsgbox.Text = "The middle box displays steady state capital per worker and income per worker for the production function you selected and the values for the saving rate, population growth rate, and depreciation rate you selected. Click on the box.";
+                    }else if (!btnOption1.Visible)
+                    {
+                        lblMsgbox.Text = "Notice that the economy has transitioned to new steady state level of capital per worker and income per worker. Convince yourself that the change in the parameter(s) you made resulted in the transition shown.";
                     }
                     btnAnswer.Text = "k* = " + RoundTo3Decimals(gdblKStar) + "\n y* = " + RoundTo3Decimals(gdblYStar);
                 }// Else the skip button has not been pressed
@@ -1342,6 +1348,10 @@ namespace SolowProjectVer2
                         {
                             //MessageBox.Show("The middle box displays steady state capital per worker and income per worker for the production function you selected and the values for the saving rate, population growth rate, and depreciation rate you selected. Click on the box.");
                             lblMsgbox.Text = "The middle box displays steady state capital per worker and income per worker for the production function you selected and the values for the saving rate, population growth rate, and depreciation rate you selected. Click on the box.";
+                        }
+                        else if (!btnOption1.Visible)
+                        {
+                            lblMsgbox.Text = "Notice that the economy has transitioned to new steady state level of capital per worker and income per worker. Convince yourself that the change in the parameter(s) you made resulted in the transition shown.";
                         }
                         btnAnswer.Text = "k* = " + RoundTo3Decimals(gdblKStar) + "\n y* = " + RoundTo3Decimals(gdblYStar);
                     }

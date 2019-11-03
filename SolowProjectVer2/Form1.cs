@@ -22,7 +22,7 @@ public struct Locs
     public static Point Ldev = new Point(212, 23);
     public static Point Ldenom = new Point(236, 23);
     public static Point yk = new Point(13, 91);
-    public static Point knum = new Point(13, 91);
+    public static Point knum = new Point(61,81);
     public static Point kdev = new Point(97, 81);
     public static Point kdenom = new Point(121, 81);
     public static Point delta = new Point(12, 125);
@@ -77,6 +77,7 @@ public struct Sizes
     public static Size bAns = new Size(136,40);
     public static Size bOk = new Size(109,60);
     public static Size msg = new Size(271,244);
+    public static Size cLines = new Size(856, 363);
     public static Size subChart = new Size(855, 124);
 }
 
@@ -132,22 +133,56 @@ namespace SolowProjectVer2
         double gdblXRate = .05;
         double gdblMinXRate = .05, gdblMaxXRate = 0.5, gdblMinYRate = 0.5, gdblMaxYRate = 0.5;
         const int TIMERATEINMILIS = 90;
+
+        Size[] sizArr;
+        Point[] locArr;
         public Form1()
         {
             InitializeComponent();
             //MessageBox.Show("Enter a value for the exponent on capital.Remember that our production function must exhibit constant returns to scale.Also, enter initial values for the saving rate and population growth rate.");
-            chrtLines.ChartAreas[0].AxisY.LabelStyle.Format = "{#####.###}";
-            chrtLines.ChartAreas[0].AxisX.LabelStyle.Format = "{#####.###}";
+            
         }
 
-       
-        
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            chrtLines.ChartAreas[0].AxisY.LabelStyle.Format = "{#####.###}";
+            chrtLines.ChartAreas[0].AxisX.LabelStyle.Format = "{#####.###}";
+            sizArr = new Size[base.Controls.Count];
+            locArr = new Point[base.Controls.Count];
+            for (int i = 0; i < sizArr.Length; i++)
+            {
+                sizArr[i] = base.Controls[i].Size;
+                locArr[i] = base.Controls[i].Location;
+
+            }
+            Console.WriteLine(sizArr.Length);
+        }
+        private void Form1_Resize(object sender, EventArgs e)
+        {
+            /*
+            float widthRatio = this.Width / 1205f;
+            lblMsgbox.Text += " " + widthRatio;
+            float heightRatio = this.Height / 800;
+
+            for (int i = 0; i < Controls.Count; i++)
+            {
+                Controls[i].Size = new Size((int)(sizArr[i].Width * widthRatio), (int)(sizArr[i].Height * heightRatio));
+            }
+            */
+        }
 
         protected override void WndProc(ref Message m)
         {
-            if( m.Msg == 0x0112)
+            
+
+            if ( m.Msg == 0x0112)
             {
-                if(m.WParam == new IntPtr( 0xF030 ))
+
+                
+
+
+               /*
+                if (m.WParam == new IntPtr( 0xF030 ))
                 {
                     //The Window is being maximized
                     Console.WriteLine("the window is being maximized");
@@ -157,12 +192,95 @@ namespace SolowProjectVer2
                 else
                 {
                     Console.WriteLine("the window is changed");
+
                     
+                    lblYK.Size = Sizes.YK;
+                    lblYK.Location = Locs.YK;
+                    txtKNumerator.Size = Sizes.Knum;
+                    txtKNumerator.Location = Locs.Knum;
+                    lblDev1.Size = Sizes.Kdev;
+                    lblDev1.Location = Locs.Kdev;
+                    txtKDenominator.Size = Sizes.Kdenom;
+                    txtKDenominator.Location = Locs.Kdenom;
+                    lblL.Size = Sizes.L;
+                    lblL.Location = Locs.L;
+                    txtLNumerator.Size = Sizes.Lnum;
+                    txtLNumerator.Location = Locs.Lnum;
+                    lblDev2.Size = Sizes.Ldev;
+                    lblDev2.Location = Locs.Ldev;
+                    txtLDenominator.Size = Sizes.Ldenom;
+                    txtLDenominator.Location = Locs.Ldenom;
+                    lblLittleyk.Size = Sizes.yk;
+                    lblLittleyk.Location = Locs.yk;
+                    txtSmlKNumerator.Size = Sizes.knum;
+                    txtSmlKNumerator.Location = Locs.knum;
+                    lblDev3.Size = Sizes.kdev;
+                    lblDev3.Location = Locs.kdev;
+                    txtSmlKDenominator.Size = Sizes.kdenom;
+                    txtSmlKDenominator.Location = Locs.kdenom;
+                    lblDelta.Size = Sizes.delta;
+                    lblDelta.Location = Locs.delta;
+                    lblNDelta.Size = Sizes.dnum;
+                    lblNDelta.Location = Locs.dnum;
+                    lblS.Size = Sizes.s;
+                    lblS.Location = Locs.s;
+                    nudS.Size = Sizes.nuds;
+                    nudS.Location = Locs.nuds;
+                    lblN.Size = Sizes.n;
+                    lblN.Location = Locs.n;
+                    nudN.Size = Sizes.nudn;
+                    nudN.Location = Locs.nudn;
+                    btnApplyChanges.Size = Sizes.bApply;
+                    btnApplyChanges.Location = Locs.bApply;
+                    btnStart.Size = Sizes.bStart;
+                    btnStart.Location = Locs.bStart;
+                    btnSkip.Size = Sizes.bSkip;
+                    btnSkip.Location = Locs.bSkip;
+                    btnReset.Size = Sizes.bReset;
+                    btnReset.Location = Locs.bReset;
+
+                    btnOption1.Size = Sizes.bOp;
+                    //btnOption1.Location = Locs.bOp1;
+
+                    btnOption2.Size = Sizes.bOp;
+                   // btnOption2.Location = Locs.bOp2;
+
+                    btnOption1.Size = Sizes.bOp;
+                   // btnOption2.Location = Locs.bOp2;
+
+                    btnOption3.Size = Sizes.bOp;
+                   // btnOption3.Location = Locs.bOp3;
+
+                    btnOption4.Size = Sizes.bOp;
+                   // btnOption4.Location = Locs.bOp4;
+
+                    btnAnswer.Size = Sizes.bApply;
+                    btnAnswer.Location = Locs.bApply;
+                    btnOk.Size = Sizes.bOk;
+                    btnOk.Location = Locs.bOk;
+
+                    lblMsgbox.Size = Sizes.msg;
+                    lblMsgbox.Location = Locs.msg;
+
+                    chrtLines.Size = Sizes.cLines;
+                    //chrtLines.Location = Locs.cLines;
+
+                    chrtC.Size = Sizes.subChart;
+                    //chrtC.Location = Locs.cC;
+
+                    chrtI.Size = Sizes.subChart;
+                    //chrtI.Location = Locs.cI;
+
+                    chrtY.Size = Sizes.subChart;
+                   // chrtY.Location = Locs.cY;
+                    
+
                 }
+                */
             }
             base.WndProc(ref m);
         }
-
+        
         private void BtnStart_Click(object sender, EventArgs e)
         {
             if (IsFractionOkay())
@@ -920,6 +1038,15 @@ namespace SolowProjectVer2
 
         }
 
+        
+
+        private void btnPrintSize_Click(object sender, EventArgs e)
+        {
+            lblMsgbox.Text = chrtLines.Size.Width.ToString();
+        }
+
+        
+
         private void BtnOk_Click(object sender, EventArgs e)
         {
             btnOk.Visible = false;
@@ -937,10 +1064,7 @@ namespace SolowProjectVer2
             
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
+        
 
         private void Form1_Shown(object sender, EventArgs e)
         {

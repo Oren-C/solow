@@ -80,25 +80,35 @@
             this.lblMsgbox = new System.Windows.Forms.Label();
             this.btnOk = new System.Windows.Forms.Button();
             this.lblNDelta = new System.Windows.Forms.Label();
+            this.grp = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.chrtLines)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chrtC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chrtI)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chrtY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudS)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudN)).BeginInit();
+            this.grp.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // chrtLines
             // 
-            this.chrtLines.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             chartArea1.AxisX.MajorGrid.Enabled = false;
             chartArea1.AxisY.MajorGrid.Enabled = false;
             chartArea1.Name = "ChartArea1";
             this.chrtLines.ChartAreas.Add(chartArea1);
+            this.chrtLines.Dock = System.Windows.Forms.DockStyle.Fill;
             legend1.Enabled = false;
             legend1.Name = "Legend1";
             this.chrtLines.Legends.Add(legend1);
-            this.chrtLines.Location = new System.Drawing.Point(319, 10);
+            this.chrtLines.Location = new System.Drawing.Point(328, 3);
             this.chrtLines.Name = "chrtLines";
             series1.ChartArea = "ChartArea1";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
@@ -152,7 +162,7 @@
             this.chrtLines.Series.Add(series5);
             this.chrtLines.Series.Add(series6);
             this.chrtLines.Series.Add(series7);
-            this.chrtLines.Size = new System.Drawing.Size(856, 363);
+            this.chrtLines.Size = new System.Drawing.Size(858, 332);
             this.chrtLines.TabIndex = 0;
             this.chrtLines.TabStop = false;
             this.chrtLines.Text = "chart1";
@@ -161,7 +171,7 @@
             // 
             this.lblYK.AutoSize = true;
             this.lblYK.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblYK.Location = new System.Drawing.Point(13, 33);
+            this.lblYK.Location = new System.Drawing.Point(7, 23);
             this.lblYK.Name = "lblYK";
             this.lblYK.Size = new System.Drawing.Size(53, 25);
             this.lblYK.TabIndex = 1;
@@ -169,7 +179,7 @@
             // 
             // txtKNumerator
             // 
-            this.txtKNumerator.Location = new System.Drawing.Point(61, 23);
+            this.txtKNumerator.Location = new System.Drawing.Point(62, 13);
             this.txtKNumerator.Name = "txtKNumerator";
             this.txtKNumerator.Size = new System.Drawing.Size(30, 20);
             this.txtKNumerator.TabIndex = 0;
@@ -179,7 +189,7 @@
             // 
             this.lblDev1.AutoSize = true;
             this.lblDev1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDev1.Location = new System.Drawing.Point(97, 23);
+            this.lblDev1.Location = new System.Drawing.Point(98, 13);
             this.lblDev1.Name = "lblDev1";
             this.lblDev1.Size = new System.Drawing.Size(18, 25);
             this.lblDev1.TabIndex = 3;
@@ -187,7 +197,7 @@
             // 
             // txtKDenominator
             // 
-            this.txtKDenominator.Location = new System.Drawing.Point(121, 23);
+            this.txtKDenominator.Location = new System.Drawing.Point(122, 13);
             this.txtKDenominator.Name = "txtKDenominator";
             this.txtKDenominator.Size = new System.Drawing.Size(30, 20);
             this.txtKDenominator.TabIndex = 1;
@@ -197,7 +207,7 @@
             // 
             this.lblL.AutoSize = true;
             this.lblL.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblL.Location = new System.Drawing.Point(157, 33);
+            this.lblL.Location = new System.Drawing.Point(151, 23);
             this.lblL.Name = "lblL";
             this.lblL.Size = new System.Drawing.Size(24, 25);
             this.lblL.TabIndex = 5;
@@ -207,7 +217,7 @@
             // 
             this.txtLDenominator.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(241)))), ((int)(((byte)(222)))));
             this.txtLDenominator.Enabled = false;
-            this.txtLDenominator.Location = new System.Drawing.Point(236, 23);
+            this.txtLDenominator.Location = new System.Drawing.Point(241, 13);
             this.txtLDenominator.Name = "txtLDenominator";
             this.txtLDenominator.Size = new System.Drawing.Size(30, 20);
             this.txtLDenominator.TabIndex = 8;
@@ -217,7 +227,7 @@
             // 
             this.lblDev2.AutoSize = true;
             this.lblDev2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDev2.Location = new System.Drawing.Point(212, 23);
+            this.lblDev2.Location = new System.Drawing.Point(217, 13);
             this.lblDev2.Name = "lblDev2";
             this.lblDev2.Size = new System.Drawing.Size(18, 25);
             this.lblDev2.TabIndex = 7;
@@ -227,7 +237,7 @@
             // 
             this.txtLNumerator.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(241)))), ((int)(((byte)(222)))));
             this.txtLNumerator.Enabled = false;
-            this.txtLNumerator.Location = new System.Drawing.Point(176, 23);
+            this.txtLNumerator.Location = new System.Drawing.Point(181, 13);
             this.txtLNumerator.Name = "txtLNumerator";
             this.txtLNumerator.Size = new System.Drawing.Size(30, 20);
             this.txtLNumerator.TabIndex = 6;
@@ -237,7 +247,7 @@
             // 
             this.txtSmlKDenominator.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(241)))), ((int)(((byte)(222)))));
             this.txtSmlKDenominator.Enabled = false;
-            this.txtSmlKDenominator.Location = new System.Drawing.Point(121, 81);
+            this.txtSmlKDenominator.Location = new System.Drawing.Point(115, 71);
             this.txtSmlKDenominator.Name = "txtSmlKDenominator";
             this.txtSmlKDenominator.Size = new System.Drawing.Size(30, 20);
             this.txtSmlKDenominator.TabIndex = 12;
@@ -247,7 +257,7 @@
             // 
             this.lblDev3.AutoSize = true;
             this.lblDev3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDev3.Location = new System.Drawing.Point(97, 81);
+            this.lblDev3.Location = new System.Drawing.Point(91, 71);
             this.lblDev3.Name = "lblDev3";
             this.lblDev3.Size = new System.Drawing.Size(18, 25);
             this.lblDev3.TabIndex = 11;
@@ -257,7 +267,7 @@
             // 
             this.txtSmlKNumerator.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(241)))), ((int)(((byte)(222)))));
             this.txtSmlKNumerator.Enabled = false;
-            this.txtSmlKNumerator.Location = new System.Drawing.Point(61, 81);
+            this.txtSmlKNumerator.Location = new System.Drawing.Point(55, 71);
             this.txtSmlKNumerator.Name = "txtSmlKNumerator";
             this.txtSmlKNumerator.Size = new System.Drawing.Size(30, 20);
             this.txtSmlKNumerator.TabIndex = 10;
@@ -267,7 +277,7 @@
             // 
             this.lblLittleyk.AutoSize = true;
             this.lblLittleyk.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLittleyk.Location = new System.Drawing.Point(13, 91);
+            this.lblLittleyk.Location = new System.Drawing.Point(7, 81);
             this.lblLittleyk.Name = "lblLittleyk";
             this.lblLittleyk.Size = new System.Drawing.Size(46, 25);
             this.lblLittleyk.TabIndex = 9;
@@ -277,7 +287,7 @@
             // 
             this.btnStart.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(122)))), ((int)(((byte)(95)))));
             this.btnStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStart.Location = new System.Drawing.Point(197, 157);
+            this.btnStart.Location = new System.Drawing.Point(207, 114);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(106, 66);
             this.btnStart.TabIndex = 5;
@@ -291,7 +301,7 @@
             this.btnSkip.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnSkip.Enabled = false;
             this.btnSkip.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSkip.Location = new System.Drawing.Point(197, 229);
+            this.btnSkip.Location = new System.Drawing.Point(207, 186);
             this.btnSkip.Name = "btnSkip";
             this.btnSkip.Size = new System.Drawing.Size(106, 66);
             this.btnSkip.TabIndex = 6;
@@ -304,7 +314,7 @@
             // 
             this.btnReset.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(122)))), ((int)(((byte)(95)))));
             this.btnReset.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReset.Location = new System.Drawing.Point(197, 301);
+            this.btnReset.Location = new System.Drawing.Point(207, 258);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(106, 66);
             this.btnReset.TabIndex = 13;
@@ -314,15 +324,15 @@
             // 
             // chrtC
             // 
-            this.chrtC.Anchor = System.Windows.Forms.AnchorStyles.Right;
             chartArea2.AxisX.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
             chartArea2.AxisX.MajorGrid.Enabled = false;
             chartArea2.AxisY.MajorGrid.Enabled = false;
             chartArea2.Name = "ChartArea1";
             this.chrtC.ChartAreas.Add(chartArea2);
+            this.chrtC.Dock = System.Windows.Forms.DockStyle.Fill;
             legend2.Name = "Legend1";
             this.chrtC.Legends.Add(legend2);
-            this.chrtC.Location = new System.Drawing.Point(319, 436);
+            this.chrtC.Location = new System.Drawing.Point(3, 125);
             this.chrtC.Name = "chrtC";
             series8.ChartArea = "ChartArea1";
             series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
@@ -330,7 +340,7 @@
             series8.Legend = "Legend1";
             series8.Name = "C";
             this.chrtC.Series.Add(series8);
-            this.chrtC.Size = new System.Drawing.Size(855, 124);
+            this.chrtC.Size = new System.Drawing.Size(852, 116);
             this.chrtC.TabIndex = 19;
             this.chrtC.TabStop = false;
             this.chrtC.Text = "chart2";
@@ -338,7 +348,6 @@
             // 
             // chrtI
             // 
-            this.chrtI.Anchor = System.Windows.Forms.AnchorStyles.Right;
             chartArea3.AxisX.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
             chartArea3.AxisX2.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
             chartArea3.AxisY.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.True;
@@ -346,9 +355,10 @@
             chartArea3.AxisY2.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
             chartArea3.Name = "ChartArea1";
             this.chrtI.ChartAreas.Add(chartArea3);
+            this.chrtI.Dock = System.Windows.Forms.DockStyle.Fill;
             legend3.Name = "Legend1";
             this.chrtI.Legends.Add(legend3);
-            this.chrtI.Location = new System.Drawing.Point(319, 566);
+            this.chrtI.Location = new System.Drawing.Point(3, 247);
             this.chrtI.Name = "chrtI";
             series9.ChartArea = "ChartArea1";
             series9.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
@@ -356,7 +366,7 @@
             series9.Legend = "Legend1";
             series9.Name = "I";
             this.chrtI.Series.Add(series9);
-            this.chrtI.Size = new System.Drawing.Size(855, 124);
+            this.chrtI.Size = new System.Drawing.Size(852, 116);
             this.chrtI.TabIndex = 20;
             this.chrtI.TabStop = false;
             this.chrtI.Text = "chart3";
@@ -364,15 +374,15 @@
             // 
             // chrtY
             // 
-            this.chrtY.Anchor = System.Windows.Forms.AnchorStyles.Right;
             chartArea4.AxisX.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
             chartArea4.AxisY.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.True;
             chartArea4.AxisY.MajorGrid.Enabled = false;
             chartArea4.Name = "ChartArea1";
             this.chrtY.ChartAreas.Add(chartArea4);
+            this.chrtY.Dock = System.Windows.Forms.DockStyle.Fill;
             legend4.Name = "Legend1";
             this.chrtY.Legends.Add(legend4);
-            this.chrtY.Location = new System.Drawing.Point(319, 696);
+            this.chrtY.Location = new System.Drawing.Point(3, 369);
             this.chrtY.Name = "chrtY";
             series10.ChartArea = "ChartArea1";
             series10.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
@@ -380,7 +390,7 @@
             series10.Legend = "Legend1";
             series10.Name = "y";
             this.chrtY.Series.Add(series10);
-            this.chrtY.Size = new System.Drawing.Size(855, 124);
+            this.chrtY.Size = new System.Drawing.Size(852, 117);
             this.chrtY.TabIndex = 21;
             this.chrtY.TabStop = false;
             this.chrtY.Text = "chart4";
@@ -395,7 +405,7 @@
             0,
             0,
             131072});
-            this.nudS.Location = new System.Drawing.Point(52, 199);
+            this.nudS.Location = new System.Drawing.Point(46, 156);
             this.nudS.Maximum = new decimal(new int[] {
             9,
             0,
@@ -425,7 +435,7 @@
             0,
             0,
             131072});
-            this.nudN.Location = new System.Drawing.Point(52, 249);
+            this.nudN.Location = new System.Drawing.Point(46, 206);
             this.nudN.Maximum = new decimal(new int[] {
             5,
             0,
@@ -438,11 +448,12 @@
             // 
             // btnOption1
             // 
-            this.btnOption1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOption1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(122)))), ((int)(((byte)(95)))));
-            this.btnOption1.Location = new System.Drawing.Point(354, 379);
+            this.btnOption1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnOption1.Location = new System.Drawing.Point(3, 20);
+            this.btnOption1.Margin = new System.Windows.Forms.Padding(3, 20, 3, 3);
             this.btnOption1.Name = "btnOption1";
-            this.btnOption1.Size = new System.Drawing.Size(95, 51);
+            this.btnOption1.Size = new System.Drawing.Size(148, 93);
             this.btnOption1.TabIndex = 7;
             this.btnOption1.Text = "Option1";
             this.btnOption1.UseVisualStyleBackColor = false;
@@ -451,11 +462,12 @@
             // 
             // btnOption2
             // 
-            this.btnOption2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOption2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(122)))), ((int)(((byte)(95)))));
-            this.btnOption2.Location = new System.Drawing.Point(531, 379);
+            this.btnOption2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnOption2.Location = new System.Drawing.Point(157, 20);
+            this.btnOption2.Margin = new System.Windows.Forms.Padding(3, 20, 3, 3);
             this.btnOption2.Name = "btnOption2";
-            this.btnOption2.Size = new System.Drawing.Size(95, 51);
+            this.btnOption2.Size = new System.Drawing.Size(148, 93);
             this.btnOption2.TabIndex = 8;
             this.btnOption2.Text = "Option2";
             this.btnOption2.UseVisualStyleBackColor = false;
@@ -464,11 +476,12 @@
             // 
             // btnOption3
             // 
-            this.btnOption3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOption3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(122)))), ((int)(((byte)(95)))));
-            this.btnOption3.Location = new System.Drawing.Point(889, 379);
+            this.btnOption3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnOption3.Location = new System.Drawing.Point(543, 20);
+            this.btnOption3.Margin = new System.Windows.Forms.Padding(3, 20, 3, 3);
             this.btnOption3.Name = "btnOption3";
-            this.btnOption3.Size = new System.Drawing.Size(95, 51);
+            this.btnOption3.Size = new System.Drawing.Size(148, 93);
             this.btnOption3.TabIndex = 10;
             this.btnOption3.Text = "Option3";
             this.btnOption3.UseVisualStyleBackColor = false;
@@ -477,11 +490,12 @@
             // 
             // btnOption4
             // 
-            this.btnOption4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOption4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(122)))), ((int)(((byte)(95)))));
-            this.btnOption4.Location = new System.Drawing.Point(1056, 379);
+            this.btnOption4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnOption4.Location = new System.Drawing.Point(697, 20);
+            this.btnOption4.Margin = new System.Windows.Forms.Padding(3, 20, 3, 3);
             this.btnOption4.Name = "btnOption4";
-            this.btnOption4.Size = new System.Drawing.Size(95, 51);
+            this.btnOption4.Size = new System.Drawing.Size(152, 93);
             this.btnOption4.TabIndex = 11;
             this.btnOption4.Text = "Option4";
             this.btnOption4.UseVisualStyleBackColor = false;
@@ -492,7 +506,7 @@
             // 
             this.btnApplyChanges.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(122)))), ((int)(((byte)(95)))));
             this.btnApplyChanges.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnApplyChanges.Location = new System.Drawing.Point(46, 289);
+            this.btnApplyChanges.Location = new System.Drawing.Point(40, 246);
             this.btnApplyChanges.Name = "btnApplyChanges";
             this.btnApplyChanges.Size = new System.Drawing.Size(126, 81);
             this.btnApplyChanges.TabIndex = 12;
@@ -503,12 +517,13 @@
             // 
             // btnAnswer
             // 
-            this.btnAnswer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAnswer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(122)))), ((int)(((byte)(95)))));
+            this.btnAnswer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnAnswer.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAnswer.Location = new System.Drawing.Point(683, 380);
+            this.btnAnswer.Location = new System.Drawing.Point(311, 20);
+            this.btnAnswer.Margin = new System.Windows.Forms.Padding(3, 20, 3, 3);
             this.btnAnswer.Name = "btnAnswer";
-            this.btnAnswer.Size = new System.Drawing.Size(136, 50);
+            this.btnAnswer.Size = new System.Drawing.Size(226, 93);
             this.btnAnswer.TabIndex = 9;
             this.btnAnswer.Text = "button1";
             this.btnAnswer.UseVisualStyleBackColor = false;
@@ -519,7 +534,7 @@
             // 
             this.lblDelta.AutoSize = true;
             this.lblDelta.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDelta.Location = new System.Drawing.Point(12, 125);
+            this.lblDelta.Location = new System.Drawing.Point(6, 115);
             this.lblDelta.Name = "lblDelta";
             this.lblDelta.Size = new System.Drawing.Size(26, 24);
             this.lblDelta.TabIndex = 34;
@@ -529,7 +544,7 @@
             // 
             this.lblN.AutoSize = true;
             this.lblN.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblN.Location = new System.Drawing.Point(12, 247);
+            this.lblN.Location = new System.Drawing.Point(6, 204);
             this.lblN.Name = "lblN";
             this.lblN.Size = new System.Drawing.Size(26, 24);
             this.lblN.TabIndex = 33;
@@ -539,7 +554,7 @@
             // 
             this.lblS.AutoSize = true;
             this.lblS.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblS.Location = new System.Drawing.Point(12, 197);
+            this.lblS.Location = new System.Drawing.Point(6, 154);
             this.lblS.Name = "lblS";
             this.lblS.Size = new System.Drawing.Size(24, 24);
             this.lblS.TabIndex = 32;
@@ -548,7 +563,7 @@
             // lblMsgbox
             // 
             this.lblMsgbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMsgbox.Location = new System.Drawing.Point(16, 436);
+            this.lblMsgbox.Location = new System.Drawing.Point(9, 33);
             this.lblMsgbox.Name = "lblMsgbox";
             this.lblMsgbox.Size = new System.Drawing.Size(271, 244);
             this.lblMsgbox.TabIndex = 35;
@@ -558,7 +573,7 @@
             // 
             this.btnOk.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(122)))), ((int)(((byte)(95)))));
             this.btnOk.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOk.Location = new System.Drawing.Point(97, 696);
+            this.btnOk.Location = new System.Drawing.Point(96, 280);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(109, 60);
             this.btnOk.TabIndex = 36;
@@ -571,11 +586,115 @@
             // 
             this.lblNDelta.AutoSize = true;
             this.lblNDelta.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNDelta.Location = new System.Drawing.Point(56, 124);
+            this.lblNDelta.Location = new System.Drawing.Point(50, 114);
             this.lblNDelta.Name = "lblNDelta";
             this.lblNDelta.Size = new System.Drawing.Size(42, 25);
             this.lblNDelta.TabIndex = 37;
             this.lblNDelta.Text = "0.1";
+            // 
+            // grp
+            // 
+            this.grp.Controls.Add(this.txtLDenominator);
+            this.grp.Controls.Add(this.lblYK);
+            this.grp.Controls.Add(this.lblNDelta);
+            this.grp.Controls.Add(this.txtKNumerator);
+            this.grp.Controls.Add(this.lblDev1);
+            this.grp.Controls.Add(this.txtKDenominator);
+            this.grp.Controls.Add(this.lblDelta);
+            this.grp.Controls.Add(this.lblL);
+            this.grp.Controls.Add(this.lblN);
+            this.grp.Controls.Add(this.txtLNumerator);
+            this.grp.Controls.Add(this.lblS);
+            this.grp.Controls.Add(this.lblDev2);
+            this.grp.Controls.Add(this.lblLittleyk);
+            this.grp.Controls.Add(this.btnApplyChanges);
+            this.grp.Controls.Add(this.txtSmlKNumerator);
+            this.grp.Controls.Add(this.lblDev3);
+            this.grp.Controls.Add(this.txtSmlKDenominator);
+            this.grp.Controls.Add(this.btnStart);
+            this.grp.Controls.Add(this.btnSkip);
+            this.grp.Controls.Add(this.nudN);
+            this.grp.Controls.Add(this.btnReset);
+            this.grp.Controls.Add(this.nudS);
+            this.grp.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grp.Location = new System.Drawing.Point(3, 3);
+            this.grp.Name = "grp";
+            this.grp.Size = new System.Drawing.Size(319, 332);
+            this.grp.TabIndex = 39;
+            this.grp.TabStop = false;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 27.39965F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 72.60035F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.chrtLines, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.grp, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.groupBox3, 0, 1);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 495F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1189, 833);
+            this.tableLayoutPanel1.TabIndex = 40;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.lblMsgbox);
+            this.groupBox3.Controls.Add(this.btnOk);
+            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox3.Location = new System.Drawing.Point(3, 341);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(319, 489);
+            this.groupBox3.TabIndex = 42;
+            this.groupBox3.TabStop = false;
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 5;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18.18182F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18.18182F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 27.27273F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18.18182F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18.18182F));
+            this.tableLayoutPanel2.Controls.Add(this.btnOption4, 4, 0);
+            this.tableLayoutPanel2.Controls.Add(this.btnOption3, 3, 0);
+            this.tableLayoutPanel2.Controls.Add(this.btnOption1, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.btnOption2, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.btnAnswer, 2, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 1;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(852, 116);
+            this.tableLayoutPanel2.TabIndex = 22;
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 1;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Controls.Add(this.chrtC, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.chrtI, 0, 2);
+            this.tableLayoutPanel3.Controls.Add(this.chrtY, 0, 3);
+            this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel2, 0, 0);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(328, 341);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 4;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(858, 489);
+            this.tableLayoutPanel3.TabIndex = 0;
             // 
             // Form1
             // 
@@ -584,54 +703,28 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(21)))), ((int)(((byte)(135)))));
             this.CancelButton = this.btnSkip;
             this.ClientSize = new System.Drawing.Size(1189, 833);
-            this.Controls.Add(this.lblNDelta);
-            this.Controls.Add(this.btnOk);
-            this.Controls.Add(this.lblMsgbox);
-            this.Controls.Add(this.lblDelta);
-            this.Controls.Add(this.lblN);
-            this.Controls.Add(this.lblS);
-            this.Controls.Add(this.btnAnswer);
-            this.Controls.Add(this.btnApplyChanges);
-            this.Controls.Add(this.btnOption4);
-            this.Controls.Add(this.btnOption3);
-            this.Controls.Add(this.btnOption2);
-            this.Controls.Add(this.btnOption1);
-            this.Controls.Add(this.nudN);
-            this.Controls.Add(this.nudS);
-            this.Controls.Add(this.chrtY);
-            this.Controls.Add(this.chrtI);
-            this.Controls.Add(this.chrtC);
-            this.Controls.Add(this.btnReset);
-            this.Controls.Add(this.btnSkip);
-            this.Controls.Add(this.btnStart);
-            this.Controls.Add(this.txtSmlKDenominator);
-            this.Controls.Add(this.lblDev3);
-            this.Controls.Add(this.txtSmlKNumerator);
-            this.Controls.Add(this.lblLittleyk);
-            this.Controls.Add(this.txtLDenominator);
-            this.Controls.Add(this.lblDev2);
-            this.Controls.Add(this.txtLNumerator);
-            this.Controls.Add(this.lblL);
-            this.Controls.Add(this.txtKDenominator);
-            this.Controls.Add(this.lblDev1);
-            this.Controls.Add(this.txtKNumerator);
-            this.Controls.Add(this.lblYK);
-            this.Controls.Add(this.chrtLines);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.ForeColor = System.Drawing.Color.White;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(1205, 872);
             this.Name = "Form1";
             this.Text = "Solow";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Shown += new System.EventHandler(this.Form1_Shown);
+            this.Resize += new System.EventHandler(this.Form1_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.chrtLines)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chrtC)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chrtI)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chrtY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudS)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudN)).EndInit();
+            this.grp.ResumeLayout(false);
+            this.grp.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel3.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -670,6 +763,11 @@
         private System.Windows.Forms.Label lblMsgbox;
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Label lblNDelta;
+        private System.Windows.Forms.GroupBox grp;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
     }
 }
 

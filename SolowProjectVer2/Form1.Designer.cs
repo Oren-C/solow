@@ -77,14 +77,14 @@
             this.lblDelta = new System.Windows.Forms.Label();
             this.lblN = new System.Windows.Forms.Label();
             this.lblS = new System.Windows.Forms.Label();
-            this.lblMsgbox = new System.Windows.Forms.Label();
-            this.btnOk = new System.Windows.Forms.Button();
             this.lblNDelta = new System.Windows.Forms.Label();
             this.grp = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnOk = new System.Windows.Forms.Button();
+            this.lblMsgbox = new System.Windows.Forms.Label();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.chrtLines)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chrtC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chrtI)).BeginInit();
@@ -93,9 +93,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudN)).BeginInit();
             this.grp.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // chrtLines
@@ -290,7 +290,7 @@
             this.btnStart.Location = new System.Drawing.Point(207, 114);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(106, 66);
-            this.btnStart.TabIndex = 5;
+            this.btnStart.TabIndex = 4;
             this.btnStart.Text = "Start";
             this.btnStart.UseVisualStyleBackColor = false;
             this.btnStart.Click += new System.EventHandler(this.BtnStart_Click);
@@ -304,7 +304,7 @@
             this.btnSkip.Location = new System.Drawing.Point(207, 186);
             this.btnSkip.Name = "btnSkip";
             this.btnSkip.Size = new System.Drawing.Size(106, 66);
-            this.btnSkip.TabIndex = 6;
+            this.btnSkip.TabIndex = 5;
             this.btnSkip.Text = "Skip";
             this.btnSkip.UseVisualStyleBackColor = false;
             this.btnSkip.Visible = false;
@@ -317,7 +317,7 @@
             this.btnReset.Location = new System.Drawing.Point(207, 258);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(106, 66);
-            this.btnReset.TabIndex = 13;
+            this.btnReset.TabIndex = 7;
             this.btnReset.Text = "Reset";
             this.btnReset.UseVisualStyleBackColor = false;
             this.btnReset.Click += new System.EventHandler(this.BtnReset_Click);
@@ -454,7 +454,7 @@
             this.btnOption1.Margin = new System.Windows.Forms.Padding(3, 20, 3, 3);
             this.btnOption1.Name = "btnOption1";
             this.btnOption1.Size = new System.Drawing.Size(148, 93);
-            this.btnOption1.TabIndex = 7;
+            this.btnOption1.TabIndex = 0;
             this.btnOption1.Text = "Option1";
             this.btnOption1.UseVisualStyleBackColor = false;
             this.btnOption1.Visible = false;
@@ -468,7 +468,7 @@
             this.btnOption2.Margin = new System.Windows.Forms.Padding(3, 20, 3, 3);
             this.btnOption2.Name = "btnOption2";
             this.btnOption2.Size = new System.Drawing.Size(148, 93);
-            this.btnOption2.TabIndex = 8;
+            this.btnOption2.TabIndex = 1;
             this.btnOption2.Text = "Option2";
             this.btnOption2.UseVisualStyleBackColor = false;
             this.btnOption2.Visible = false;
@@ -482,7 +482,7 @@
             this.btnOption3.Margin = new System.Windows.Forms.Padding(3, 20, 3, 3);
             this.btnOption3.Name = "btnOption3";
             this.btnOption3.Size = new System.Drawing.Size(148, 93);
-            this.btnOption3.TabIndex = 10;
+            this.btnOption3.TabIndex = 3;
             this.btnOption3.Text = "Option3";
             this.btnOption3.UseVisualStyleBackColor = false;
             this.btnOption3.Visible = false;
@@ -496,7 +496,7 @@
             this.btnOption4.Margin = new System.Windows.Forms.Padding(3, 20, 3, 3);
             this.btnOption4.Name = "btnOption4";
             this.btnOption4.Size = new System.Drawing.Size(152, 93);
-            this.btnOption4.TabIndex = 11;
+            this.btnOption4.TabIndex = 4;
             this.btnOption4.Text = "Option4";
             this.btnOption4.UseVisualStyleBackColor = false;
             this.btnOption4.Visible = false;
@@ -509,7 +509,7 @@
             this.btnApplyChanges.Location = new System.Drawing.Point(40, 246);
             this.btnApplyChanges.Name = "btnApplyChanges";
             this.btnApplyChanges.Size = new System.Drawing.Size(126, 81);
-            this.btnApplyChanges.TabIndex = 12;
+            this.btnApplyChanges.TabIndex = 6;
             this.btnApplyChanges.Text = "Apply Changes";
             this.btnApplyChanges.UseVisualStyleBackColor = false;
             this.btnApplyChanges.Visible = false;
@@ -524,7 +524,7 @@
             this.btnAnswer.Margin = new System.Windows.Forms.Padding(3, 20, 3, 3);
             this.btnAnswer.Name = "btnAnswer";
             this.btnAnswer.Size = new System.Drawing.Size(226, 93);
-            this.btnAnswer.TabIndex = 9;
+            this.btnAnswer.TabIndex = 2;
             this.btnAnswer.Text = "button1";
             this.btnAnswer.UseVisualStyleBackColor = false;
             this.btnAnswer.Visible = false;
@@ -559,28 +559,6 @@
             this.lblS.Size = new System.Drawing.Size(24, 24);
             this.lblS.TabIndex = 32;
             this.lblS.Text = "s:";
-            // 
-            // lblMsgbox
-            // 
-            this.lblMsgbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMsgbox.Location = new System.Drawing.Point(9, 33);
-            this.lblMsgbox.Name = "lblMsgbox";
-            this.lblMsgbox.Size = new System.Drawing.Size(271, 244);
-            this.lblMsgbox.TabIndex = 35;
-            this.lblMsgbox.Text = "label7";
-            // 
-            // btnOk
-            // 
-            this.btnOk.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(122)))), ((int)(((byte)(95)))));
-            this.btnOk.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOk.Location = new System.Drawing.Point(96, 280);
-            this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(109, 60);
-            this.btnOk.TabIndex = 36;
-            this.btnOk.Text = "OK";
-            this.btnOk.UseVisualStyleBackColor = false;
-            this.btnOk.Visible = false;
-            this.btnOk.Click += new System.EventHandler(this.BtnOk_Click);
             // 
             // lblNDelta
             // 
@@ -632,7 +610,7 @@
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.chrtLines, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.grp, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.groupBox3, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel4, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -644,16 +622,25 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1189, 833);
             this.tableLayoutPanel1.TabIndex = 40;
             // 
-            // groupBox3
+            // tableLayoutPanel3
             // 
-            this.groupBox3.Controls.Add(this.lblMsgbox);
-            this.groupBox3.Controls.Add(this.btnOk);
-            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox3.Location = new System.Drawing.Point(3, 341);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(319, 489);
-            this.groupBox3.TabIndex = 42;
-            this.groupBox3.TabStop = false;
+            this.tableLayoutPanel3.ColumnCount = 1;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Controls.Add(this.chrtC, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.chrtI, 0, 2);
+            this.tableLayoutPanel3.Controls.Add(this.chrtY, 0, 3);
+            this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel2, 0, 0);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(328, 341);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 4;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(858, 489);
+            this.tableLayoutPanel3.TabIndex = 0;
             // 
             // tableLayoutPanel2
             // 
@@ -676,25 +663,44 @@
             this.tableLayoutPanel2.Size = new System.Drawing.Size(852, 116);
             this.tableLayoutPanel2.TabIndex = 22;
             // 
-            // tableLayoutPanel3
+            // btnOk
             // 
-            this.tableLayoutPanel3.ColumnCount = 1;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Controls.Add(this.chrtC, 0, 1);
-            this.tableLayoutPanel3.Controls.Add(this.chrtI, 0, 2);
-            this.tableLayoutPanel3.Controls.Add(this.chrtY, 0, 3);
-            this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel2, 0, 0);
-            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(328, 341);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 4;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(858, 489);
-            this.tableLayoutPanel3.TabIndex = 0;
+            this.btnOk.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(122)))), ((int)(((byte)(95)))));
+            this.btnOk.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnOk.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnOk.Location = new System.Drawing.Point(3, 328);
+            this.btnOk.Name = "btnOk";
+            this.btnOk.Size = new System.Drawing.Size(313, 158);
+            this.btnOk.TabIndex = 0;
+            this.btnOk.Text = "OK";
+            this.btnOk.UseVisualStyleBackColor = false;
+            this.btnOk.Visible = false;
+            this.btnOk.Click += new System.EventHandler(this.BtnOk_Click);
+            // 
+            // lblMsgbox
+            // 
+            this.lblMsgbox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblMsgbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMsgbox.Location = new System.Drawing.Point(3, 0);
+            this.lblMsgbox.Name = "lblMsgbox";
+            this.lblMsgbox.Size = new System.Drawing.Size(313, 325);
+            this.lblMsgbox.TabIndex = 35;
+            this.lblMsgbox.Text = "label7";
+            // 
+            // tableLayoutPanel4
+            // 
+            this.tableLayoutPanel4.ColumnCount = 1;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.Controls.Add(this.btnOk, 0, 1);
+            this.tableLayoutPanel4.Controls.Add(this.lblMsgbox, 0, 0);
+            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 341);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 2;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 66.66666F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(319, 489);
+            this.tableLayoutPanel4.TabIndex = 40;
             // 
             // Form1
             // 
@@ -721,9 +727,9 @@
             this.grp.ResumeLayout(false);
             this.grp.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel4.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -760,14 +766,14 @@
         private System.Windows.Forms.Label lblDelta;
         private System.Windows.Forms.Label lblN;
         private System.Windows.Forms.Label lblS;
-        private System.Windows.Forms.Label lblMsgbox;
-        private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Label lblNDelta;
         private System.Windows.Forms.GroupBox grp;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        private System.Windows.Forms.Button btnOk;
+        private System.Windows.Forms.Label lblMsgbox;
     }
 }
 

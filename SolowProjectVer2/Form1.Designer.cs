@@ -82,9 +82,9 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.btnOk = new System.Windows.Forms.Button();
             this.lblMsgbox = new System.Windows.Forms.Label();
-            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.chrtLines)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chrtC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chrtI)).BeginInit();
@@ -144,7 +144,7 @@
             series5.Name = "Series5";
             series6.ChartArea = "ChartArea1";
             series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series6.Color = System.Drawing.Color.Aqua;
+            series6.Color = System.Drawing.Color.Blue;
             series6.IsVisibleInLegend = false;
             series6.Legend = "Legend1";
             series6.Name = "Series6";
@@ -663,30 +663,6 @@
             this.tableLayoutPanel2.Size = new System.Drawing.Size(852, 116);
             this.tableLayoutPanel2.TabIndex = 22;
             // 
-            // btnOk
-            // 
-            this.btnOk.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(122)))), ((int)(((byte)(95)))));
-            this.btnOk.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnOk.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOk.Location = new System.Drawing.Point(3, 328);
-            this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(313, 158);
-            this.btnOk.TabIndex = 0;
-            this.btnOk.Text = "OK";
-            this.btnOk.UseVisualStyleBackColor = false;
-            this.btnOk.Visible = false;
-            this.btnOk.Click += new System.EventHandler(this.BtnOk_Click);
-            // 
-            // lblMsgbox
-            // 
-            this.lblMsgbox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblMsgbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMsgbox.Location = new System.Drawing.Point(3, 0);
-            this.lblMsgbox.Name = "lblMsgbox";
-            this.lblMsgbox.Size = new System.Drawing.Size(313, 325);
-            this.lblMsgbox.TabIndex = 35;
-            this.lblMsgbox.Text = "label7";
-            // 
             // tableLayoutPanel4
             // 
             this.tableLayoutPanel4.ColumnCount = 1;
@@ -701,6 +677,30 @@
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel4.Size = new System.Drawing.Size(319, 489);
             this.tableLayoutPanel4.TabIndex = 40;
+            // 
+            // btnOk
+            // 
+            this.btnOk.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(122)))), ((int)(((byte)(95)))));
+            this.btnOk.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnOk.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnOk.Location = new System.Drawing.Point(3, 329);
+            this.btnOk.Name = "btnOk";
+            this.btnOk.Size = new System.Drawing.Size(313, 157);
+            this.btnOk.TabIndex = 0;
+            this.btnOk.Text = "OK";
+            this.btnOk.UseVisualStyleBackColor = false;
+            this.btnOk.Visible = false;
+            this.btnOk.Click += new System.EventHandler(this.BtnOk_Click);
+            // 
+            // lblMsgbox
+            // 
+            this.lblMsgbox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblMsgbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMsgbox.Location = new System.Drawing.Point(3, 0);
+            this.lblMsgbox.Name = "lblMsgbox";
+            this.lblMsgbox.Size = new System.Drawing.Size(313, 326);
+            this.lblMsgbox.TabIndex = 35;
+            this.lblMsgbox.Text = "label7";
             // 
             // Form1
             // 

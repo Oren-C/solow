@@ -1014,6 +1014,7 @@ namespace SolowProjectVer2
             aTimer.Dispose();
             nudS.Enabled = true;
             */
+            
             Application.Restart();
         }
 
@@ -1410,7 +1411,7 @@ namespace SolowProjectVer2
                     if (gintButtonsPushed == 4)
                     {
                         //MessageBox.Show("The middle box displays steady state capital per worker and income per worker for the production function you selected and the values for the saving rate, population growth rate, and depreciation rate you selected. Click on the box.");
-                        lblMsgbox.Text = "The middle box displays steady state capital per worker and income per worker for the production function you selected and the values for the saving rate, population growth rate, and depreciation rate you selected. Click on the box.";
+                        lblMsgbox.Text = "The middle box displays steady state capital per worker and income per worker for the production function you selected and the values for the saving rate and population growth rate rate you selected. Click on the box.";
                     }else if (!btnOption1.Visible)
                     {
                         lblMsgbox.Text = "Notice that the economy has transitioned to new steady state level of capital per worker and income per worker. Convince yourself that the change in the parameter(s) you made resulted in the transition shown.";
@@ -1486,7 +1487,7 @@ namespace SolowProjectVer2
                         if (gintButtonsPushed == 4)
                         {
                             //MessageBox.Show("The middle box displays steady state capital per worker and income per worker for the production function you selected and the values for the saving rate, population growth rate, and depreciation rate you selected. Click on the box.");
-                            lblMsgbox.Text = "The middle box displays steady state capital per worker and income per worker for the production function you selected and the values for the saving rate, population growth rate, and depreciation rate you selected. Click on the box.";
+                            lblMsgbox.Text = "The middle box displays steady state capital per worker and income per worker for the production function you selected and the values for the saving rate and population growth rateyou selected. Click on the box.";
                         }
                         else if (!btnOption1.Visible)
                         {

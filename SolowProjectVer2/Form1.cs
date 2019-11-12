@@ -8,22 +8,100 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Timers;
+using System.Windows.Forms.DataVisualization.Charting;
+
+/*
+public struct Locs
+{
+    public static Point YK = new Point(13,33);
+    public static Point Knum = new Point(61, 23);
+    public static Point Kdev = new Point(97, 23);
+    public static Point Kdenom = new Point(121, 23);
+    public static Point L = new Point(157, 33);
+    public static Point Lnum = new Point(176, 23);
+    public static Point Ldev = new Point(212, 23);
+    public static Point Ldenom = new Point(236, 23);
+    public static Point yk = new Point(13, 91);
+    public static Point knum = new Point(61,81);
+    public static Point kdev = new Point(97, 81);
+    public static Point kdenom = new Point(121, 81);
+    public static Point delta = new Point(12, 125);
+    public static Point dnum = new Point(56, 124);
+    public static Point s = new Point(12, 197);
+    public static Point nuds = new Point(52, 199);
+    public static Point n = new Point(12, 247);
+    public static Point nudn = new Point(52, 249);
+    public static Point bApply = new Point(46, 289);
+    public static Point bStart = new Point(197, 157);
+    public static Point bSkip = new Point(197, 229);
+    public static Point bReset = new Point(197, 301);
+    public static Point bOp1 = new Point(354, 379);
+    public static Point bOp2 = new Point(531, 379);
+    public static Point bOp3 = new Point(889, 379);
+    public static Point bOp4 = new Point(1056, 379);
+    public static Point bAns = new Point(683, 380);
+    public static Point bOk = new Point(97, 696);
+    public static Point msg = new Point(16, 436);
+    public static Point cLines = new Point(319, 10);
+    public static Point cC = new Point(319, 436);
+    public static Point cI = new Point(319, 566);
+    public static Point cY = new Point(319, 696);
+
+}
+
+public struct Sizes
+{
+    public static Size YK = new Size(53,25);
+    public static Size Knum = new Size(30,20);
+    public static Size Kdev = new Size(18,25);
+    public static Size Kdenom = new Size(30,20);
+    public static Size L = new Size(24,25);
+    public static Size Lnum = new Size(30,20);
+    public static Size Ldev = new Size(18,25);
+    public static Size Ldenom = new Size(30,20);
+    public static Size yk = new Size(46,25);
+    public static Size knum = new Size(30,20);
+    public static Size kdev = new Size(18,25);
+    public static Size kdenom = new Size(30,20);
+    public static Size delta = new Size(26,24);
+    public static Size dnum = new Size(42,25);
+    public static Size s = new Size(24,24);
+    public static Size nuds = new Size(120,24);
+    public static Size n = new Size(26,24);
+    public static Size nudn = new Size(120,24);
+    public static Size bApply = new Size(126,81);
+    public static Size bStart = new Size(106,66);
+    public static Size bSkip = new Size(106,66);
+    public static Size bReset = new Size(106,66);
+    public static Size bOp = new Size(95, 51);
+    public static Size bAns = new Size(136,40);
+    public static Size bOk = new Size(109,60);
+    public static Size msg = new Size(271,244);
+    public static Size cLines = new Size(856, 363);
+    public static Size subChart = new Size(855, 124);
+}
+*/
+
+
 
 namespace SolowProjectVer2
 {
     public partial class Form1 : Form
     {
-        private static System.Timers.Timer aTimer, bTimer;
+        private static System.Timers.Timer aTimer, bTimer, cTimer;
         double gdblK, gdblY;
         double gdblKStar, gdblYStar;
-        double gdblTempX, gdblMaxK, gdblMinK, gdblTempY, gdblTempInvest, gdblTempDecay;
+        double gdblTempX, gdblMaxK;
         double gdblS, gdblN, gdblDelta;
         double gdblConsum, gdblInvest, gdblDK, gdblChangeK, gdblDecay;
         //double gdblMedianMiniGrph = 5;
         double gdblZmMaxX, gdblZmMinX, gdblZmMaxY, gdblZmMinY;
         double gdblCurMaxX, gdblCurMinX, gdblCurMaxY, gdblCurMinY;
         double gdblOldMaxX, gdblOldMaxY;
+        double gdblScalar;
         double gdblOldKStar;
+        double gdblOldN, gdblOldS;
+        int gintMid;
 
 
 
@@ -35,17 +113,17 @@ namespace SolowProjectVer2
 
         //int[] gintArrLines = new int[] { 0, 1, 2, -1, -1 };
         
-        bool gboolGoLeft = false;
         bool gboolInitialAnimationComplete = false;
         bool gboolZoomAnimationComplete = false;
-        bool gboolInvestChanged = false;
-        bool gboolDecayChanged = false;
+        bool gboolApplyChanges = false;
+        //bool gboolInvestChanged = false;
+        //bool gboolDecayChanged = false;
         //bool gboolAnimationNeeded = false;
         bool gboolLessThanAnimation = false;
 
       
 
-        bool gboolFirstChangeOcc = false;
+
 
         
 
@@ -54,27 +132,178 @@ namespace SolowProjectVer2
         double gdblXRate = .05;
         double gdblMinXRate = .05, gdblMaxXRate = 0.5, gdblMinYRate = 0.5, gdblMaxYRate = 0.5;
         const int TIMERATEINMILIS = 90;
+
+
+        //Size[] sizArr;
+        //Point[] locArr;
         public Form1()
         {
             InitializeComponent();
+            //MessageBox.Show("Enter a value for the exponent on capital.Remember that our production function must exhibit constant returns to scale.Also, enter initial values for the saving rate and population growth rate.");
             
         }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            chrtLines.ChartAreas[0].AxisY.LabelStyle.Format = "{#####.###}";
+            chrtLines.ChartAreas[0].AxisX.LabelStyle.Format = "{#####.###}";
+            /*
+            sizArr = new Size[base.Controls.Count];
+            locArr = new Point[base.Controls.Count];
+            for (int i = 0; i < sizArr.Length; i++)
+            {
+                sizArr[i] = base.Controls[i].Size;
+                locArr[i] = base.Controls[i].Location;
+
+            }
+            Console.WriteLine(sizArr.Length);
+            */
+        }
+        private void Form1_Resize(object sender, EventArgs e)
+        {
+            /*
+            float widthRatio = this.Width / 1205f;
+            lblMsgbox.Text += " " + widthRatio;
+            float heightRatio = this.Height / 800;
+
+            for (int i = 0; i < Controls.Count; i++)
+            {
+                Controls[i].Size = new Size((int)(sizArr[i].Width * widthRatio), (int)(sizArr[i].Height * heightRatio));
+            }
+            */
+        }
+
+        protected override void WndProc(ref Message m)
+        {
+            
+
+            if ( m.Msg == 0x0112)
+            {
+
+                
+
+
+               /*
+                if (m.WParam == new IntPtr( 0xF030 ))
+                {
+                    //The Window is being maximized
+                    Console.WriteLine("the window is being maximized");
+                    System.Drawing.Size size = new Size(20, 10);
+                    chrtLines.Size += size;
+                }
+                else
+                {
+                    Console.WriteLine("the window is changed");
+
+                    
+                    lblYK.Size = Sizes.YK;
+                    lblYK.Location = Locs.YK;
+                    txtKNumerator.Size = Sizes.Knum;
+                    txtKNumerator.Location = Locs.Knum;
+                    lblDev1.Size = Sizes.Kdev;
+                    lblDev1.Location = Locs.Kdev;
+                    txtKDenominator.Size = Sizes.Kdenom;
+                    txtKDenominator.Location = Locs.Kdenom;
+                    lblL.Size = Sizes.L;
+                    lblL.Location = Locs.L;
+                    txtLNumerator.Size = Sizes.Lnum;
+                    txtLNumerator.Location = Locs.Lnum;
+                    lblDev2.Size = Sizes.Ldev;
+                    lblDev2.Location = Locs.Ldev;
+                    txtLDenominator.Size = Sizes.Ldenom;
+                    txtLDenominator.Location = Locs.Ldenom;
+                    lblLittleyk.Size = Sizes.yk;
+                    lblLittleyk.Location = Locs.yk;
+                    txtSmlKNumerator.Size = Sizes.knum;
+                    txtSmlKNumerator.Location = Locs.knum;
+                    lblDev3.Size = Sizes.kdev;
+                    lblDev3.Location = Locs.kdev;
+                    txtSmlKDenominator.Size = Sizes.kdenom;
+                    txtSmlKDenominator.Location = Locs.kdenom;
+                    lblDelta.Size = Sizes.delta;
+                    lblDelta.Location = Locs.delta;
+                    lblNDelta.Size = Sizes.dnum;
+                    lblNDelta.Location = Locs.dnum;
+                    lblS.Size = Sizes.s;
+                    lblS.Location = Locs.s;
+                    nudS.Size = Sizes.nuds;
+                    nudS.Location = Locs.nuds;
+                    lblN.Size = Sizes.n;
+                    lblN.Location = Locs.n;
+                    nudN.Size = Sizes.nudn;
+                    nudN.Location = Locs.nudn;
+                    btnApplyChanges.Size = Sizes.bApply;
+                    btnApplyChanges.Location = Locs.bApply;
+                    btnStart.Size = Sizes.bStart;
+                    btnStart.Location = Locs.bStart;
+                    btnSkip.Size = Sizes.bSkip;
+                    btnSkip.Location = Locs.bSkip;
+                    btnReset.Size = Sizes.bReset;
+                    btnReset.Location = Locs.bReset;
+
+                    btnOption1.Size = Sizes.bOp;
+                    //btnOption1.Location = Locs.bOp1;
+
+                    btnOption2.Size = Sizes.bOp;
+                   // btnOption2.Location = Locs.bOp2;
+
+                    btnOption1.Size = Sizes.bOp;
+                   // btnOption2.Location = Locs.bOp2;
+
+                    btnOption3.Size = Sizes.bOp;
+                   // btnOption3.Location = Locs.bOp3;
+
+                    btnOption4.Size = Sizes.bOp;
+                   // btnOption4.Location = Locs.bOp4;
+
+                    btnAnswer.Size = Sizes.bApply;
+                    btnAnswer.Location = Locs.bApply;
+                    btnOk.Size = Sizes.bOk;
+                    btnOk.Location = Locs.bOk;
+
+                    lblMsgbox.Size = Sizes.msg;
+                    lblMsgbox.Location = Locs.msg;
+
+                    chrtLines.Size = Sizes.cLines;
+                    //chrtLines.Location = Locs.cLines;
+
+                    chrtC.Size = Sizes.subChart;
+                    //chrtC.Location = Locs.cC;
+
+                    chrtI.Size = Sizes.subChart;
+                    //chrtI.Location = Locs.cI;
+
+                    chrtY.Size = Sizes.subChart;
+                   // chrtY.Location = Locs.cY;
+                    
+
+                }
+                */
+            }
+            base.WndProc(ref m);
+        }
+        
         private void BtnStart_Click(object sender, EventArgs e)
         {
             if (IsFractionOkay())
             {
                 btnStart.Enabled = false;
+                btnStart.Visible = false;
+                txtKNumerator.Enabled = false;
+                txtKDenominator.Enabled = false;
                 DisableFields();
                 DrawAllLines();
                 ShowGuessButtons();
                 GenerateGuessButtons();
+                btnOption1.Select();
                 chrtC.ChartAreas[0].AxisX.Minimum = 0;
                 chrtC.ChartAreas[0].AxisX.Maximum = 15;
                 chrtI.ChartAreas[0].AxisX.Minimum = 0;
                 chrtI.ChartAreas[0].AxisX.Maximum = 15;
                 chrtY.ChartAreas[0].AxisX.Minimum = 0;
                 chrtY.ChartAreas[0].AxisX.Maximum = 15;
+                //MessageBox.Show("The four boxes you see represent potential choices for initial capital per worker. Click on a box and observe transition to steady state capital per worker. Repeat for each choice.");
+                lblMsgbox.Text = "The four boxes you see represent potential choices for initial capital per worker. Click on a box and observe transition to steady state capital per worker. Repeat for each choice. Notice that each choice is not steady state capital per worker.";
             }
         }
 
@@ -85,20 +314,29 @@ namespace SolowProjectVer2
             gdblOldMaxX = chrtLines.ChartAreas[0].AxisX.Maximum;
             gdblOldMaxY = chrtLines.ChartAreas[0].AxisY.Maximum;
 
+            SetZoomConstraints(kvalue);
+            
+            // I need to get the average of the two points and set the min and max by that instead of them themselves.
 
+            SetTimerB(this);
+
+        }
+
+        private void SetZoomConstraints(double kvalue)
+        {
             double incValue;
             if (kvalue < 1)
             {
-                incValue = (Math.Pow(kvalue, 3)/4d) + kvalue;
+                incValue = (Math.Pow(kvalue, 3) / 4d) + kvalue;
             }
             else
             {
-                incValue = (Math.Sqrt(kvalue)/4d) + kvalue;
+                incValue = (Math.Sqrt(kvalue) / 4d) + kvalue;
             }
             //chrtLines.ChartAreas[0].AxisX.Maximum = incValue;
-            Console.WriteLine("the k value is " + kvalue);
+            //Console.WriteLine("the k value is " + kvalue);
             gdblZmMaxX = incValue;
-            Console.WriteLine("the Max x is " + gdblZmMaxX);
+            //Console.WriteLine("the Max x is " + gdblZmMaxX);
 
             if (kvalue < 1)
             {
@@ -110,98 +348,40 @@ namespace SolowProjectVer2
             }
             //chrtLines.ChartAreas[0].AxisX.Minimum = incValue;
             gdblZmMinX = incValue;
-            Console.WriteLine("'The min x is " + gdblZmMinX);
+            //Console.WriteLine("'The min x is " + gdblZmMinX);
             double locInvest = CalcInvest(Calcy(kvalue), gdblS);
             double locDecay = CalcDecay(gdblN, gdblDelta, kvalue);
 
-            Console.WriteLine("The locInvest value is " + locInvest);
-            Console.WriteLine("the locDecay value is " + locDecay);
+            //Console.WriteLine("The locInvest value is " + locInvest);
+            //Console.WriteLine("the locDecay value is " + locDecay);
 
             double avg = (locInvest + locDecay) / 2;
-            Console.WriteLine("The avg " + avg);
+            //Console.WriteLine("The avg " + avg);
             double dist = Math.Abs(locInvest - avg);
-            Console.WriteLine("the dist is " + dist);
-            if(avg < 1)
+            //Console.WriteLine("the dist is " + dist);
+            if (avg < 1)
             {
                 incValue = avg + locInvest + (Math.Pow(avg + dist, 3) / 4d);
             }
             else
             {
-                incValue = avg + locInvest + (Math.Sqrt(avg + dist) / 4d);
+                //incValue = avg + locInvest + (Math.Sqrt(avg + dist) / 8d);
+                incValue = avg + 2 * dist;
             }
             gdblZmMaxY = incValue;
-            Console.WriteLine("The max y" + gdblZmMaxY);
-            if(avg < 1)
+            //Console.WriteLine("The max y" + gdblZmMaxY);
+            if (avg < 1)
             {
                 incValue = avg - (locInvest + (Math.Pow(avg + dist, 3) / 4d));
             }
             else
             {
-                incValue = avg - (locInvest + (Math.Sqrt(avg + dist) / 4d));
+                //incValue = avg - (locInvest + (Math.Sqrt(dist + avg) / 4d));
+                incValue = avg - 2 * dist;
             }
             gdblZmMinY = incValue;
-            Console.WriteLine("the min y " + gdblZmMinY);
-            // I need to get the average of the two points and set the min and max by that instead of them themselves.
-            /*
-            if (locInvest > locDecay)
-            {
-                if (locInvest < 1)
-                {
-                    incValue = locInvest + (Math.Pow(locInvest, 3) / 4d);
-                }
-                else
-                {
-                    incValue = locInvest + (Math.Sqrt(locInvest) / 4d);
-                }
-                //chrtLines.ChartAreas[0].AxisY.Maximum = incValue;
-                gdblZmMaxY = incValue;
-                if (locDecay < 1)
-                {
-                    incValue = locDecay - (Math.Pow(locDecay, 3) / 4d);
-                }
-                else
-                {
-                    incValue = locDecay - (Math.Sqrt(locDecay) / 4d);
-                }
-                //chrtLines.ChartAreas[0].AxisY.Minimum = incValue;
-                gdblZmMinY = incValue;
-            }
-            else
-            {
-                if (locDecay < 1)
-                {
-                    incValue = locDecay + (Math.Pow(locDecay, 3) / 4d);
-                }
-                else
-                {
-                    incValue = locDecay + (Math.Sqrt(locDecay) / 4d);
-                }
-                //chrtLines.ChartAreas[0].AxisY.Maximum = incValue;
-                gdblZmMaxY = incValue;
-                if (locInvest < 1)
-                {
-                    incValue = locInvest - (Math.Pow(locInvest, 3) / 4d);
-                }
-                else
-                {
-                    incValue = locInvest - (Math.Sqrt(locInvest) / 4d);
-                }
-                //chrtLines.ChartAreas[0].AxisY.Minimum = incValue;
-                gdblZmMinY = incValue;
-                
-            }
-            */
-            //Console.WriteLine("this goes throguh");
-            SetTimerB(this);
-            /*
-            chrtLines.ChartAreas[0].AxisY.Maximum = CalcInvest(Calcy(kvalue), gdblS) + 0.25;
-            chrtLines.ChartAreas[0].AxisY.Minimum = CalcInvest(Calcy(kvalue), gdblS) - 0.25;
-            */
-
-
-
+            //Console.WriteLine("the min y " + gdblZmMinY);
         }
-
         private static void SetTimerB(Form1 daFrm)
         {
             bTimer = new System.Timers.Timer(40);
@@ -241,24 +421,33 @@ namespace SolowProjectVer2
                     //Console.WriteLine("MinY: " + gdblCurMinY);
                     //Console.WriteLine((gdblCurMaxX - gdblZmMaxX) > (gdblZmMinX - gdblCurMinX));
                     //Console.WriteLine("Is the problem here maybe");
-                    if(Math.Abs((gdblCurMaxX - gdblZmMaxX) - (gdblZmMinX - gdblCurMinX))< 0.05)
+                    if((gdblCurMaxX - gdblZmMaxX) > 5 || (gdblZmMinX - gdblCurMinX)>5)
+                    {
+                        gdblScalar = 12;
+                    }
+                    else
+                    {
+                        gdblScalar = 1;
+                    }
+                    if(Math.Abs((gdblCurMaxX - gdblZmMaxX) - (gdblZmMinX - gdblCurMinX))< 0.05*gdblScalar)
                     {
                         //Console.WriteLine("Both Similar");
-                        gdblMaxXRate = 0.05;
-                        gdblMinXRate = 0.05;
+                        gdblMaxXRate = 0.05*gdblScalar;
+                        gdblMinXRate = 0.05*gdblScalar;
                     }
                     else if((gdblCurMaxX - gdblZmMaxX) > (gdblZmMinX - gdblCurMinX))
                     {
                         //Console.WriteLine("the second option");
-                        gdblMaxXRate = 0.06;
-                        gdblMinXRate = 0.0008;
+                        
+                        gdblMaxXRate = 0.06*gdblScalar;
+                        gdblMinXRate = 0.0008*gdblScalar;
                         
                     }
                     else
                     {
                         //Console.WriteLine("the thrid option");
-                        gdblMaxXRate = 0.0008;
-                        gdblMinXRate = 0.06;
+                        gdblMaxXRate = 0.0008*gdblScalar;
+                        gdblMinXRate = 0.06*gdblScalar;
                     }
 
                     if(Math.Abs((gdblCurMaxY - gdblZmMaxX) - (gdblZmMinX - gdblCurMinX))< 0.05)
@@ -282,25 +471,25 @@ namespace SolowProjectVer2
                         try {
                             if (gdblCurMaxX > gdblZmMaxX + gdblMaxXRate)
                             {
-                                //Console.WriteLine("changing max x");
+                                //Console.WriteLine("changing max x rate is "+ gdblMaxXRate);
                                 chrtLines.ChartAreas[0].AxisX.Maximum -= gdblMaxXRate;
                                 //Console.WriteLine("changing max x after" + chrtLines.ChartAreas[0].AxisX.Maximum + "here is the zm max x" + gdblZmMaxX);
                             }
                             if (gdblCurMaxY > gdblZmMaxY + gdblMaxYRate)
                             {
-                                //Console.WriteLine("Changing max y");
+                                //Console.WriteLine("Changing max y rate is "+ gdblMaxYRate);
                                 chrtLines.ChartAreas[0].AxisY.Maximum -= gdblMaxYRate;
                                 //Console.WriteLine("Changing max y after"+ chrtLines.ChartAreas[0].AxisY.Maximum + "here is the zm max y" + gdblZmMaxY);
                             }
                             if (gdblCurMinX < gdblZmMinX - gdblMinXRate)
                             {
-                               // Console.WriteLine("Changing min x ");
+                               //Console.WriteLine("Changing min x rate is "+ gdblMinXRate);
                                 chrtLines.ChartAreas[0].AxisX.Minimum += gdblMinXRate;
                                // Console.WriteLine("Changing min x after"+ chrtLines.ChartAreas[0].AxisX.Minimum + "here is the zm min x" + gdblZmMinX);
                             }
                             if (gdblCurMinY < gdblZmMinY - gdblMinYRate)
                             {
-                                //Console.WriteLine("Changing min y");
+                                //Console.WriteLine("Changing min y rate is "+ gdblMinYRate);
                                 chrtLines.ChartAreas[0].AxisY.Minimum += gdblMinYRate;
                                 //Console.WriteLine("Changing min y after"+ chrtLines.ChartAreas[0].AxisY.Minimum + "here is the zm min y" + gdblZmMinY);
                             }
@@ -314,28 +503,43 @@ namespace SolowProjectVer2
                     else
                     {
                         bTimer.Enabled = false;
-                        int mid = AddLabels(gdblZmMinX, gdblZmMaxX);
+                        gintMid = AddLabels(gdblZmMinX, gdblZmMaxX);
                         if (gdblK > gdblKStar)
                         {
-                            MessageBox.Show("Notice at the k selected, new investment in the economy falls below that which is required to break even.  Therefore, capital per worker will decrease as the economy transitions to steady-state.");
+                            //MessageBox.Show("Notice at the k selected, new investment in the economy falls below that which is required to break even.  Therefore, capital per worker will decrease as the economy transitions to steady-state.");
+                            lblMsgbox.Text = "Notice at the k selected, new investment in the economy falls below that which is required to break even.  Therefore, capital per worker will decrease as the economy transitions to steady-state.";
                         }
                         else
                         {
-                            MessageBox.Show("Notice at the k selected, new investment in the economy exceeds that which is required to break even.  Therefore, capital per worker will increase as the economy transitions to steady-state.");
+                            //MessageBox.Show("Notice at the k selected, new investment in the economy exceeds that which is required to break even.  Therefore, capital per worker will increase as the economy transitions to steady-state.");
+                            lblMsgbox.Text = "Notice at the k selected, new investment in the economy exceeds that which is required to break even.  Therefore, capital per worker will increase as the economy transitions to steady-state.";
                         }
-
-                        RemoveLabels(mid);
+                        btnSkip.Enabled = false;
+                        btnSkip.Visible = false;
+                        btnOk.Visible = true;
+                        btnOk.Select();
+                        //Zooms out 
+                        /*
+                        RemoveLabels(gintMid);
                         chrtLines.ChartAreas[0].AxisX.Maximum = gdblOldMaxX;
                         chrtLines.ChartAreas[0].AxisX.Minimum = 0;
                         chrtLines.ChartAreas[0].AxisY.Maximum = gdblOldMaxY;
                         chrtLines.ChartAreas[0].AxisY.Minimum = 0;
+                        //Console.WriteLine("Hellppp mee pleeeassee");
+                        //Should add a wait but it happens before the zoom out
+                        //DoNothing(3000);
 
+
+
+                        //System.Threading.Thread.Sleep(500);
                         // Edits need to happen here
                         // Set gdblk to 0
                         // Call draw all lines
                         // The b timer is stopped and then the a timer should be formally started
-                        gboolZoomAnimationComplete = true;
-                        aTimer.Enabled = true;
+                        //gboolZoomAnimationComplete = true;
+                        //aTimer.Enabled = true;
+                        SetDelay(this, 2000);
+                        */
                     }
                 }
                 else // Skip has been pressed
@@ -357,12 +561,79 @@ namespace SolowProjectVer2
 
             }
         }
+        private void ContinueAfterMessage()
+        {
+            RemoveLabels(gintMid);
+            chrtLines.ChartAreas[0].AxisX.Maximum = gdblOldMaxX;
+            chrtLines.ChartAreas[0].AxisX.Minimum = 0;
+            chrtLines.ChartAreas[0].AxisY.Maximum = gdblOldMaxY;
+            chrtLines.ChartAreas[0].AxisY.Minimum = 0;
+            //Console.WriteLine("Hellppp mee pleeeassee");
+            //Should add a wait but it happens before the zoom out
+            //DoNothing(3000);
+
+
+
+            //System.Threading.Thread.Sleep(500);
+            // Edits need to happen here
+            // Set gdblk to 0
+            // Call draw all lines
+            // The b timer is stopped and then the a timer should be formally started
+            //gboolZoomAnimationComplete = true;
+            //aTimer.Enabled = true;
+            SetDelay(this, 2000);
+        }
+
+        private static void SetDelay(Form1 daFrm, int waitTime)
+        {
+            cTimer = new System.Timers.Timer(waitTime);
+            cTimer.Elapsed += daFrm.AfterWait;
+            cTimer.AutoReset = false;
+            cTimer.Enabled = true;
+        }
+
+        delegate void ArgReturningVoidDelegatec(object source, ElapsedEventArgs e);
+        private void AfterWait(object source, ElapsedEventArgs e)
+        {
+            if (this.chrtLines.InvokeRequired)
+            {
+                ArgReturningVoidDelegatec d = new ArgReturningVoidDelegatec(AfterWait);
+                try
+                {
+                    this.Invoke(d, new object[] { source, e });
+                }
+                catch (System.ObjectDisposedException)
+                {
+
+                }
+            }
+            else
+            {
+                //Console.WriteLine("it executed afte timer");
+                gboolZoomAnimationComplete = true;
+                btnSkip.Enabled = true;
+                btnSkip.Visible = true;
+                btnSkip.Select();
+                aTimer.Enabled = true;
+
+            }
+        }
+
+
+                private void DoNothing(int miliSecs)
+        {
+            System.Threading.Thread.Sleep(miliSecs);
+        }
         private void btnApplyChanges_Click(object sender, EventArgs e)
         {
-            //gboolAnimationNeeded = true;
             btnApplyChanges.Visible = false;
             DisableFields();
-            double oldKStar = gdblKStar;
+            
+
+            //gboolAnimationNeeded = true;
+            //btnApplyChanges.Visible = false;
+            //DisableFields();
+            gdblOldKStar = gdblKStar;
             //gdblOldKStar = gdblKStar;
 
             // this will delete all the lines this is where the problem lies as we are adding multiple new lines and
@@ -370,28 +641,139 @@ namespace SolowProjectVer2
             ClearAllUpperLines();
             gdblK = 0;
             //I need to zoom before I draw all !Wait maybe not
-
-            gdblS = (double)nudS.Value;
-            gdblN = (double)nudN.Value;
-            gdblDelta = (double)nudDelta.Value;
+            
+            //gdblDelta = (double)nudDelta.Value;
+            //Console.WriteLine($"here is the old s {gdblOldS} and here is the old n {gdblOldN}");
+            gdblDelta = 0.1;
 
             CalcKsandYs(gdblS, gdblN, gdblDelta);
-            if (oldKStar < gdblKStar)
+
+            if (gdblOldKStar < gdblKStar)
             {
                 DrawAllLines();
-                StartAnimation(oldKStar);
+
             }
             else
             {
                 DrawLines();
                 gboolLessThanAnimation = true;
-                StartAnimation(oldKStar);
-            }
 
-            
+            }
+            //Words Section
+
+            string message = "";
+            if(gdblS > gdblOldS)
+            {
+                
+                if(gdblN > gdblOldN)
+                {
+                    //Option 7
+                    if(gdblKStar > gdblOldKStar)
+                    {
+                        message = "You have increased the saving rate and increased the population growth rate.  As a result, investment now exceeds its break-even point, and the economy will transition to a new steady state";
+
+                    }else if(gdblKStar < gdblOldKStar)
+                    {
+                        message = "You have increased the saving rate and increased the population growth rate.  As a result, investment is now less than its break-even point, and the economy will transition to a new steady state.";
+                    }
+                    else
+                    {
+                        message = "Error nothing changed";
+                    }
+
+
+                }else if(gdblN < gdblOldN)
+                {
+                    //Option 5
+                    message = "You have increased the saving rate and decreased the population growth rate.  As a result, investment now exceeds its break-even point, and the economy will transition to a new steady state.";
+
+
+                }
+                else
+                {
+                    //Option 1
+                    message = "You have increased the saving rate and left the population growth rate unchanged.  As a result, investment now exceeds its break-even point, and the economy will transition to a new steady state.";
+
+
+                }
+
+                
+                
+            }else if(gdblS < gdblOldS)
+            {
+                if (gdblN > gdblOldN)
+                {
+                    //Option 6
+                    message = "You have decreased the saving rate and increased the population growth rate.  As a result, investment is now less than its break-even point, and the economy will transition to a new steady state.";
+
+
+
+                }
+                else if (gdblN < gdblOldN)
+                {
+                    //Option 8
+
+                    if (gdblKStar > gdblOldKStar)
+                    {
+                        message = "You have decreased the saving rate and decreased the population growth rate.  As a result, investment now exceeds its break-even point, and the economy will transition to a new steady state";
+
+                    }
+                    else if (gdblKStar < gdblOldKStar)
+                    {
+                        message = "You have decreased the saving rate and decreased the population growth rate.  As a result, investment is now less than its break-even point, and the economy will transition to a new steady state.";
+                    }
+                    else
+                    {
+                        message = "Error nothing changed";
+                    }
+                }
+                else
+                {
+                    //Option 2
+                    message = "You have decreased the saving rate and left the population growth rate unchanged.  As a result, investment is now less than its break-even point, and the economy will transition to a new steady state.";
+
+
+                }
+            }else if(gdblN > gdblOldN)
+            {
+                // Option 3
+                message = "You have left the saving rate unchanged and increased the population growth rate.  As a result, investment is now less than its break-even point, and the economy will transition to a new steady state.";
+
+            }
+            else if(gdblN < gdblOldN)
+            {
+                //Option 4
+                message = "You have left the saving rate unchanged and increased the population growth rate.  As a result, investment now exceeds its break-even point, and the economy will transition to a new steady state.";
+
+            }
+            else
+            {
+                //No changes made
+                message = "You did not make a change";
+            }
+            lblMsgbox.Text = message;
+
+
+
+
+
+            gboolApplyChanges = true;
+            btnOk.Visible = true;
+            btnOk.Select();
+            //ApplyChanges();
+
         }
 
-
+        private void ApplyChanges()
+        {
+            
+            
+            
+            btnSkip.Enabled = true;
+            btnSkip.Visible = true;
+            btnSkip.Select();
+            StartAnimation(gdblOldKStar);
+        }
 
         
 
@@ -400,11 +782,16 @@ namespace SolowProjectVer2
         {
             gdblS = (double)nudS.Value;
             gdblN = (double)nudN.Value;
-            gdblDelta = (double)nudDelta.Value;
+            //gdblDelta = (double)nudDelta.Value;
+            gdblDelta = 0.1;
 
             CalcKsandYs(gdblS, gdblN, gdblDelta);
-            btnAnswer.Text = "K* = " + RoundTo3Decimals(gdblKStar)+"\n Y* = "+RoundTo3Decimals(gdblYStar);
-            Console.WriteLine("K* = " + gdblKStar + "\n Y* = " + gdblYStar);
+            if (btnAnswer.Enabled)
+            {
+                btnAnswer.Text = "k* = " + RoundTo3Decimals(gdblKStar) + "\n y* = " + RoundTo3Decimals(gdblYStar);
+            }
+            //btnAnswer.Text = "k* = " + RoundTo3Decimals(gdblKStar)+"\n y* = "+RoundTo3Decimals(gdblYStar);
+            //Console.WriteLine("k* = " + gdblKStar + "\n y* = " + gdblYStar);
 
             // Calculate the initial window size
             //If zoom needed do something 
@@ -461,22 +848,22 @@ namespace SolowProjectVer2
 
         private int AddLabels(double min, double max)
         {
-            Console.WriteLine("hey it activates");
+            //Console.WriteLine("hey it activates");
             System.Windows.Forms.DataVisualization.Charting.DataPoint[] bigArr;
             //double[] bigArr;
             bigArr = chrtLines.Series[0].Points.ToArray();
             int mid = SearchDataArray(bigArr, 0, bigArr.Length - 1, (min + max) / 2);
-            Console.WriteLine(mid);
+            //Console.WriteLine(mid);
             if(mid == -1)
             {
-                Console.WriteLine("Not found");
+                //Console.WriteLine("Not found");
             }
             chrtLines.Series[0].Points[mid].Label = "PerCapita";
             chrtLines.Series[1].Points[mid].Label = "Invest";
-            chrtLines.Series[2].Points[mid].Label = "Decay";
-            Console.WriteLine("The y value of capita is {0}", chrtLines.Series[0].Points[mid].YValues[0]);
-            Console.WriteLine("The y value of invest is {0}", chrtLines.Series[1].Points[mid].YValues[0]);
-            Console.WriteLine("The y value of decay is {0}", chrtLines.Series[2].Points[mid].YValues[0]);
+            chrtLines.Series[2].Points[mid].Label = "Break Even";
+            //Console.WriteLine("The y value of capita is {0}", chrtLines.Series[0].Points[mid].YValues[0]);
+            //Console.WriteLine("The y value of invest is {0}", chrtLines.Series[1].Points[mid].YValues[0]);
+            //Console.WriteLine("The y value of decay is {0}", chrtLines.Series[2].Points[mid].YValues[0]);
 
             return mid;
         }
@@ -537,13 +924,13 @@ namespace SolowProjectVer2
         {
             nudS.Enabled = false;
             nudN.Enabled = false;
-            nudDelta.Enabled = false;
+            //nudDelta.Enabled = false;
         }
         private void EnableFields()
         {
             nudS.Enabled = true;
             nudN.Enabled = true;
-            nudDelta.Enabled = true;
+            //nudDelta.Enabled = true;
         }
         private void ShowGuessButtons()
         {
@@ -613,6 +1000,7 @@ namespace SolowProjectVer2
         private void BtnSkip_Click(object sender, EventArgs e)
         {
             btnSkip.Enabled = false;
+            btnSkip.Visible = false;
             gboolInterrupt = true;
             //EnableFields();
         }
@@ -626,16 +1014,18 @@ namespace SolowProjectVer2
             aTimer.Dispose();
             nudS.Enabled = true;
             */
+            
             Application.Restart();
         }
 
         private void GenerateGuessButtons()
         {
-            btnOption1.Text = RandomDoubleBetween(0, gdblKStar).ToString();
-            btnOption2.Text = RandomDoubleBetween(0, gdblKStar).ToString();
+            SetZoomConstraints(gdblKStar);
+            btnOption1.Text = RoundTo3Decimals(RandomDoubleBetween(0, gdblZmMinX)).ToString();
+            btnOption2.Text = RoundTo3Decimals(RandomDoubleBetween(0, gdblZmMinX)).ToString();
 
-            btnOption3.Text = RandomDoubleBetween(gdblKStar + 0.01, gdblMaxK).ToString();
-            btnOption4.Text = RandomDoubleBetween(gdblKStar + 0.01, gdblMaxK).ToString();
+            btnOption3.Text = RoundTo3Decimals(RandomDoubleBetween(gdblZmMaxX, gdblMaxK)).ToString();
+            btnOption4.Text = RoundTo3Decimals(RandomDoubleBetween(gdblZmMaxX, gdblMaxK)).ToString();
 
         }
 
@@ -653,6 +1043,41 @@ namespace SolowProjectVer2
             chrtLines.Series[2].Label = "";
 
         }
+
+        
+
+        private void btnPrintSize_Click(object sender, EventArgs e)
+        {
+            lblMsgbox.Text = chrtLines.Size.Width.ToString();
+        }
+
+        
+
+        private void BtnOk_Click(object sender, EventArgs e)
+        {
+            btnOk.Visible = false;
+            
+            if (gboolApplyChanges)
+            {
+                gboolApplyChanges = false;
+                ApplyChanges();
+            }
+            else
+            {
+                ContinueAfterMessage();
+            }
+            
+            
+        }
+
+        
+
+        private void Form1_Shown(object sender, EventArgs e)
+        {
+            //MessageBox.Show("Enter a value for the exponent on capital.Remember that our production function must exhibit constant returns to scale.Also, enter initial values for the saving rate, population growth rate, and rate of depreciation.");
+            lblMsgbox.Text = "Enter a value for the exponent on capital.Remember that our production function must exhibit constant returns to scale.Also, enter initial values for the saving rate and population growth rate.";
+        }
+
 
         private void txtKNumerator_Leave(object sender, EventArgs e)
         {
@@ -682,7 +1107,8 @@ namespace SolowProjectVer2
             {
                 //Console.WriteLine("Hellow it went thrugh");
                 btnApplyChanges.Visible = true;
-                gboolInvestChanged = true;
+                //Commented out because never used
+                //gboolInvestChanged = true;
                 gdblS = (double)nudS.Value;
                 DrawNewLine(5);
             }
@@ -694,57 +1120,76 @@ namespace SolowProjectVer2
             if (gboolInitialAnimationComplete)
             {
                 btnApplyChanges.Visible = true;
-                gboolDecayChanged = true;
+                //Commented out because never used
+                //gboolDecayChanged = true;
                 gdblN = (double)nudN.Value;
                 DrawNewLine(6);
             }
 
         }
 
+
+        /*
         private void nudDelta_ValueChanged(object sender, EventArgs e)
         {
             if (gboolInitialAnimationComplete)
             {
                 btnApplyChanges.Visible = true;
                 gboolDecayChanged = true;
-                gdblDelta = (double)nudDelta.Value;
+                //gdblDelta = (double)nudDelta.Value;
+                gdblDelta = 0.1;
                 DrawNewLine(6);
             }
 
         }
-
+        */
         private void btnOption1_Click(object sender, EventArgs e)
         {
+            DisableButtons();
             //gboolAnimationNeeded = true;
-            if(btnOption1.BackColor != Color.Aqua)
+            if(btnOption1.BackColor != Color.Green)
             {
                 gintButtonsPushed += 1;
-                DisableButtons();
+                //DisableButtons();
                 btnSkip.Enabled = true;
-                btnOption1.BackColor = Color.Aqua;
+                btnSkip.Visible = true;
+                btnSkip.Select();
+                btnOption1.BackColor = Color.Green;
+                
                 StartAnimation(double.Parse(btnOption1.Text));
-                if(gintButtonsPushed == 4)
+                if (gintButtonsPushed == 4)
                 {
                     ShowAnswerButton();
                 }
             }
             else
             {
+                if (gintButtonsPushed >= 4)
+                {
+                    gintButtonsPushed++;
+                    //ShowAnswerButton();
+                }
                 btnSkip.Enabled = true;
+                btnSkip.Visible = true;
+                btnSkip.Select();
                 StartAnimation(double.Parse(btnOption1.Text));
+                
             }
             
         }
 
         private void btnOption2_Click(object sender, EventArgs e)
         {
+            DisableButtons();
             //gboolAnimationNeeded = true;
-            if (btnOption2.BackColor != Color.Aqua)
+            if (btnOption2.BackColor != Color.Green)
             {
                 gintButtonsPushed += 1;
-                DisableButtons();
+                //DisableButtons();
                 btnSkip.Enabled = true;
-                btnOption2.BackColor = Color.Aqua;
+                btnSkip.Visible = true;
+                btnSkip.Select();
+                btnOption2.BackColor = Color.Green;
                 StartAnimation(double.Parse(btnOption2.Text));
                 if (gintButtonsPushed == 4)
                 {
@@ -753,7 +1198,14 @@ namespace SolowProjectVer2
             }
             else
             {
+                if (gintButtonsPushed >= 4)
+                {
+                    gintButtonsPushed++;
+                    //ShowAnswerButton();
+                }
                 btnSkip.Enabled = true;
+                btnSkip.Visible = true;
+                btnSkip.Select();
                 StartAnimation(double.Parse(btnOption2.Text));
             }
         }
@@ -761,12 +1213,15 @@ namespace SolowProjectVer2
         private void btnOption3_Click(object sender, EventArgs e)
         {
             //gboolAnimationNeeded = true;
-            if (btnOption3.BackColor != Color.Aqua)
+            if (btnOption3.BackColor != Color.Green)
             {
-                gintButtonsPushed += 1;
                 DisableButtons();
+                gintButtonsPushed += 1;
+                //DisableButtons();
                 btnSkip.Enabled = true;
-                btnOption3.BackColor = Color.Aqua;
+                btnSkip.Visible = true;
+                btnSkip.Select();
+                btnOption3.BackColor = Color.Green;
                 StartAnimation(double.Parse(btnOption3.Text));
                 if (gintButtonsPushed == 4)
                 {
@@ -775,29 +1230,46 @@ namespace SolowProjectVer2
             }
             else
             {
+                if (gintButtonsPushed >= 4)
+                {
+                    gintButtonsPushed++;
+                    //ShowAnswerButton();
+                }
                 btnSkip.Enabled = true;
+                btnSkip.Visible = true;
+                btnSkip.Select();
                 StartAnimation(double.Parse(btnOption3.Text));
             }
         }
 
         private void btnOption4_Click(object sender, EventArgs e)
         {
+            DisableButtons();
             //gboolAnimationNeeded = true;
-            if (btnOption4.BackColor != Color.Aqua)
+            if (btnOption4.BackColor != Color.Green)
             {
                 gintButtonsPushed += 1;
-                DisableButtons();
+                //DisableButtons();
                 btnSkip.Enabled = true;
-                btnOption4.BackColor = Color.Aqua;
+                btnSkip.Visible = true;
+                btnSkip.Select();
+                btnOption4.BackColor = Color.Green;
                 StartAnimation(double.Parse(btnOption4.Text));
-                if (gintButtonsPushed == 4)
+                if(gintButtonsPushed == 4)
                 {
                     ShowAnswerButton();
                 }
             }
             else
             {
+                if (gintButtonsPushed >= 4)
+                {
+                    gintButtonsPushed++;
+                    //ShowAnswerButton();
+                }
                 btnSkip.Enabled = true;
+                btnSkip.Visible = true;
+                btnSkip.Select();
                 StartAnimation(double.Parse(btnOption4.Text));
             }
         }
@@ -805,15 +1277,38 @@ namespace SolowProjectVer2
         private void btnAnswer_Click(object sender, EventArgs e)
         {
             gboolInitialAnimationComplete = true;
+            gintButtonsPushed = 0;
             HideGuessButtons();
             btnAnswer.Enabled = false;
             EnableFields();
-            
+            //MessageBox.Show("Please make changes to the saving rate, population growth rate, and depreciation rate. Notice that the relevant functions will shift because of the changes you make. Think about how those changes will affect the steady state capital per worker and income per worker. Click “Apply Changes” and see if your intuition is correct. You may do this as many time as you would like.");
+            lblMsgbox.Text = "Please make changes to the saving rate and/or the population growth rate. Notice that the relevant functions will shift because of the changes you make. Think about how those changes will affect the steady state capital per worker and income per worker. Click “Apply Changes” and see if your intuition is correct. You may do this as many time as you would like.";
+            DataPoint[] lastArr = new DataPoint[3];
+            lastArr[0] = chrtC.Series[0].Points.Last();
+            lastArr[1] = chrtI.Series[0].Points.Last();
+            lastArr[2] = chrtY.Series[0].Points.Last();
+            chrtC.Series[0].Points.Clear();
+            chrtI.Series[0].Points.Clear();
+            chrtY.Series[0].Points.Clear();
+
+            chrtC.Series[0].Points.AddXY(chrtC.ChartAreas[0].AxisX.Minimum, lastArr[0].YValues[0]);
+            chrtC.Series[0].Points.AddXY(lastArr[0].XValue, lastArr[0].YValues[0]);
+
+            chrtI.Series[0].Points.AddXY(chrtI.ChartAreas[0].AxisX.Minimum, lastArr[1].YValues[0]);
+            chrtI.Series[0].Points.AddXY(lastArr[1].XValue, lastArr[1].YValues[0]);
+
+            chrtY.Series[0].Points.AddXY(chrtY.ChartAreas[0].AxisX.Minimum, lastArr[2].YValues[0]);
+            chrtY.Series[0].Points.AddXY(lastArr[2].XValue, lastArr[2].YValues[0]);
+
+            chrtC.Visible = true;
+            chrtI.Visible = true;
+            chrtY.Visible = true;
         }
 
         private void ShowAnswerButton()
         {
             btnAnswer.Visible = true;
+            //MessageBox.Show("The middle box displays steady state capital per worker and income per worker for the production function you selected and the values for the saving rate, population growth rate, and depreciation rate you selected. Click on the box.");
         }
         
 
@@ -829,7 +1324,11 @@ namespace SolowProjectVer2
             gdblDK = CalcDeltaTimesK();
             gdblChangeK = CalcChangeOfK();
             gdblDecay = CalcDecay(gdblN, gdblDelta, gdblK);
+            //MessageForm messageForm = new MessageForm();
+            //messageForm.Show();
 
+            gdblOldN = gdblN;
+            gdblOldS = gdblS;
 
             SetTimer(this);
         }
@@ -862,6 +1361,7 @@ namespace SolowProjectVer2
                 {
                     aTimer.Enabled = false;
                     gboolInterrupt = false;
+                    gboolZoomAnimationComplete = false;
                     while ((gdblChangeK > 0.001) || (gdblChangeK < -0.001))
                     {
                         chrtC.Series[0].Points.AddXY(gdblMiniGraphXVal, gdblConsum);
@@ -905,7 +1405,18 @@ namespace SolowProjectVer2
                         EnableButtons();
                     }
 
+                    
 
+
+                    if (gintButtonsPushed == 4)
+                    {
+                        //MessageBox.Show("The middle box displays steady state capital per worker and income per worker for the production function you selected and the values for the saving rate, population growth rate, and depreciation rate you selected. Click on the box.");
+                        lblMsgbox.Text = "The middle box displays steady state capital per worker and income per worker for the production function you selected and the values for the saving rate and population growth rate rate you selected. Click on the box.";
+                    }else if (!btnOption1.Visible)
+                    {
+                        lblMsgbox.Text = "Notice that the economy has transitioned to new steady state level of capital per worker and income per worker. Convince yourself that the change in the parameter(s) you made resulted in the transition shown.";
+                    }
+                    btnAnswer.Text = "k* = " + RoundTo3Decimals(gdblKStar) + "\n y* = " + RoundTo3Decimals(gdblYStar);
                 }// Else the skip button has not been pressed
                 else
                 {
@@ -953,6 +1464,7 @@ namespace SolowProjectVer2
                     {
 
                         btnSkip.Enabled = false;
+                        btnSkip.Visible = false;
                         aTimer.Enabled = false;
                         gboolZoomAnimationComplete = false;
                         if (gboolLessThanAnimation)
@@ -971,9 +1483,20 @@ namespace SolowProjectVer2
                         {
                             EnableButtons();
                         }
-
+                        //Console.WriteLine($"Here the value of buttons pushed is {gintButtonsPushed}");
+                        if (gintButtonsPushed == 4)
+                        {
+                            //MessageBox.Show("The middle box displays steady state capital per worker and income per worker for the production function you selected and the values for the saving rate, population growth rate, and depreciation rate you selected. Click on the box.");
+                            lblMsgbox.Text = "The middle box displays steady state capital per worker and income per worker for the production function you selected and the values for the saving rate and population growth rateyou selected. Click on the box.";
+                        }
+                        else if (!btnOption1.Visible)
+                        {
+                            lblMsgbox.Text = "Notice that the economy has transitioned to new steady state level of capital per worker and income per worker. Convince yourself that the change in the parameter(s) you made resulted in the transition shown.";
+                        }
+                        btnAnswer.Text = "k* = " + RoundTo3Decimals(gdblKStar) + "\n y* = " + RoundTo3Decimals(gdblYStar);
                     }
                 }
+
                 
             }
         }

@@ -101,6 +101,7 @@ namespace SolowProjectVer2
         double gdblScalar;
         double gdblOldKStar;
         double gdblOldN, gdblOldS;
+        double gdblTempK;
         int gintMid;
 
 
@@ -120,7 +121,7 @@ namespace SolowProjectVer2
         //bool gboolDecayChanged = false;
         //bool gboolAnimationNeeded = false;
         bool gboolLessThanAnimation = false;
-
+        bool gboolGuessButPushed = false;
       
 
 
@@ -132,7 +133,7 @@ namespace SolowProjectVer2
         double gdblXRate = .05;
         double gdblMinXRate = .05, gdblMaxXRate = 0.5, gdblMinYRate = 0.5, gdblMaxYRate = 0.5;
         const int TIMERATEINMILIS = 90;
-
+        readonly Color butColor = Color.Green;
 
         //Size[] sizArr;
         //Point[] locArr;
@@ -563,14 +564,16 @@ namespace SolowProjectVer2
         }
         private void ContinueAfterMessage()
         {
-            RemoveLabels(gintMid);
+            //RemoveLabels(gintMid);
+
+            //Uncomment for zoom
+            /*
             chrtLines.ChartAreas[0].AxisX.Maximum = gdblOldMaxX;
             chrtLines.ChartAreas[0].AxisX.Minimum = 0;
             chrtLines.ChartAreas[0].AxisY.Maximum = gdblOldMaxY;
             chrtLines.ChartAreas[0].AxisY.Minimum = 0;
-            //Console.WriteLine("Hellppp mee pleeeassee");
-            //Should add a wait but it happens before the zoom out
-            //DoNothing(3000);
+            */
+            
 
 
 
@@ -609,8 +612,9 @@ namespace SolowProjectVer2
             }
             else
             {
-                //Console.WriteLine("it executed afte timer");
-                gboolZoomAnimationComplete = true;
+                //Uncomment to use zoom
+                //gboolZoomAnimationComplete = true;
+                RemoveLabels(gintMid);
                 btnSkip.Enabled = true;
                 btnSkip.Visible = true;
                 btnSkip.Select();
@@ -638,7 +642,7 @@ namespace SolowProjectVer2
 
             // this will delete all the lines this is where the problem lies as we are adding multiple new lines and
             // by deleting them and redrawing them we are changing the max I could keep the current setup and add some checks in DrawAllLines possibly
-            ClearAllUpperLines();
+            //ClearAllUpperLines();
             gdblK = 0;
             //I need to zoom before I draw all !Wait maybe not
             
@@ -648,6 +652,8 @@ namespace SolowProjectVer2
 
             CalcKsandYs(gdblS, gdblN, gdblDelta);
 
+
+            /*
             if (gdblOldKStar < gdblKStar)
             {
                 DrawAllLines();
@@ -659,6 +665,7 @@ namespace SolowProjectVer2
                 gboolLessThanAnimation = true;
 
             }
+            */
             //Words Section
 
             string message = "";
@@ -756,7 +763,8 @@ namespace SolowProjectVer2
 
 
 
-
+            gintMid = AddLabels(chrtLines.ChartAreas[0].AxisX.Maximum / 2, chrtLines.ChartAreas[0].AxisX.Maximum);
+            //gintMid = AddLabels((chrtLines.ChartAreas[0].AxisX.Maximum / 2 + chrtLines.ChartAreas[0].AxisX.Maximum) / 2);
             gboolApplyChanges = true;
             btnOk.Visible = true;
             btnOk.Select();
@@ -766,9 +774,21 @@ namespace SolowProjectVer2
 
         private void ApplyChanges()
         {
-            
-            
-            
+
+
+            RemoveLabels(gintMid);
+            ClearAllUpperLines();
+            if (gdblOldKStar < gdblKStar)
+            {
+                DrawAllLines();
+
+            }
+            else
+            {
+                DrawLines();
+                gboolLessThanAnimation = true;
+
+            }
             btnSkip.Enabled = true;
             btnSkip.Visible = true;
             btnSkip.Select();
@@ -859,8 +879,64 @@ namespace SolowProjectVer2
                 //Console.WriteLine("Not found");
             }
             chrtLines.Series[0].Points[mid].Label = "PerCapita";
-            chrtLines.Series[1].Points[mid].Label = "Invest";
-            chrtLines.Series[2].Points[mid].Label = "Break Even";
+
+            if (chrtLines.Series[5].Points.Any())
+            {
+                chrtLines.Series[5].Points[mid].Label = "New Invest";
+            }
+            else
+            {
+                chrtLines.Series[1].Points[mid].Label = "Invest";
+            }
+
+            if (chrtLines.Series[6].Points.Any())
+            {
+                chrtLines.Series[6].Points[mid].Label = "New Break Even";
+            }
+            else
+            {
+                chrtLines.Series[2].Points[mid].Label = "Break Even";
+            }
+            
+            //Console.WriteLine("The y value of capita is {0}", chrtLines.Series[0].Points[mid].YValues[0]);
+            //Console.WriteLine("The y value of invest is {0}", chrtLines.Series[1].Points[mid].YValues[0]);
+            //Console.WriteLine("The y value of decay is {0}", chrtLines.Series[2].Points[mid].YValues[0]);
+
+            return mid;
+        }
+
+        private int AddLabels(double value)
+        {
+            //Console.WriteLine("hey it activates");
+            System.Windows.Forms.DataVisualization.Charting.DataPoint[] bigArr;
+            //double[] bigArr;
+            bigArr = chrtLines.Series[0].Points.ToArray();
+            int mid = SearchDataArray(bigArr, 0, bigArr.Length - 1, value);
+            //Console.WriteLine(mid);
+            if (mid == -1)
+            {
+                //Console.WriteLine("Not found");
+            }
+            chrtLines.Series[0].Points[mid].Label = "PerCapita";
+
+            if (chrtLines.Series[5].Points.Any())
+            {
+                chrtLines.Series[5].Points[mid].Label = "New Invest";
+            }
+            else
+            {
+                chrtLines.Series[1].Points[mid].Label = "Invest";
+            }
+
+            if (chrtLines.Series[6].Points.Any())
+            {
+                chrtLines.Series[6].Points[mid].Label = "New Break Even";
+            }
+            else
+            {
+                chrtLines.Series[2].Points[mid].Label = "Break Even";
+            }
+
             //Console.WriteLine("The y value of capita is {0}", chrtLines.Series[0].Points[mid].YValues[0]);
             //Console.WriteLine("The y value of invest is {0}", chrtLines.Series[1].Points[mid].YValues[0]);
             //Console.WriteLine("The y value of decay is {0}", chrtLines.Series[2].Points[mid].YValues[0]);
@@ -873,6 +949,15 @@ namespace SolowProjectVer2
             chrtLines.Series[0].Points[mid].Label = "";
             chrtLines.Series[1].Points[mid].Label = "";
             chrtLines.Series[2].Points[mid].Label = "";
+            if (chrtLines.Series[5].Points.Any())
+            {
+                chrtLines.Series[5].Points[mid].Label = "";
+            }
+            if (chrtLines.Series[6].Points.Any())
+            {
+                chrtLines.Series[6].Points[mid].Label = "";
+            }
+                
         }
 
 
@@ -1060,11 +1145,17 @@ namespace SolowProjectVer2
             if (gboolApplyChanges)
             {
                 gboolApplyChanges = false;
+
                 ApplyChanges();
             }
             else
             {
-                ContinueAfterMessage();
+                //ContinueAfterMessage();
+                RemoveLabels(gintMid);
+                btnSkip.Enabled = true;
+                btnSkip.Visible = true;
+                btnSkip.Select();
+                aTimer.Enabled = true;
             }
             
             
@@ -1143,8 +1234,63 @@ namespace SolowProjectVer2
 
         }
         */
+
+
+
+        private void buttonOption(Control c)
+        {
+            DisableButtons();
+            if (c.BackColor != butColor)
+            {
+                gintButtonsPushed += 1;
+                
+                c.BackColor = butColor;
+
+                
+                if(gintButtonsPushed == 4)
+                {
+                    ShowAnswerButton();
+                }
+            }
+            else
+            {
+                if(gintButtonsPushed >= 4)
+                {
+                    gintButtonsPushed++;
+                }
+                
+            }
+            //Here i need to start the animation which will draw the pink and green lines first.
+            //Another problem to consider is putting labels in the center every time may make them hard to distinguish 
+            /*
+            gintMid = AddLabels(chrtLines.ChartAreas[0].AxisX.Minimum, chrtLines.ChartAreas[0].AxisX.Maximum);
+            if (gdblK > gdblKStar)
+            {
+                //MessageBox.Show("Notice at the k selected, new investment in the economy falls below that which is required to break even.  Therefore, capital per worker will decrease as the economy transitions to steady-state.");
+                lblMsgbox.Text = "Notice at the k selected, new investment in the economy falls below that which is required to break even.  Therefore, capital per worker will decrease as the economy transitions to steady-state.";
+            }
+            else
+            {
+                //MessageBox.Show("Notice at the k selected, new investment in the economy exceeds that which is required to break even.  Therefore, capital per worker will increase as the economy transitions to steady-state.");
+                lblMsgbox.Text = "Notice at the k selected, new investment in the economy exceeds that which is required to break even.  Therefore, capital per worker will increase as the economy transitions to steady-state.";
+            }
+            */
+            //btnSkip.Enabled = false;
+           // btnSkip.Visible = false;
+            //btnOk.Visible = true;
+            //btnOk.Select();
+            
+            //btnSkip.Enabled = true;
+            //btnSkip.Visible = true;
+            //btnSkip.Select();
+            gboolGuessButPushed = true;
+            StartAnimation(double.Parse(c.Text));
+            
+        }
         private void btnOption1_Click(object sender, EventArgs e)
         {
+            buttonOption(btnOption1);
+            /*
             DisableButtons();
             //gboolAnimationNeeded = true;
             if(btnOption1.BackColor != Color.Green)
@@ -1175,11 +1321,13 @@ namespace SolowProjectVer2
                 StartAnimation(double.Parse(btnOption1.Text));
                 
             }
-            
+            */
         }
 
         private void btnOption2_Click(object sender, EventArgs e)
         {
+            buttonOption(btnOption2);
+            /*
             DisableButtons();
             //gboolAnimationNeeded = true;
             if (btnOption2.BackColor != Color.Green)
@@ -1208,10 +1356,13 @@ namespace SolowProjectVer2
                 btnSkip.Select();
                 StartAnimation(double.Parse(btnOption2.Text));
             }
+            */
         }
 
         private void btnOption3_Click(object sender, EventArgs e)
         {
+            buttonOption(btnOption3);
+            /*
             //gboolAnimationNeeded = true;
             if (btnOption3.BackColor != Color.Green)
             {
@@ -1240,10 +1391,13 @@ namespace SolowProjectVer2
                 btnSkip.Select();
                 StartAnimation(double.Parse(btnOption3.Text));
             }
+            */
         }
 
         private void btnOption4_Click(object sender, EventArgs e)
         {
+            buttonOption(btnOption4);
+            /*
             DisableButtons();
             //gboolAnimationNeeded = true;
             if (btnOption4.BackColor != Color.Green)
@@ -1272,6 +1426,7 @@ namespace SolowProjectVer2
                 btnSkip.Select();
                 StartAnimation(double.Parse(btnOption4.Text));
             }
+            */
         }
 
         private void btnAnswer_Click(object sender, EventArgs e)
@@ -1441,11 +1596,19 @@ namespace SolowProjectVer2
                         //Console.WriteLine("I: " + gdblInvest);
                         chrtY.Series[0].Points.AddXY(gdblMiniGraphXVal, (gdblConsum + gdblInvest));
                         //Console.WriteLine("Y: " + (gdblConsum + gdblInvest));
+
+                        //Uncomment this to implment zooming
+                        /*
                         if (!gboolZoomAnimationComplete)
                         {
                             aTimer.Enabled = false;
                             Zoom(gdblK);
                         }
+                        */
+
+
+                        gdblTempK = gdblK;
+
                         gdblK += gdblChangeK;
 
                         gdblMiniGraphXVal += Math.Abs(gdblChangeK);
@@ -1458,7 +1621,27 @@ namespace SolowProjectVer2
                         gdblDK = CalcDeltaTimesK();
                         gdblChangeK = CalcChangeOfK();
                         gdblDecay = CalcDecay(gdblN, gdblDelta, gdblK);
-                            
+                        if (gboolGuessButPushed)
+                        {
+                            aTimer.Enabled = false;
+                            gboolGuessButPushed = false;
+                            gintMid = AddLabels(gdblTempK);
+
+                            if (gdblTempK > gdblKStar)
+                            {
+                                //MessageBox.Show("Notice at the k selected, new investment in the economy falls below that which is required to break even.  Therefore, capital per worker will decrease as the economy transitions to steady-state.");
+                                lblMsgbox.Text = "Notice at the k selected, new investment in the economy falls below that which is required to break even.  Therefore, capital per worker will decrease as the economy transitions to steady-state.";
+                            }
+                            else
+                            {
+                                //MessageBox.Show("Notice at the k selected, new investment in the economy exceeds that which is required to break even.  Therefore, capital per worker will increase as the economy transitions to steady-state.");
+                                lblMsgbox.Text = "Notice at the k selected, new investment in the economy exceeds that which is required to break even.  Therefore, capital per worker will increase as the economy transitions to steady-state.";
+                            }
+
+                            btnOk.Visible = true;
+                            btnOk.Select();
+                        }
+
                     }
                     else
                     {

@@ -763,8 +763,9 @@ namespace SolowProjectVer2
 
 
 
-            gintMid = AddLabels(chrtLines.ChartAreas[0].AxisX.Maximum / 2, chrtLines.ChartAreas[0].AxisX.Maximum);
-            //gintMid = AddLabels((chrtLines.ChartAreas[0].AxisX.Maximum / 2 + chrtLines.ChartAreas[0].AxisX.Maximum) / 2);
+            //gintMid = AddLabels(chrtLines.ChartAreas[0].AxisX.Maximum / 2, chrtLines.ChartAreas[0].AxisX.Maximum);
+            //gintMid = AddLabels((chrtLines.ChartAreas[0].AxisX.Maximum / 2 + chrtLines.ChartAreas[0].AxisX.Maximum) / 2); don't use
+            gintMid = MakeLabelsAuto(gdblOldKStar);
             gboolApplyChanges = true;
             btnOk.Visible = true;
             btnOk.Select();
@@ -865,7 +866,20 @@ namespace SolowProjectVer2
             
             
         }
-
+        private int MakeLabelsAuto(double k)
+        {
+            /*
+            if(k < chrtLines.ChartAreas[0].AxisX.Maximum / 2)
+            {
+                return AddLabels(chrtLines.ChartAreas[0].AxisX.Maximum / 2, chrtLines.ChartAreas[0].AxisX.Maximum);
+            }
+            else
+            {
+                return AddLabels(chrtLines.ChartAreas[0].AxisX.Minimum, chrtLines.ChartAreas[0].AxisX.Maximum / 2);
+            }
+            */
+            return AddLabels((chrtLines.ChartAreas[0].AxisX.Maximum / 2 + chrtLines.ChartAreas[0].AxisX.Maximum)/2, chrtLines.ChartAreas[0].AxisX.Maximum);
+        }
         private int AddLabels(double min, double max)
         {
             //Console.WriteLine("hey it activates");
@@ -1087,6 +1101,15 @@ namespace SolowProjectVer2
             btnSkip.Enabled = false;
             btnSkip.Visible = false;
             gboolInterrupt = true;
+            if(cTimer != null)
+            {
+                if (cTimer.Enabled)
+                {
+                    cTimer.Dispose();
+                    aTimer.Enabled = true;
+                }
+            }
+            
             //EnableFields();
         }
 
@@ -1152,10 +1175,14 @@ namespace SolowProjectVer2
             {
                 //ContinueAfterMessage();
                 RemoveLabels(gintMid);
+                
                 btnSkip.Enabled = true;
                 btnSkip.Visible = true;
                 btnSkip.Select();
-                aTimer.Enabled = true;
+                
+                lblMsgbox.Text = "Transition";
+                SetDelay(this, 3000);
+                //aTimer.Enabled = true;
             }
             
             
@@ -1571,6 +1598,10 @@ namespace SolowProjectVer2
                     {
                         lblMsgbox.Text = "Notice that the economy has transitioned to new steady state level of capital per worker and income per worker. Convince yourself that the change in the parameter(s) you made resulted in the transition shown.";
                     }
+                    else
+                    {
+                        lblMsgbox.Text = "Select another evalue for initial k.";
+                    }
                     btnAnswer.Text = "k* = " + RoundTo3Decimals(gdblKStar) + "\n y* = " + RoundTo3Decimals(gdblYStar);
                 }// Else the skip button has not been pressed
                 else
@@ -1625,7 +1656,8 @@ namespace SolowProjectVer2
                         {
                             aTimer.Enabled = false;
                             gboolGuessButPushed = false;
-                            gintMid = AddLabels(gdblTempK);
+                            //gintMid = AddLabels(gdblTempK);
+                            gintMid = MakeLabelsAuto(gdblKStar);
 
                             if (gdblTempK > gdblKStar)
                             {
@@ -1675,6 +1707,10 @@ namespace SolowProjectVer2
                         else if (!btnOption1.Visible)
                         {
                             lblMsgbox.Text = "Notice that the economy has transitioned to new steady state level of capital per worker and income per worker. Convince yourself that the change in the parameter(s) you made resulted in the transition shown.";
+                        }
+                        else
+                        {
+                            lblMsgbox.Text = "Select another evalue for initial k.";
                         }
                         btnAnswer.Text = "k* = " + RoundTo3Decimals(gdblKStar) + "\n y* = " + RoundTo3Decimals(gdblYStar);
                     }

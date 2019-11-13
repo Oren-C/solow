@@ -614,11 +614,22 @@ namespace SolowProjectVer2
             {
                 //Uncomment to use zoom
                 //gboolZoomAnimationComplete = true;
-                RemoveLabels(gintMid);
-                btnSkip.Enabled = true;
-                btnSkip.Visible = true;
-                btnSkip.Select();
-                aTimer.Enabled = true;
+
+                if (gboolApplyChanges)
+                {
+                    gboolApplyChanges = false;
+
+                    ApplyChanges();
+                }
+                else
+                {
+                    RemoveLabels(gintMid);
+                    btnSkip.Enabled = true;
+                    btnSkip.Visible = true;
+                    btnSkip.Select();
+                    aTimer.Enabled = true;
+                }
+                
 
             }
         }
@@ -1167,9 +1178,10 @@ namespace SolowProjectVer2
             
             if (gboolApplyChanges)
             {
-                gboolApplyChanges = false;
+                //gboolApplyChanges = false;
 
-                ApplyChanges();
+                //ApplyChanges();
+                SetDelay(this, 2000);
             }
             else
             {
@@ -1600,7 +1612,7 @@ namespace SolowProjectVer2
                     }
                     else
                     {
-                        lblMsgbox.Text = "Select another evalue for initial k.";
+                        lblMsgbox.Text = "Select another value for initial k.";
                     }
                     btnAnswer.Text = "k* = " + RoundTo3Decimals(gdblKStar) + "\n y* = " + RoundTo3Decimals(gdblYStar);
                 }// Else the skip button has not been pressed
@@ -1702,7 +1714,7 @@ namespace SolowProjectVer2
                         if (gintButtonsPushed == 4)
                         {
                             //MessageBox.Show("The middle box displays steady state capital per worker and income per worker for the production function you selected and the values for the saving rate, population growth rate, and depreciation rate you selected. Click on the box.");
-                            lblMsgbox.Text = "The middle box displays steady state capital per worker and income per worker for the production function you selected and the values for the saving rate and population growth rateyou selected. Click on the box.";
+                            lblMsgbox.Text = "The middle box displays steady state capital per worker and income per worker for the production function you selected and the values for the saving rate and population growth rate you selected. Click on the box.";
                         }
                         else if (!btnOption1.Visible)
                         {
@@ -1710,7 +1722,7 @@ namespace SolowProjectVer2
                         }
                         else
                         {
-                            lblMsgbox.Text = "Select another evalue for initial k.";
+                            lblMsgbox.Text = "Select another value for initial k.";
                         }
                         btnAnswer.Text = "k* = " + RoundTo3Decimals(gdblKStar) + "\n y* = " + RoundTo3Decimals(gdblYStar);
                     }

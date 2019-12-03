@@ -32,7 +32,6 @@ namespace SolowProjectVer2
 
         private static TheChart obj = new TheChart();
         
-
         private TheChart() { }
 
         public static TheChart GetInstance()
@@ -40,6 +39,8 @@ namespace SolowProjectVer2
             return obj;
         }
 
+
+        //For Restart Use
         public static void MakeNewInstance()
         {
             obj = new TheChart();

@@ -58,6 +58,24 @@ namespace SolowProjectVer2
             lblMsgbox.Text = "Enter a value for the exponent on capital.Remember that our production function must exhibit constant returns to scale.Also, enter initial values for the saving rate and population growth rate.";
         }
 
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if(t != null)
+            {
+                if (t.IsAlive)
+                {
+                    t.Abort();
+                }
+            }
+
+            if(altThread != null)
+            {
+                if (altThread.IsAlive)
+                {
+                    altThread.Abort();
+                }
+            }
+        }
 
         private void BtnStart_Click(object sender, EventArgs e)
         {
@@ -1017,6 +1035,8 @@ namespace SolowProjectVer2
             chrtY.ChartAreas[0].AxisX.Minimum += increment;
             chrtY.ChartAreas[0].AxisX.Maximum += increment;
         }
+
+
 
         private bool IsFractionOkay()
         {

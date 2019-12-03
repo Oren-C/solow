@@ -714,6 +714,7 @@
             this.MinimumSize = new System.Drawing.Size(1205, 872);
             this.Name = "Form1";
             this.Text = "Solow";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Shown += new System.EventHandler(this.Form1_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.chrtLines)).EndInit();

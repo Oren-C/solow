@@ -54,6 +54,10 @@ namespace SolowProjectVer2
             this.gintDenom = denom;
         }
 
+
+        //In these functions that will be called by Form1 they need to be passed the instance of Form1 (which can be done with the keyword this) the actions are delegates that don't return anything and are going to be invoked
+
+        //Calculates K star and y star to be used to create the guess buttons on the ui thread
         public void GenerateGuessButtons(Form f, Action<double> printGuessButtons)
         {
             double kStar = 0;
@@ -77,8 +81,11 @@ namespace SolowProjectVer2
             double kStar = 0;
             Calculations.CalcKsandYs(gdblS, gdblN, gdblDelta, gintNumerator, gintDenom, ref kStar, ref yStar);
 
+            
             ManualResetEvent msre = new ManualResetEvent(false);
             f.Invoke(ApplyChangesMessage, new object[] { n, oldN, s, oldS, kStar, oldKStar, msre});
+
+            //This thread will be paused here and will wait for the mrse to be resumed from the ui thread
             msre.WaitOne();
 
             bool lessThan = false;
@@ -142,6 +149,7 @@ namespace SolowProjectVer2
                 invest = Calculations.CalcInvest(capita, gdblS);
                 brkEven = Calculations.CalcDecay(gdblN, gdblDelta, tempK);
 
+                //This needs to be BeginInvoke otherwise the program will be slowed down
                 f.BeginInvoke(draw, new object[] {tempK, capita, invest, brkEven });
 
                 tempK += gdblXRate;
@@ -252,12 +260,15 @@ namespace SolowProjectVer2
                     //gdblDK = Calculations.CalcDeltaTimesK();
                     changeK = Calculations.CalcChangeOfK(gdblS, y, gdblN, gdblDelta, k);
 
+                    //This section should only happen once per guess button press
                     if (GuessButPushed)
                     {
                         GuessButPushed = false;
                         f.BeginInvoke(startOkWait, new object[] { kStar, tempK, mrse });
+
+                        //Will pause here to wait for the ok button to be pushed from the ui thread
+                        
                         mrse.WaitOne();
-                        //Thread.CurrentThread.Suspend();
                         
                     }
 

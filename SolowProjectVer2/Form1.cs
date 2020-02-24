@@ -17,12 +17,11 @@ namespace SolowProjectVer2
 {
     public partial class Form1 : Form
     {
+        //Globals
         private static System.Timers.Timer cTimer;
-
 
         int gintMid;
         int gintButtonsPushed = 0;
-
 
         Random rnd = new Random();
       
@@ -38,26 +37,23 @@ namespace SolowProjectVer2
         private Thread t;
         private Thread altThread;
 
+
         public Form1()
         {
             InitializeComponent();
-            //MessageBox.Show("Enter a value for the exponent on capital.Remember that our production function must exhibit constant returns to scale.Also, enter initial values for the saving rate and population growth rate.");
             
         }
 
+        //This formats the labels on the chart to only show 3 decimal places
         private void Form1_Load(object sender, EventArgs e)
         {
             chrtLines.ChartAreas[0].AxisY.LabelStyle.Format = "{#####.###}";
             chrtLines.ChartAreas[0].AxisX.LabelStyle.Format = "{#####.###}";
-
-        }
-
-        private void Form1_Shown(object sender, EventArgs e)
-        {
-            //MessageBox.Show("Enter a value for the exponent on capital.Remember that our production function must exhibit constant returns to scale.Also, enter initial values for the saving rate, population growth rate, and rate of depreciation.");
             lblMsgbox.Text = "Enter a value for the exponent on capital.Remember that our production function must exhibit constant returns to scale.Also, enter initial values for the saving rate and population growth rate.";
+
         }
 
+        //To prevent the application being closed without the threads being killed
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             if(t != null)
@@ -79,28 +75,27 @@ namespace SolowProjectVer2
 
         private void BtnStart_Click(object sender, EventArgs e)
         {
+            //Checks if the fraction that is currently entered is okay see that function (IsFractionOkay) it also sets some values
             if (IsFractionOkay())
             {
 
                 TheChart chrt = TheChart.GetInstance();
 
-                //chrt.setParams((double)nudS.Value, (double)nudN.Value, 0.1);
+
                 chrt.gdblN = (double)nudN.Value;
                 chrt.gdblS = (double)nudS.Value;
                 chrt.gdblDelta = 0.1;
-                //chrt.setNumAndDenom() This set in the IsFractionOkay function
 
                 btnStart.Visible = false;
                 txtKNumerator.Enabled = false;
                 txtKDenominator.Enabled = false;
                 DisableFields();
 
-
-                //DrawAllLines();
                 t = new Thread(() => chrt.DrawAllLines(this, setAnswerText, btnAnswer.Enabled, setMaxAndMinBounds, MultiThreadDraw));
                 t.Start();
+
+                //Update UI
                 ShowGuessButtons();
-                //GenerateGuessButtons();
                 btnOption1.Select();
                 chrtC.ChartAreas[0].AxisX.Minimum = 0;
                 chrtC.ChartAreas[0].AxisX.Maximum = 15;
@@ -108,10 +103,11 @@ namespace SolowProjectVer2
                 chrtI.ChartAreas[0].AxisX.Maximum = 15;
                 chrtY.ChartAreas[0].AxisX.Minimum = 0;
                 chrtY.ChartAreas[0].AxisX.Maximum = 15;
+
+                //Generates the buttons 
                 altThread = new Thread(() => chrt.GenerateGuessButtons(this, PrintGuessButttons));
                 altThread.Start();
 
-                
                 lblMsgbox.Text = "The four boxes you see represent potential choices for initial capital per worker. Click on a box and observe transition to steady state capital per worker. Repeat for each choice. Notice that each choice is not steady state capital per worker.";
             }
         }
@@ -121,7 +117,7 @@ namespace SolowProjectVer2
 
        
 
-
+        //Makes a timer that waits for the specified time and does not repeat
         private static void SetDelay(Form1 daFrm, int waitTime)
         {
             cTimer = new System.Timers.Timer(waitTime);
@@ -147,11 +143,10 @@ namespace SolowProjectVer2
             }
             else
             {
-                //Uncomment to use zoom
-                //gboolZoomAnimationComplete = true;
-
+                
                 if (gboolApplyChanges)
                 {
+                    //If it is in phase 2 of the program then this section will start when apply changes button is pressed
                     gboolApplyChanges = false;
 
                     RemoveLabels(gintMid);
@@ -165,14 +160,10 @@ namespace SolowProjectVer2
                 }
                 else
                 {
+                    //This section is when one of the guess buttons are clicked
                     RemoveLabels(gintMid);
-                    //btnSkip.Enabled = true;
                     btnSkip.Visible = true;
                     btnSkip.Select();
-                    //aTimer.Enabled = true;
-
-
-
                     //For multi use
                     gMrse.Set();
                 }
@@ -182,14 +173,13 @@ namespace SolowProjectVer2
         }
 
 
-        //Implemented
         private void btnApplyChanges_Click(object sender, EventArgs e)
         {
             btnApplyChanges.Visible = false;
             DisableFields();
 
 
-
+            //This is to make sure that the thread has compeleted its work
             if (t.IsAlive)
             {
                 t.Join();
@@ -200,11 +190,11 @@ namespace SolowProjectVer2
             t.Start();
         }
 
-        //For Multi use
+        // Determines what message to be displayed sets the mrse and makes the ok button visible.
         private void ApplyChangesMessage(double n, double oldN, double s, double oldS, double kStar, double oldKStar, ManualResetEvent mrse)
         {
             gApplyMrse = mrse;
-            string message = "";
+            string message;
             if (s > oldS)
             {
 
@@ -357,18 +347,14 @@ namespace SolowProjectVer2
 
             return AddLabels((chrtLines.ChartAreas[0].AxisX.Maximum / 2 + chrtLines.ChartAreas[0].AxisX.Maximum)/2, chrtLines.ChartAreas[0].AxisX.Maximum);
         }
+        //Add the labels at the middle of the two min and max x values
         private int AddLabels(double min, double max)
         {
-            //Console.WriteLine("hey it activates");
+
             System.Windows.Forms.DataVisualization.Charting.DataPoint[] bigArr;
-            //double[] bigArr;
             bigArr = chrtLines.Series[0].Points.ToArray();
             int mid = SearchDataArray(bigArr, 0, bigArr.Length - 1, (min + max) / 2);
-            //Console.WriteLine(mid);
-            if(mid == -1)
-            {
-                //Console.WriteLine("Not found");
-            }
+
             chrtLines.Series[0].Points[mid].Label = "PerCapita";
 
             if (chrtLines.Series[5].Points.Any())
@@ -394,6 +380,7 @@ namespace SolowProjectVer2
             return mid;
         }
 
+        //Add the labels at that x value
         private int AddLabels(double value)
         {
             //Console.WriteLine("hey it activates");
@@ -430,6 +417,7 @@ namespace SolowProjectVer2
             return mid;
         }
 
+        //This requires the x intger where the lables are currently at
         private void RemoveLabels(int mid)
         {
             chrtLines.Series[0].Points[mid].Label = "";
@@ -446,7 +434,7 @@ namespace SolowProjectVer2
                 
         }
 
-
+        //Recursively finds the closest approximation of double x in the DataPoint Array
         private int SearchDataArray(System.Windows.Forms.DataVisualization.Charting.DataPoint[] arr, int l, int r, double x)
         {
             if (r >= l)
@@ -473,9 +461,10 @@ namespace SolowProjectVer2
 
 
         //For multi
+        //Will clear out the old line and draw a new line in its place.
         private void DrawNewLine(int seriesNumber, int numer, int denom, double newVar, double rate, double delta)
         {
-            //chrtLines.Series[seriesNumber].Points.AddXY(x, y);
+
             ClearLine(seriesNumber);
 
             double tempX = 0;
@@ -492,8 +481,7 @@ namespace SolowProjectVer2
             {
                 while (tempX < max)
                 {
-                    //chrtLines.Series[6].Points.AddXY(gdblTempX, Calculations.CalcDecay(gdblN, gdblDelta, gdblTempX));
-                    //f.Invoke(writePoint, new object[] { seriesNumber, tempX, Calculations.CalcDecay(newVar, gdblDelta, tempX) });
+
                     chrtLines.Series[6].Points.AddXY(tempX, Calculations.CalcDecay(newVar, delta, tempX));
                     tempX += rate;
                 }
@@ -502,7 +490,8 @@ namespace SolowProjectVer2
 
         }
 
-        //For multi
+        //This section of functions just update the UI and do pretty much what they say
+
         private void ClearLine(int seriesNumber)
         {
             chrtLines.Series[seriesNumber].Points.Clear();
@@ -561,6 +550,7 @@ namespace SolowProjectVer2
             }
         }
 
+        //Clears every line but 3 and 4
         private void ClearCertainLines()
         {
             for (int i = 0; i < 7; i++)
@@ -582,6 +572,9 @@ namespace SolowProjectVer2
 
 
        
+        //Skip button sets the interrupt boolean inside the TheChart
+        //If there is currently a timer going it will dispose of the timer and set the appropriate mrse
+
         private void BtnSkip_Click(object sender, EventArgs e)
         {
             btnSkip.Visible = false;
@@ -608,6 +601,7 @@ namespace SolowProjectVer2
 
         }
 
+        //Sets all values back to default 
         private void BtnReset_Click(object sender, EventArgs e)
         {
 
@@ -683,10 +677,11 @@ namespace SolowProjectVer2
 
             TheChart.MakeNewInstance();
             
-
+            //This is a easier way of reseting but window size will revert to default.
             //Application.Restart();
         }
 
+        //Calculates an appropriate space around k star so that the guess buttons values arent right on top of it.
         private double[] SpaceAroundKStar(double chrtMax, double kStar)
         {
             double[] minMax = new double[2];
@@ -702,7 +697,8 @@ namespace SolowProjectVer2
 
 
 
-
+        //This needs work I sometimes see an error where both sets of values are less than kStar and also its not very random values are very close together.
+        //This calculates random values to put on guess buttons buttons on the left 2 buttons are less than kstar and the right 2 are greater than
         private void PrintGuessButttons(double kStar)
         {
             double[] minMax = SpaceAroundKStar(chrtLines.ChartAreas[0].AxisX.Maximum, kStar);
@@ -726,46 +722,26 @@ namespace SolowProjectVer2
             return rand;
         }
 
-        private void BtnClearLablels_Click(object sender, EventArgs e)
-        {
-            chrtLines.Series[0].Label = "";
-            chrtLines.Series[1].Label = "";
-            chrtLines.Series[2].Label = "";
-
-        }
-
-        
-
-        private void btnPrintSize_Click(object sender, EventArgs e)
-        {
-            lblMsgbox.Text = chrtLines.Size.Width.ToString();
-        }
-
         
 
         private void BtnOk_Click(object sender, EventArgs e)
         {
             btnOk.Visible = false;
             
+            //Determine what phase of the program is in and then set the delay to resume animation
             if (gboolApplyChanges)
             {
-                //gboolApplyChanges = false;
-
-                //ApplyChanges();
                 SetDelay(this, 2000);
             }
             else
             {
-                //ContinueAfterMessage();
                 RemoveLabels(gintMid);
                 
-                ////btnSkip.Enabled = true;
                 btnSkip.Visible = true;
                 btnSkip.Select();
                 
                 lblMsgbox.Text = "Transition";
                 SetDelay(this, 3000);
-                //aTimer.Enabled = true;
             }
             
             
@@ -808,9 +784,9 @@ namespace SolowProjectVer2
                 {
                     t.Join();
                 }
-                TheChart chrt = TheChart.GetInstance();
+                //TheChart chrt = TheChart.GetInstance();
 
-                chrt.DrawNewLine(this, DrawNewLine, 5, (double)nudS.Value);
+                TheChart.GetInstance().DrawNewLine(this, DrawNewLine, 5, (double)nudS.Value);
             }
 
         }
@@ -824,10 +800,10 @@ namespace SolowProjectVer2
                 {
                     t.Join();
                 }
-                TheChart chrt = TheChart.GetInstance();
+                //TheChart chrt = TheChart.GetInstance();
 
 
-                chrt.DrawNewLine(this, DrawNewLine, 6, (double)nudN.Value);
+                TheChart.GetInstance().DrawNewLine(this, DrawNewLine, 6, (double)nudN.Value);
             }
 
         }
@@ -1072,6 +1048,7 @@ namespace SolowProjectVer2
                 else
                 {
                     //Print message that they are not numbers
+                    //Maybe add a error box to display error messages
                     return false;
                 }
             }

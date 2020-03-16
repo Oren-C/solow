@@ -299,7 +299,6 @@
             // 
             this.btnSkip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(122)))), ((int)(((byte)(95)))));
             this.btnSkip.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnSkip.Enabled = false;
             this.btnSkip.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSkip.Location = new System.Drawing.Point(207, 186);
             this.btnSkip.Name = "btnSkip";
@@ -715,9 +714,8 @@
             this.MinimumSize = new System.Drawing.Size(1205, 872);
             this.Name = "Form1";
             this.Text = "Solow";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.Shown += new System.EventHandler(this.Form1_Shown);
-            this.Resize += new System.EventHandler(this.Form1_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.chrtLines)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chrtC)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chrtI)).EndInit();
